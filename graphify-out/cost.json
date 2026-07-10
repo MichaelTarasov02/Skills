@@ -1,0 +1,15 @@
+{
+  "runs": [
+    {
+      "date": "2026-07-10T16:47:59.369785+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "subagent_tokens": 693172,
+      "files": 284,
+      "note": "skill-relationship graph; extraction via 7 general-purpose subagents"
+    }
+  ],
+  "total_input_tokens": 0,
+  "total_output_tokens": 0,
+  "total_subagent_tokens": 693172
+}
