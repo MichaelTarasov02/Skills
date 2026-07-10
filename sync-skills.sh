@@ -14,8 +14,9 @@
 # Options:
 #   -n, --dry-run     Show what would be copied, change nothing.
 #   -f, --force       Overwrite skills that already exist in TARGET.
-#       --no-plugins  Only sync the flat skill dirs (~/.claude/skills,
-#                     ~/.codex/skills); skip plugin-bundled skills.
+#       --plugins     Also pull skills bundled inside Claude/Codex plugins
+#                     (hundreds more, versioned). Off by default.
+#       --no-plugins  Explicitly disable plugin skills (this is the default).
 #       --no-claude   Skip Claude sources.
 #       --no-codex    Skip Codex sources.
 #   -q, --quiet       Only print the final summary.
@@ -32,17 +33,18 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="$SCRIPT_DIR"
 DRY_RUN=0
 FORCE=0
-INCLUDE_PLUGINS=1
+INCLUDE_PLUGINS=0
 INCLUDE_CLAUDE=1
 INCLUDE_CODEX=1
 QUIET=0
 
-usage() { sed -n '2,30p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
+usage() { sed -n '2,31p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
 
 while [ $# -gt 0 ]; do
   case "$1" in
     -n|--dry-run)   DRY_RUN=1 ;;
     -f|--force)     FORCE=1 ;;
+    --plugins)      INCLUDE_PLUGINS=1 ;;
     --no-plugins)   INCLUDE_PLUGINS=0 ;;
     --no-claude)    INCLUDE_CLAUDE=0 ;;
     --no-codex)     INCLUDE_CODEX=0 ;;
@@ -76,50 +78,56 @@ TARGET_ABS="$(cd "$TARGET" 2>/dev/null && pwd || echo "$TARGET")"
 # ---------------------------------------------------------------------------
 # Collect candidate SKILL.md files (null-delimited to survive odd paths).
 # For each, the skill directory is its parent; the skill name is that dir's
-# basename. We keep, per name, the candidate whose SKILL.md is newest — so the
-# latest plugin version wins over stale cached ones.
+# basename. Written as "priority<TAB>mtime<TAB>name<TAB>dir" to a temp file,
+# then deduplicated with awk (no bash-4 associative arrays needed, so this runs
+# on macOS's stock bash 3.2). Per name we keep the lowest priority (flat skill
+# dirs beat plugin bundles); ties break to the newest SKILL.md so the latest
+# plugin version wins over stale cached ones.
 # ---------------------------------------------------------------------------
-declare -A CHOSEN_DIR=()   # name -> chosen source directory
-declare -A CHOSEN_MTIME=() # name -> mtime of chosen SKILL.md
+CAND="$(mktemp "${TMPDIR:-/tmp}/skills.cand.XXXXXX")"
+CHOSEN="$(mktemp "${TMPDIR:-/tmp}/skills.chosen.XXXXXX")"
+trap 'rm -f "$CAND" "$CHOSEN"' EXIT
 
 mtime_of() { stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0; }
 
-consider() {
-  # $1 = path to a SKILL.md
-  local md="$1" dir name mt
-  dir="$(dirname "$md")"
-  name="$(basename "$dir")"
-  # Never re-ingest skills that already live in the target tree.
-  case "$dir/" in "$TARGET_ABS"/*) return ;; esac
-  mt="$(mtime_of "$md")"
-  if [ -z "${CHOSEN_DIR[$name]:-}" ] || [ "$mt" -gt "${CHOSEN_MTIME[$name]:-0}" ]; then
-    CHOSEN_DIR[$name]="$dir"
-    CHOSEN_MTIME[$name]="$mt"
-  fi
-}
-
 scan_root() {
-  # $1 = root, $2 = maxdepth-for-flat (flat roots are shallow; plugins deep)
-  local root="$1" depth="$2"
+  # $1 = root, $2 = maxdepth, $3 = priority rank
+  local root="$1" depth="$2" prio="$3" md dir name mt
   [ -d "$root" ] || return 0
   while IFS= read -r -d '' md; do
-    consider "$md"
-  done < <(find "$root" -maxdepth "$depth" -type f -name SKILL.md -print0 2>/dev/null)
+    dir="$(dirname "$md")"
+    name="$(basename "$dir")"
+    # Never re-ingest skills that already live in the target tree.
+    case "$dir/" in "$TARGET_ABS"/*) continue ;; esac
+    mt="$(mtime_of "$md")"
+    printf '%s\t%s\t%s\t%s\n' "$prio" "$mt" "$name" "$dir" >> "$CAND"
+  done < <(find -L "$root" -maxdepth "$depth" -type f -name SKILL.md -print0 2>/dev/null)
 }
 
-# Flat roots: SKILL.md sits at <root>/<skill>/SKILL.md  (depth 2).
+# Flat roots (priority 0): SKILL.md at <root>/<skill>/SKILL.md  (depth 2).
 for r in "${FLAT_ROOTS[@]:-}"; do
-  [ -n "$r" ] && scan_root "$r" 2
+  [ -n "$r" ] && scan_root "$r" 2 0
 done
 
-# Plugin roots: SKILL.md can be nested arbitrarily deep inside versioned caches.
+# Plugin roots (priority 1): SKILL.md nested deep inside versioned caches.
 if [ "$INCLUDE_PLUGINS" -eq 1 ]; then
   for r in "${PLUGIN_ROOTS[@]:-}"; do
-    [ -n "$r" ] && scan_root "$r" 12
+    [ -n "$r" ] && scan_root "$r" 12 1
   done
 fi
 
-TOTAL=${#CHOSEN_DIR[@]}
+# Dedupe by name -> emit "name<TAB>dir" for the winning candidate, sorted.
+awk -F'\t' '
+  {
+    name=$3
+    if (!(name in bp) || $1 < bp[name] || ($1==bp[name] && $2+0 > bm[name]+0)) {
+      bp[name]=$1; bm[name]=$2; bd[name]=$4
+    }
+  }
+  END { for (n in bd) print n "\t" bd[n] }
+' "$CAND" | sort > "$CHOSEN"
+
+TOTAL=$(wc -l < "$CHOSEN" | tr -d ' ')
 if [ "$TOTAL" -eq 0 ]; then
   echo "No skills found. Checked: ${FLAT_ROOTS[*]:-} ${PLUGIN_ROOTS[*]:-}" >&2
   exit 1
@@ -131,8 +139,8 @@ fi
 mkdir -p "$TARGET"
 copied=0; skipped=0; overwritten=0
 
-for name in $(printf '%s\n' "${!CHOSEN_DIR[@]}" | sort); do
-  src="${CHOSEN_DIR[$name]}"
+while IFS=$'\t' read -r name src; do
+  [ -n "$name" ] || continue
   dest="$TARGET/$name"
   if [ -e "$dest" ] && [ "$FORCE" -eq 0 ]; then
     log "skip   $name (exists)"
@@ -147,9 +155,11 @@ for name in $(printf '%s\n' "${!CHOSEN_DIR[@]}" | sort); do
   log "$action   $name  <-  ${src/#$HOME/~}"
   if [ "$DRY_RUN" -eq 0 ]; then
     rm -rf "$dest"
-    cp -R "$src" "$dest"
+    # -L dereferences symlinks so the target holds real files: ~/.claude/skills
+    # entries are symlinks into ~/.agents/skills, and we want portable copies.
+    cp -RL "$src" "$dest"
   fi
-done
+done < "$CHOSEN"
 
 # ---------------------------------------------------------------------------
 # Summary
