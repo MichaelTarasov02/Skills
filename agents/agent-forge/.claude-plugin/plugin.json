@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "agent-forge",
+  "version": "0.2.0",
+  "description": "Turns any project into an installable agent: analyzes the project, interviews you, generates skills, wraps them in a plugin, installs to Claude Code and Codex, verifies, and writes the docs.",
+  "author": {
+    "name": "TerixSK",
+    "email": "46744578+TerixSK@users.noreply.github.com"
+  },
+  "skills": [
+    "./",
+    "./skills/"
+  ],
+  "keywords": [
+    "skills",
+    "plugin",
+    "agent",
+    "packaging",
+    "scaffolding",
+    "developer-tools"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "conductor",
+  "version": "0.1.0",
+  "description": "Picks the right skills for your request before doing the work, then executes while showing which skill it applied at each phase. Includes a deeper mode that writes a phased prompt first.",
+  "author": {
+    "name": "Michael Tarasov"
+  },
+  "keywords": ["skills", "routing", "prompt-engineering", "orchestration", "workflow"],
+  "license": "MIT",
+  "skills": ["./skills/"]
+}
