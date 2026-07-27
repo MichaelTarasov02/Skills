@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+*.log
+# a post's rendered output belongs to the content repo, not the plugin
+exports/

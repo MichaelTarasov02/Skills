@@ -1,0 +1,60 @@
+{
+  "name": "skills",
+  "owner": {
+    "name": "Michael Tarasov",
+    "url": "https://github.com/MichaelTarasov02/Skills"
+  },
+  "description": "Team skills library and installable agents: a skill for every task, plus agents that package whole workflows.",
+  "plugins": [
+    {
+      "name": "conductor",
+      "source": "./agents/conductor",
+      "description": "Picks the right skills for your request before doing the work, then executes while showing which skill it applied at each phase. Includes a deeper mode that writes a phased prompt first.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Michael Tarasov"
+      },
+      "category": "developer-tools",
+      "keywords": [
+        "skills",
+        "routing",
+        "prompt-engineering",
+        "orchestration"
+      ]
+    },
+    {
+      "name": "agent-forge",
+      "source": "./agents/agent-forge",
+      "description": "Turns any project into an installable agent: analyzes the project, interviews you, generates skills, wraps them in a plugin, installs to Claude Code and Codex, verifies, and writes the docs.",
+      "version": "0.2.0",
+      "author": {
+        "name": "Michael Tarasov"
+      },
+      "category": "developer-tools",
+      "keywords": [
+        "skills",
+        "plugin",
+        "agent",
+        "packaging",
+        "scaffolding"
+      ]
+    },
+    {
+      "name": "personal-post",
+      "source": "./agents/personal-post",
+      "description": "Turns one raw idea into a publish-ready personal LinkedIn post: a specification with copy-ready caption, plus a themed carousel and single-page visual exported to PDF and PNG.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Michael Tarasov"
+      },
+      "category": "content",
+      "keywords": [
+        "linkedin",
+        "content",
+        "personal-brand",
+        "carousel",
+        "writing"
+      ]
+    }
+  ]
+}

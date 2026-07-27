@@ -1,0 +1,102 @@
+# personal-post.yaml — the author profile.
+#
+# Copy this to your content repo as `personal-post.yaml` and fill it in. This is
+# the ONLY file you need to edit to make the pipeline yours. The prompts read
+# from here; nothing about you is hardcoded in the skill.
+#
+# Every path is relative to this file's own location.
+
+author:
+  name: Jane Doe                    # byline printed on the artboards
+  short_name: J. Doe                # used on inner slides where space is tight
+  year: 2026                        # appears in the footer
+
+  # One line describing who you are. Threads into the spec's brand-fit section.
+  positioning: >
+    Technical product founder. Builds AI and SaaS products, writes for founders,
+    product leaders, and engineering leaders.
+
+paths:
+  output_dir: Posts                 # one folder per post is created here
+  voice_guide: Knowledge/voice-guide.md
+  topic_bank: Ideas/topics.md       # optional; used for collision checks
+  knowledge:                        # read once per run, reused across stages
+    - Knowledge/platform-rules.md
+    - Knowledge/stop-slop.md
+
+# ---------------------------------------------------------------------------
+# Content types. Consecutive posts in different types make the feed read as a
+# person with several registers rather than one template. Full identity of each
+# type (palette, typography, components, density, texture, cover/close) lives in
+# the plugin: skills/new-post/references/content-types/<type>.md
+# ---------------------------------------------------------------------------
+# NOTE: `ivory`, `graphite` and `cobalt` are defined in the plugin's
+# visual-system.css. These keys map YOUR words onto those looks — they do not
+# rename the types. Putting an arbitrary value here yields artboards with no
+# theme styling at all, and the checker will still report a match because it
+# compares your spec against your HTML. To rename for real, rename in the CSS too.
+themes:
+  light: ivory                      # the value used in data-theme=""
+  dark: graphite
+  blue: cobalt
+
+# How `auto` resolves when the user does not force a type.
+# Straddling topics route on THE READER'S JOB, not the subject matter — who acts
+# on this post, and what are they doing when they act? Only a genuine coin flip
+# goes to the least-used type (visual posts counted, text-only excluded).
+theme_routing:
+  ivory: company management, team management, processes, hiring mechanics, operating information
+  graphite: founder lessons, selling, marketing, positioning, business judgment
+  cobalt: technical, AI, engineering, tools, new technology, product mechanics
+
+# Words per slide, per type. A denser type may exceed its ceiling on a
+# checklist or ledger slide where words are scannable rows rather than prose.
+ivory_words: 35-70
+graphite_words: 18-40
+cobalt_words: 28-55
+
+# ---------------------------------------------------------------------------
+# Copy rules
+# ---------------------------------------------------------------------------
+caption_min: 600                    # characters, carousel-first overview caption
+caption_max: 1100
+
+language:
+  post: American English            # what ships
+  notes: English                    # working notes inside the spec
+
+# Words that make a post read as machine-written or make an unverifiable claim.
+# Extend freely — this list is checked by verify_spec.py.
+watchlist:
+  - delve
+  - leverage
+  - robust
+  - seamless
+  - holistic
+  - transformative
+  - game-changer
+  - paradigm
+  - unlock
+  - empower
+  - cutting-edge
+  - comprehensive
+  - world-class
+  - 10x
+  - guaranteed
+  - future-proof
+
+# ---------------------------------------------------------------------------
+# Standing constraints. These bind every run, so you never restate them.
+# ---------------------------------------------------------------------------
+policy:
+  mention_company: no               # yes | no | optional — company name in posts
+  company_name: ""                  # only used when mention_company is not "no"
+  cta: soft                         # soft (a question) | hard (a link or DM ask)
+
+  risk:
+    - no invented metrics; use only numbers the author supplied
+    - no client, project, or person named without explicit approval
+    - no PHI, no confidential implementation detail
+    - no compliance, legal, or medical claims
+    - no named commercial product asserted to fail
+    - criticize decisions and incentives, never groups of people

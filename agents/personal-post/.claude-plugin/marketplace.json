@@ -1,0 +1,27 @@
+{
+  "name": "personal-post",
+  "owner": {
+    "name": "Michael Tarasov"
+  },
+  "description": "Personal content pipeline: one raw idea in, a publish-ready LinkedIn post and themed carousel out.",
+  "plugins": [
+    {
+      "name": "personal-post",
+      "source": "./",
+      "description": "Turns one raw idea into a publish-ready personal LinkedIn post: a specification with copy-ready caption, plus a themed carousel and single-page visual exported to PDF and PNG. Deterministic, verified by bundled scripts, and configured per author.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Michael Tarasov"
+      },
+      "category": "content",
+      "keywords": [
+        "linkedin",
+        "content",
+        "personal-brand",
+        "carousel",
+        "founder",
+        "writing"
+      ]
+    }
+  ]
+}
