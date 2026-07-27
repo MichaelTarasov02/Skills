@@ -185,7 +185,30 @@ The cobalt block lifted a real deck from 37–52% to 49–66% with no added word
 
 ---
 
-## Adding a rule
+## 13. A centred single-object slide fills lower than a top-flow slide, and that is correct
+
+**Cost: three chased warnings across two decks before anyone noticed they were the same shape.**
+
+The checker warns below roughly 50% fill. That threshold is calibrated for a slide
+carrying several blocks down the artboard. A slide carrying **one** centred object
+— a statement `.pull`, a lone panel, a caveat `.callout` — reaches a lower number
+honestly, because the air around a single object is the design rather than a gap
+in it.
+
+Measured, after each was already fixed as far as it should be fixed:
+
+- a statement `.pull` in an ivory deck: 42%
+- a statement `.pull` in a cobalt deck: 44%
+- a `.strip` in a panel: 45%
+- a caveat `.callout`: 43%
+
+**Rule: when a centred single-object slide warns, apply §8 once — scale the object
+up — and then stop.** Do not add a sentence, do not add a second block, do not
+reach for `.hero`. A statement slide that has been padded to clear the threshold
+has been made worse to satisfy a number.
+
+The warning is still worth reading. It is how you notice a slide that genuinely
+holds nothing. Look at the render and decide which of the two you have.
 
 A defect earns a rule when it has appeared **twice**. Once is bad luck; twice is a pattern the next run will hit too.
 
