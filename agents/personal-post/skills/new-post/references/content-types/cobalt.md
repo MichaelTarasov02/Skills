@@ -51,6 +51,12 @@ Biased to the instrumental: 🛠️ ⚙️ 🧪 🧩 🔎 ⚡ 🧠 📈 — five
 
 The invented object should look like **a schematic**: a pipeline with a bypass valve, a layer diagram with one layer hatched out, a node graph where one edge is severed, a gauge with a marked red zone. Line-work, labels, arrows. If it looks like a memo form or a staged scene, it belongs to another type. It must not repeat any object from a previous post — check every existing `Visual/README.md` first.
 
+## Scale compensation
+
+Cobalt carries a scale block in `visual-system.css` that lifts headings, body, list items and component padding a notch above the dense theme's defaults. Without it a cobalt deck measures 34–52% fill on every body slide, because the components are tuned for ivory and cobalt runs a lower word budget. See playbook §12. `.strip.nowrap` is deliberately excluded from the block.
+
+If a cobalt slide still reads thin, scale the component up or give it a second genuine beat. Never add prose, and never stretch.
+
 ## Single page
 
-Standard `.page` reductions apply. The grid keeps a dense single page coherent — but the endnote must still land inside the frame; verify it, the crop is silent.
+Standard `.page` reductions apply and deliberately win over the scale block, because they sit later in the stylesheet. The grid keeps a dense single page coherent — but the endnote must still land inside the frame; verify it, the crop is silent.

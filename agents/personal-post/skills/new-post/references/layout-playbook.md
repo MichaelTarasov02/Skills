@@ -159,6 +159,32 @@ crop it.
 
 ---
 
+## 12. A new content type needs its own scale, or every slide reads thin
+
+**Cost: one smoke deck plus one real run, both measured before anyone looked.**
+
+The component library is tuned for the dense theme. The sparse theme compensates
+with a much larger display and h1, which is why it holds the artboard on 18–40
+words. A newly added type inherits the components and inherits no compensation,
+so it lands in the void the whole time.
+
+Cobalt showed this twice. The smoke deck built when the type was introduced
+measured 34–44% fill on every body slide. The first real cobalt post measured
+37–52% before a single word was changed. Same cause both times.
+
+**Rule: when you add a content type, give it a scale block in the same pass as
+its palette.** Headings, body, list items, and component padding all come up a
+notch relative to the dense theme's defaults. The fix belongs in
+`visual-system.css`, not in a post's `styles.css` — a per-post fix leaves the
+next post to rediscover it.
+
+**Exclude the nowrap pipeline.** `.strip.nowrap` sizes itself to hold one line;
+enlarging its nodes threw a frame overflow once already (§4's counter-rule).
+
+The cobalt block lifted a real deck from 37–52% to 49–66% with no added words.
+
+---
+
 ## Adding a rule
 
 A defect earns a rule when it has appeared **twice**. Once is bad luck; twice is a pattern the next run will hit too.

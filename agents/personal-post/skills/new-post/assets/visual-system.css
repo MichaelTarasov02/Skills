@@ -320,6 +320,34 @@ html, body {
 [data-theme="graphite"] .display { font-size: 116px; letter-spacing: -0.024em; }
 [data-theme="graphite"] .h1 { font-size: 84px; }
 
+/* COBALT sits between the two densities. The component sizes are tuned for the
+   dense theme, so at a mid word budget a cobalt slide reads thin: two separate
+   decks measured 34-49% fill across almost every body slide. It compensates the
+   way graphite does, with a notch more size and never with more words.
+   These stay above section 20, so the single-page reductions still win. */
+[data-theme="cobalt"] .h1 { font-size: 92px; }
+[data-theme="cobalt"] .h2 { font-size: 66px; }
+[data-theme="cobalt"] .lede { font-size: 34px; max-width: 32ch; }
+[data-theme="cobalt"] .body { font-size: 32px; }
+[data-theme="cobalt"] .small { font-size: 26px; }
+[data-theme="cobalt"] .pull { font-size: 48px; }
+[data-theme="cobalt"] .card > .core { padding: var(--s5); }
+[data-theme="cobalt"] .pair .side { padding: var(--s5); }
+[data-theme="cobalt"] .pair .ttl { font-size: 42px; }
+[data-theme="cobalt"] .pair li { font-size: 27px; padding: 16px 0; }
+[data-theme="cobalt"] .ledger .row { padding: var(--s4) 0; }
+[data-theme="cobalt"] .ledger .v { font-size: 32px; }
+[data-theme="cobalt"] .ledger .k { font-size: 18px; }
+[data-theme="cobalt"] .checks .check { padding: var(--s4); }
+[data-theme="cobalt"] .checks .ct { font-size: 32px; }
+[data-theme="cobalt"] .checks .cn { font-size: 22px; }
+[data-theme="cobalt"] .stack .layer { padding: var(--s4) var(--s5); }
+[data-theme="cobalt"] .stack .layer .lt { font-size: 34px; }
+[data-theme="cobalt"] .stack .layer .ld { font-size: 26px; }
+[data-theme="cobalt"] .callout { padding: var(--s4) var(--s5); }
+/* the nowrap pipeline is deliberately excluded: playbook §4 counter-rule.
+   Enlarging its nodes threw a frame overflow once already. */
+
 .lede {
   font-size: var(--t-lede);
   line-height: 1.44;
