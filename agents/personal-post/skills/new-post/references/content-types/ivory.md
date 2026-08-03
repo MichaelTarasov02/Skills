@@ -32,7 +32,9 @@ Dense: this is the type with the largest element count per slide. Word budget **
 
 ## Texture and framing
 
-Faint **dot grid** (never ruled lines — ruled competes with copy; ruled belongs to the coloured family) + **corner brackets** in ink. Grain at low opacity (`0.038`). The surface reads as an instrument page.
+**Texture** — a fine woven hatch at 10px pitch, the grain of a sheet of paper — plus **corner brackets** in navy. Grain drops to `0.028`: on pure white, texture that reads as considered on cream reads as dirt.
+
+Every type carries a pattern and no two carry the same one. Ivory's is the quietest of the five, because a memo is the one field where the surface must never compete with the copy.
 
 ## Component bias
 

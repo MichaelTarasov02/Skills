@@ -1,10 +1,10 @@
 # The coloured family — cobalt · green · cherry
 
-**This one passport covers all three.** They share a purpose, a character, a texture, a component bias and a word budget. Only the hue changes.
+**This one passport covers all three.** They share a purpose, a character, a component bias and a word budget. The hue changes, and so does the background pattern — each colour carries its own.
 
 **Purpose:** technical topics, AI, engineering, tools, new technology, product mechanics. The reader builds or chooses systems; this post shows them how something works or where it breaks.
 
-**Character in one line:** a drafting sheet — light ink on a saturated field, a fine ruled grid, diagrams doing the arguing. The post *is* a technical drawing of the idea.
+**Character in one line:** a drafting sheet — light ink on a saturated field, a worked surface under it, diagrams doing the arguing. The post *is* a technical drawing of the idea.
 
 ## The three fields
 
@@ -40,7 +40,17 @@ Medium density between ivory and graphite: word budget **28–55 per slide** (`c
 
 ## Texture and framing
 
-Fine **ruled grid** — thin light lines at low opacity, 90px pitch. This is the one family where ruled lines are correct; they *are* the surface. Corner brackets render in the ink colour like registration marks. Grain at `0.05`.
+**Each colour carries its own pattern.** The family used to share one ruled grid, which made three saturated fields look like one theme in three tints and read as graph paper rather than as surface.
+
+| Type | Pattern | Reads as |
+|---|---|---|
+| `cobalt` | topography — nested irregular contours | a survey drawing |
+| `green` | hideout — small crosses on a regular beat | quiet marking |
+| `cherry` | jupiter — an ornamental lattice | the loudest field |
+
+Corner brackets render in the ink colour like registration marks. Grain at `0.05`.
+
+Cobalt's contours were rebuilt once: the first version used regular sine chains, which rendered as smooth waves and gave the tile repeat away. A contour map is mostly closed loops of uneven radius, and that is what it is now.
 
 ## Component bias
 
@@ -69,4 +79,4 @@ If a slide still reads thin, scale the component up or give it a second genuine 
 
 ## Single page
 
-Standard `.page` reductions apply and deliberately win over the scale block, because they sit later in the stylesheet. The grid keeps a dense single page coherent — but the endnote must still land inside the frame; verify it, the crop is silent.
+Standard `.page` reductions apply and deliberately win over the scale block, because they sit later in the stylesheet. The pattern keeps a dense single page coherent — but the endnote must still land inside the frame; verify it, the crop is silent.

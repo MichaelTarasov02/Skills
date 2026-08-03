@@ -5,20 +5,24 @@
    Themes are VISUAL TYPES, not palettes. Passports: references/content-types/.
 
      [data-theme="ivory"]     company / team management / processes / information
-                              → management memo: white sheet, navy ink, dot grid,
-                                corner brackets, document-first, ledger-green, dense.
+                              → management memo: white sheet, navy ink, woven
+                                texture, brackets, document-first, green, dense.
 
      [data-theme="graphite"]  founder / selling / marketing / business judgment
                               → deep space: cool near-black with a blue-violet cast,
-                                no grid, cold vignette, statement-first, sparse.
+                                scattered discs, cold glow, statement-first, sparse.
 
    The COLOURED FAMILY — one character, three fields. Purpose is identical for all
    three (technical / AI / tools / product mechanics); the hue rotates so two
    coloured posts never run back to back. Shared passport: content-types/colored.md.
 
-     [data-theme="cobalt"]    deep blue field   · white ink   · ice-cyan accent
-     [data-theme="green"]     deep green field  · butter ink  · white accent
-     [data-theme="cherry"]    deep red field    · cream ink   · white accent
+     [data-theme="cobalt"]    deep blue field   · white ink   · contour lines
+     [data-theme="green"]     deep green field  · butter ink  · small crosses
+     [data-theme="cherry"]    deep red field    · cream ink   · ornamental lattice
+
+   Every field carries a background pattern, and no two carry the same one. See
+   section 5b — the patterns are inline SVG, one per theme, and a theme's ink
+   colour is baked into its pattern.
 
    Artboard: 1080x1350 (4:5). Safe pad 90px (research min 80).
    Type floors: heading >= 48px, body >= 24px on a 1080 canvas.
@@ -210,43 +214,86 @@ html, body {
   isolation: isolate;
 }
 
-/* IVORY: technical paper — faint dot grid (not lines) + corner brackets.
-   Dots read as an instrument surface without competing with the type. */
+/* ---------- 5b. BACKGROUND PATTERNS — one per field ----------
+   Every artboard carries a pattern; none of them carries a ruled grid. The grid
+   was replaced because a square lattice under a saturated field reads as graph
+   paper rather than as surface, and three coloured fields wearing the same
+   lattice made the family look like one theme in three tints.
+
+   Each pattern is an inline SVG in a data URI. That is deliberate: the export
+   runs headless, and a pattern fetched over the network would fail silently and
+   ship a flat artboard. Inline means the surface is part of the stylesheet.
+
+   A data URI cannot read a CSS variable, so each theme carries its own copy at
+   its own ink colour. Changing a theme's ink means changing its pattern too.
+
+     ivory     texture     fine woven hatch      → paper
+     graphite  bubbles     scattered discs       → stars
+     cobalt    topography  contour lines         → a survey drawing
+     green     hideout     small crosses         → quiet regular marking
+     cherry    jupiter     ornamental lattice    → the loudest field
+   ---------------------------------------------------------------------- */
+
+/* IVORY — texture: a fine woven hatch, the grain of a sheet of paper. */
 [data-theme="ivory"].slide::before,
 [data-theme="ivory"].page::before {
   content: "";
   position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(16, 36, 63, 0.13) 1.4px, transparent 1.6px);
-  background-size: 60px 60px;
-  background-position: 30px 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cg stroke='%2310243F' stroke-opacity='.075' stroke-width='.9'%3E%3Cpath d='M0 10L10 0M-2 2L2 -2M8 12L12 8'/%3E%3Cpath d='M0 0L10 10M-2 8L2 12M8 -2L12 2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 10px 10px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* COBALT: blueprint — fine ruled drafting grid. This is the one type where
-   ruled lines are correct: they ARE the surface, not competition for the copy. */
-[data-theme="cobalt"].slide::before, [data-theme="cobalt"].page::before,
-[data-theme="green"].slide::before,  [data-theme="green"].page::before,
-[data-theme="cherry"].slide::before, [data-theme="cherry"].page::before {
-  content: "";
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 90px 90px;
-  background-position: 45px 45px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* GRAPHITE: lit stage — no grid, warm spotlight from upper-left */
+/* GRAPHITE — bubbles over the cold glow. Discs of varying radius on a near-black
+   field read as stars, which is the whole point of the deep-space register. */
 [data-theme="graphite"].slide::before,
 [data-theme="graphite"].page::before {
   content: "";
   position: absolute; inset: 0;
-  background:
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23E9EBF2' fill-opacity='.075'%3E%3Ccircle cx='14' cy='18' r='4'/%3E%3Ccircle cx='46' cy='9' r='2'/%3E%3Ccircle cx='82' cy='23' r='5.5'/%3E%3Ccircle cx='108' cy='13' r='2.5'/%3E%3Ccircle cx='28' cy='48' r='2'/%3E%3Ccircle cx='62' cy='42' r='4.5'/%3E%3Ccircle cx='97' cy='57' r='2'/%3E%3Ccircle cx='12' cy='72' r='5'/%3E%3Ccircle cx='44' cy='79' r='2.5'/%3E%3Ccircle cx='74' cy='90' r='3.5'/%3E%3Ccircle cx='104' cy='84' r='4'/%3E%3Ccircle cx='30' cy='104' r='3'/%3E%3Ccircle cx='60' cy='112' r='2'/%3E%3Ccircle cx='90' cy='108' r='2.5'/%3E%3C/g%3E%3C/svg%3E"),
     radial-gradient(120% 90% at 18% 8%, rgba(169, 180, 255, 0.10) 0%, transparent 58%),
     radial-gradient(100% 80% at 50% 100%, rgba(0, 0, 0, 0.55) 0%, transparent 60%);
+  background-size: 120px 120px, cover, cover;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* COBALT — topography: nested irregular contours, the way a survey sheet reads.
+   The first attempt used regular sine chains, which rendered as smooth waves and
+   gave the repeat away; a real contour map is mostly closed loops of uneven
+   radius. The loops sit fully inside the tile and the two crossing ridges start
+   and end at the same y, so the sheet is seamless in both directions. */
+[data-theme="cobalt"].slide::before,
+[data-theme="cobalt"].page::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27300%27%20height%3D%27300%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23F2F6FF%27%20stroke-opacity%3D%27.085%27%20stroke-width%3D%271.15%27%3E%3Cpath%20d%3D%27M142.0%2080.8Q146.2%2092.0%20138.4%20101.9Q130.5%20111.7%20126.3%20123.4Q122.1%20135.1%20107.1%20137.6Q92.1%20140.1%2078.9%20137.0Q65.7%20134.0%2051.2%20133.2Q36.6%20132.5%2024.9%20124.4Q13.2%20116.3%2015.8%20104.2Q18.5%2092.0%2017.5%2080.5Q16.6%2068.9%2029.1%2062.7Q41.7%2056.5%2052.0%2047.4Q62.3%2038.3%2077.2%2041.1Q92.1%2043.9%20102.2%2051.1Q112.4%2058.3%20125.1%2063.9Q137.8%2069.5%20142.0%2080.8Z%27%2F%3E%3Cpath%20d%3D%27M124.1%2083.9Q127.1%2092.0%20121.5%2099.1Q115.8%20106.2%20112.8%20114.6Q109.7%20123.0%2098.9%20124.8Q88.1%20126.6%2078.6%20124.4Q69.2%20122.2%2058.7%20121.7Q48.2%20121.1%2039.8%20115.3Q31.3%20109.5%2033.2%20100.8Q35.1%2092.0%2034.5%2083.7Q33.8%2075.4%2042.8%2070.9Q51.8%2066.4%2059.3%2059.9Q66.7%2053.3%2077.4%2055.3Q88.1%2057.4%2095.5%2062.6Q102.8%2067.8%20111.9%2071.8Q121.0%2075.8%20124.1%2083.9Z%27%2F%3E%3Cpath%20d%3D%27M111.2%2086.2Q113.4%2092.0%20109.3%2097.1Q105.2%20102.2%20103.0%20108.3Q100.8%20114.3%2093.1%20115.6Q85.3%20116.9%2078.5%20115.3Q71.6%20113.8%2064.1%20113.4Q56.6%20113.0%2050.5%20108.8Q44.4%20104.6%2045.8%2098.3Q47.1%2092.0%2046.6%2086.0Q46.1%2080.0%2052.7%2076.8Q59.2%2073.6%2064.5%2068.9Q69.8%2064.1%2077.6%2065.6Q85.3%2067.1%2090.6%2070.8Q95.8%2074.6%20102.4%2077.5Q109.0%2080.4%20111.2%2086.2Z%27%2F%3E%3Cpath%20d%3D%27M101.9%2087.8Q103.5%2092.0%20100.5%2095.7Q97.6%2099.4%2096.0%20103.7Q94.4%20108.1%2088.9%20109.0Q83.3%20109.9%2078.3%20108.8Q73.4%20107.7%2068.0%20107.4Q62.6%20107.1%2058.2%20104.1Q53.8%20101.1%2054.8%2096.5Q55.8%2092.0%2055.4%2087.7Q55.1%2083.4%2059.8%2081.1Q64.4%2078.7%2068.3%2075.3Q72.1%2071.9%2077.7%2073.0Q83.3%2074.1%2087.0%2076.7Q90.8%2079.4%2095.6%2081.5Q100.3%2083.6%20101.9%2087.8Z%27%2F%3E%3Cpath%20d%3D%27M260.2%20197.0Q263.7%20205.0%20266.3%20215.3Q269.0%20225.7%20257.5%20231.0Q246.0%20236.3%20236.7%20243.4Q227.3%20250.6%20214.5%20248.9Q201.6%20247.3%20193.0%20240.6Q184.4%20234.0%20172.9%20229.4Q161.5%20224.7%20159.4%20214.9Q157.3%20205.0%20163.3%20196.6Q169.2%20188.2%20172.6%20178.0Q176.0%20167.8%20189.3%20166.9Q202.6%20166.0%20215.0%20162.7Q227.3%20159.4%20238.0%20165.3Q248.7%20171.1%20252.7%20180.0Q256.8%20188.9%20260.2%20197.0Z%27%2F%3E%3Cpath%20d%3D%27M247.3%20199.2Q249.8%20205.0%20251.7%20212.4Q253.6%20219.9%20245.3%20223.7Q237.0%20227.5%20230.3%20232.7Q223.6%20237.8%20214.3%20236.6Q205.1%20235.5%20198.9%20230.7Q192.7%20225.9%20184.4%20222.5Q176.2%20219.2%20174.7%20212.1Q173.2%20205.0%20177.5%20198.9Q181.8%20192.9%20184.2%20185.6Q186.6%20178.2%20196.2%20177.6Q205.8%20176.9%20214.7%20174.5Q223.6%20172.2%20231.3%20176.4Q239.0%20180.6%20241.9%20187.0Q244.8%20193.4%20247.3%20199.2Z%27%2F%3E%3Cpath%20d%3D%27M238.0%20200.8Q239.8%20205.0%20241.1%20210.4Q242.5%20215.7%20236.5%20218.5Q230.6%20221.2%20225.7%20224.9Q220.9%20228.6%20214.2%20227.8Q207.6%20226.9%20203.1%20223.5Q198.6%20220.0%20192.7%20217.6Q186.8%20215.2%20185.7%20210.1Q184.6%20205.0%20187.7%20200.6Q190.8%20196.3%20192.5%20191.0Q194.3%20185.7%20201.2%20185.2Q208.1%20184.8%20214.5%20183.1Q220.9%20181.4%20226.4%20184.4Q232.0%20187.4%20234.1%20192.0Q236.2%20196.7%20238.0%20200.8Z%27%2F%3E%3Cpath%20d%3D%27M231.3%20202.0Q232.5%20205.0%20233.5%20208.9Q234.5%20212.7%20230.2%20214.7Q225.9%20216.7%20222.5%20219.3Q219.0%20222.0%20214.2%20221.4Q209.4%20220.8%20206.2%20218.3Q202.9%20215.8%20198.7%20214.1Q194.4%20212.4%20193.6%20208.7Q192.8%20205.0%20195.1%20201.9Q197.3%20198.7%20198.5%20194.9Q199.8%20191.1%20204.8%20190.8Q209.7%20190.4%20214.4%20189.2Q219.0%20188.0%20223.0%20190.2Q226.9%20192.3%20228.5%20195.7Q230.0%20199.0%20231.3%20202.0Z%27%2F%3E%3Cpath%20d%3D%27M279.6%2052.1Q282.0%2058.0%20277.8%2063.2Q273.6%2068.4%20271.7%2074.8Q269.7%2081.2%20261.5%2082.2Q253.3%2083.1%20245.5%2084.6Q237.8%2086.2%20231.1%2082.7Q224.4%2079.1%20220.9%2073.9Q217.5%2068.7%20212.9%2063.4Q208.3%2058.0%20210.9%2051.9Q213.5%2045.8%20220.2%2042.6Q226.9%2039.3%20232.2%2034.2Q237.5%2029.0%20245.4%2031.0Q253.3%2032.9%20261.2%2034.2Q269.1%2035.4%20273.2%2040.8Q277.2%2046.3%20279.6%2052.1Z%27%2F%3E%3Cpath%20d%3D%27M270.2%2053.8Q271.9%2058.0%20268.9%2061.7Q265.9%2065.5%20264.5%2070.1Q263.1%2074.7%20257.2%2075.4Q251.3%2076.1%20245.7%2077.2Q240.1%2078.3%20235.2%2075.8Q230.4%2073.2%20228.0%2069.5Q225.5%2065.7%20222.2%2061.9Q218.8%2058.0%20220.7%2053.6Q222.6%2049.2%20227.4%2046.9Q232.3%2044.6%20236.1%2040.9Q239.9%2037.2%20245.6%2038.5Q251.3%2039.9%20257.0%2040.8Q262.6%2041.7%20265.6%2045.6Q268.5%2049.5%20270.2%2053.8Z%27%2F%3E%3Cpath%20d%3D%27M0.0%20274.1Q12.5%20274.1%2025.0%20280.1Q37.5%20280.1%2050.0%20270.9Q62.5%20270.9%2075.0%20261.3Q87.5%20261.3%20100.0%20261.6Q112.5%20261.6%20125.0%20265.7Q137.5%20265.7%20150.0%20269.0Q162.5%20269.0%20175.0%20273.8Q187.5%20273.8%20200.0%20276.0Q212.5%20276.0%20225.0%20267.6Q237.5%20267.6%20250.0%20256.5Q262.5%20256.5%20275.0%20259.4Q287.5%20259.4%20300.0%20274.1%27%2F%3E%3Cpath%20d%3D%27M0.0%20162.7Q12.5%20162.7%2025.0%20155.1Q37.5%20155.1%2050.0%20153.2Q62.5%20153.2%2075.0%20154.8Q87.5%20154.8%20100.0%20156.7Q112.5%20156.7%20125.0%20161.2Q137.5%20161.2%20150.0%20165.4Q162.5%20165.4%20175.0%20160.8Q187.5%20160.8%20200.0%20150.6Q212.5%20150.6%20225.0%20149.1Q237.5%20149.1%20250.0%20159.3Q262.5%20159.3%20275.0%20166.9Q287.5%20166.9%20300.0%20162.7%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-size: 300px 300px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* GREEN — hideout: small crosses on a quiet regular beat. */
+[data-theme="green"].slide::before,
+[data-theme="green"].page::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg stroke='%23FFEFB3' stroke-opacity='.12' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M8 8l7 7M15 8l-7 7'/%3E%3Cpath d='M32 32l7 7M39 32l-7 7'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CHERRY — jupiter: an ornamental lattice, the most decorative of the five,
+   under the loudest field. */
+[data-theme="cherry"].slide::before,
+[data-theme="cherry"].page::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='%23EFE6DD' fill-opacity='.10'%3E%3Crect x='29.5' y='17' width='5' height='30' rx='2.5'/%3E%3Crect x='17' y='29.5' width='30' height='5' rx='2.5'/%3E%3Ccircle cx='32' cy='7' r='2.6'/%3E%3Ccircle cx='32' cy='57' r='2.6'/%3E%3Ccircle cx='7' cy='32' r='2.6'/%3E%3Ccircle cx='57' cy='32' r='2.6'/%3E%3Ccircle cx='11' cy='11' r='1.8'/%3E%3Ccircle cx='53' cy='11' r='1.8'/%3E%3Ccircle cx='11' cy='53' r='1.8'/%3E%3Ccircle cx='53' cy='53' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
   pointer-events: none;
   z-index: 0;
 }

@@ -30,7 +30,7 @@ Sparse: the smallest element count of any type. Word budget **18–40 per slide*
 
 ## Texture and framing
 
-No grid. No brackets. A cold glow from the upper left plus grain at `0.05` — the surface reads as distance, not paper.
+**Bubbles** — scattered discs of uneven radius — over a cold glow from the upper left, plus grain at `0.05`. On a near-black field the discs read as stars, which is the register the whole theme is named for. No brackets.
 
 The cast is deliberate and it is close to the coloured family's territory. It was checked on a rendered artboard: cobalt is far lighter and far more saturated, so the two do not blur at feed size. If a future palette change moves either one, re-check that pair before shipping.
 
