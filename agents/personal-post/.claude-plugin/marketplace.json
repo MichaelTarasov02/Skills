@@ -9,7 +9,7 @@
       "name": "personal-post",
       "source": "./",
       "description": "Turns one raw idea into a publish-ready personal LinkedIn post: a specification with copy-ready caption, plus a themed carousel and single-page visual exported to PDF and PNG. Deterministic, verified by bundled scripts, and configured per author.",
-      "version": "0.5.3",
+      "version": "0.5.4",
       "author": {
         "name": "Michael Tarasov"
       },
