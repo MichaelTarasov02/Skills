@@ -5,16 +5,20 @@
    Themes are VISUAL TYPES, not palettes. Passports: references/content-types/.
 
      [data-theme="ivory"]     company / team management / processes / information
-                              → management memo: dot grid, corner brackets,
-                                document-first components, ledger-green, dense.
+                              → management memo: white sheet, navy ink, dot grid,
+                                corner brackets, document-first, ledger-green, dense.
 
      [data-theme="graphite"]  founder / selling / marketing / business judgment
-                              → lit stage: no grid, spotlight vignette, statement-
-                                first components, brass accent, sparse.
+                              → deep space: cool near-black with a blue-violet cast,
+                                no grid, cold vignette, statement-first, sparse.
 
-     [data-theme="cobalt"]    technical / AI / tools / product mechanics
-                              → blueprint: ruled drafting grid, white ink on deep
-                                cobalt, diagram-first components, ice-cyan, medium.
+   The COLOURED FAMILY — one character, three fields. Purpose is identical for all
+   three (technical / AI / tools / product mechanics); the hue rotates so two
+   coloured posts never run back to back. Shared passport: content-types/colored.md.
+
+     [data-theme="cobalt"]    deep blue field   · white ink   · ice-cyan accent
+     [data-theme="green"]     deep green field  · butter ink  · white accent
+     [data-theme="cherry"]    deep red field    · cream ink   · white accent
 
    Artboard: 1080x1350 (4:5). Safe pad 90px (research min 80).
    Type floors: heading >= 48px, body >= 24px on a 1080 canvas.
@@ -52,47 +56,59 @@
   --mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
-/* ---------- 2. THEME: IVORY (management memo) ---------- */
+/* ---------- 2. THEME: IVORY (management memo) ----------
+   A white sheet with navy ink. The paper is pure white, so cards have to earn
+   their edge from a tinted surface rather than from being lighter than the page:
+   on #FFFFFF a white card is invisible. */
 [data-theme="ivory"] {
-  --bg: #F5F4F1;          /* soft near-white paper, only a faint warmth (was #F1EDE3, too cream/yellow) */
-  --bg-2: #ECEBE6;
-  --surface: #FCFBF9;     /* near-white card elevation */
-  --ink: #17150F;
-  --ink-2: #45402F;
-  --ink-3: #7C7565;
-  --hair: rgba(23, 21, 15, 0.14);
-  --hair-soft: rgba(23, 21, 15, 0.07);
-  --accent: #1E6B52;      /* ledger green — sign-off, the working rule. Blue now belongs to cobalt. */
+  --bg: #FFFFFF;
+  --bg-2: #F1F3F6;
+  --surface: #F5F7FA;     /* faint cool tint so a card reads against pure white */
+  --ink: #10243F;         /* navigator navy */
+  --ink-2: rgba(16, 36, 63, 0.74);
+  --ink-3: rgba(16, 36, 63, 0.50);
+  --hair: rgba(16, 36, 63, 0.16);
+  --hair-soft: rgba(16, 36, 63, 0.07);
+  --accent: #1E6B52;      /* ledger green — sign-off, the working rule */
   --accent-on: #FFFFFF;
   --accent-wash: rgba(30, 107, 82, 0.07);
   --warn: #A6371B;
   --warn-wash: rgba(166, 55, 27, 0.07);
-  --grain-op: 0.038;
+  --grain-op: 0.028;      /* lower than before: grain is loud on pure white */
   --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  --amb: 0 1px 2px rgba(23, 21, 15, 0.04), 0 8px 28px -14px rgba(23, 21, 15, 0.16);
+  --amb: 0 1px 2px rgba(16, 36, 63, 0.05), 0 8px 28px -14px rgba(16, 36, 63, 0.18);
 }
 
-/* ---------- 3. THEME: GRAPHITE (founder / team / ideas) ---------- */
+/* ---------- 3. THEME: GRAPHITE (deep space) ----------
+   Cool near-black with a blue-violet cast. This replaced a warm espresso field
+   with a brass accent: brass dies on a cold ground, so the accent went cool too
+   and the theme's character moved from "lit stage" to "deep space". */
 [data-theme="graphite"] {
-  --bg: #15130F;          /* espresso-asphalt, warm, never pure black */
-  --bg-2: #100E0B;
-  --surface: #1E1B15;
-  --ink: #F3EEE4;
-  --ink-2: rgba(243, 238, 228, 0.74);
-  --ink-3: rgba(243, 238, 228, 0.46);
-  --hair: rgba(243, 238, 228, 0.15);
-  --hair-soft: rgba(243, 238, 228, 0.08);
-  --accent: #CBA35A;      /* brass — judgment, premium, warm */
-  --accent-on: #15130F;
-  --accent-wash: rgba(203, 163, 90, 0.10);
-  --warn: #D2694C;
-  --warn-wash: rgba(210, 105, 76, 0.10);
-  --grain-op: 0.055;
-  --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --amb: 0 1px 2px rgba(0, 0, 0, 0.4), 0 20px 60px -24px rgba(0, 0, 0, 0.8);
+  --bg: #151721;
+  --bg-2: #0F111A;
+  --surface: #1E2130;
+  --ink: #E9EBF2;
+  --ink-2: rgba(233, 235, 242, 0.74);
+  --ink-3: rgba(233, 235, 242, 0.48);
+  --hair: rgba(233, 235, 242, 0.16);
+  --hair-soft: rgba(233, 235, 242, 0.08);
+  --accent: #A9B4FF;      /* periwinkle — cold, quiet, reads as light rather than metal */
+  --accent-on: #151721;
+  --accent-wash: rgba(169, 180, 255, 0.10);
+  --warn: #F2947C;        /* warm coral, the one warm note, so risk still reads as risk */
+  --warn-wash: rgba(242, 148, 124, 0.10);
+  --grain-op: 0.05;
+  --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --amb: 0 1px 2px rgba(0, 0, 0, 0.45), 0 20px 60px -24px rgba(0, 0, 0, 0.85);
 }
 
-/* ---------- 3b. THEME: COBALT (blueprint / technical) ---------- */
+/* ---------- 3b. THE COLOURED FAMILY ----------
+   Three saturated fields carrying light ink. Same structure, same texture, same
+   components; only the hue changes, and it changes the temperature of the post:
+   cobalt reads cool and technical, green reads considered, cherry reads urgent.
+   The rotation rule lives in content-types/index.md, not here.              */
+
+/* cobalt — deep blue field, white ink, ice-cyan accent */
 [data-theme="cobalt"] {
   --bg: #0E2F74;          /* deep drafting cobalt — unmistakably blue, dark enough for white ink */
   --bg-2: #0A2560;
@@ -110,6 +126,58 @@
   --grain-op: 0.05;
   --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.10);
   --amb: 0 1px 2px rgba(4, 12, 40, 0.5), 0 18px 50px -22px rgba(4, 12, 40, 0.85);
+}
+
+/* green — deep green field, butter ink, white accent.
+   The palette is two colours by design, so the accent is pure white rather than
+   a third hue: on butter-on-green, white is the only mark that reads as louder
+   than the body text without introducing a colour the palette does not have. */
+[data-theme="green"] {
+  --bg: #013E37;
+  --bg-2: #012E29;
+  --surface: #0A4B43;
+  --ink: #FFEFB3;
+  --ink-2: rgba(255, 239, 179, 0.76);
+  --ink-3: rgba(255, 239, 179, 0.50);
+  --hair: rgba(255, 239, 179, 0.22);
+  --hair-soft: rgba(255, 239, 179, 0.10);
+  --accent: #FFFFFF;
+  --accent-on: #013E37;
+  --accent-wash: rgba(255, 255, 255, 0.10);
+  --warn: #FFAE8F;
+  --warn-wash: rgba(255, 174, 143, 0.12);
+  --grain-op: 0.05;
+  --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --amb: 0 1px 2px rgba(0, 20, 17, 0.5), 0 18px 50px -22px rgba(0, 20, 17, 0.85);
+}
+
+/* cherry — deep red field, cream ink, white accent.
+   The loudest member of the family. A red field carries a warning connotation
+   the other two do not, so it suits a post that is meant to feel urgent and
+   suits a calm operational post badly. That judgement belongs to the writer. */
+[data-theme="cherry"] {
+  --bg: #9A0002;
+  --bg-2: #7C0001;
+  --surface: #AF1416;
+  --ink: #EFE6DD;
+  --ink-2: rgba(239, 230, 221, 0.78);
+  --ink-3: rgba(239, 230, 221, 0.52);
+  --hair: rgba(239, 230, 221, 0.24);
+  --hair-soft: rgba(239, 230, 221, 0.10);
+  --accent: #FFFFFF;
+  --accent-on: #9A0002;
+  --accent-wash: rgba(255, 255, 255, 0.10);
+  /* Saturated amber, not a cream-gold. The first attempt used #FFD9A0, which
+     sat a few points off the cream ink and rendered as "slightly warmer cream":
+     side by side you could just about tell, and at feed thumbnail size the risk
+     row and a normal row were the same object. A risk tone that needs comparing
+     is not a risk tone. On a red field the separation has to come from
+     saturation, because hue has nowhere to go. */
+  --warn: #FFC24D;
+  --warn-wash: rgba(255, 194, 77, 0.14);
+  --grain-op: 0.05;
+  --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  --amb: 0 1px 2px rgba(40, 0, 0, 0.5), 0 18px 50px -22px rgba(40, 0, 0, 0.85);
 }
 
 /* ---------- 4. RESET + STAGE ---------- */
@@ -148,7 +216,7 @@ html, body {
 [data-theme="ivory"].page::before {
   content: "";
   position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(23, 21, 15, 0.10) 1.4px, transparent 1.6px);
+  background-image: radial-gradient(rgba(16, 36, 63, 0.13) 1.4px, transparent 1.6px);
   background-size: 60px 60px;
   background-position: 30px 30px;
   pointer-events: none;
@@ -157,13 +225,14 @@ html, body {
 
 /* COBALT: blueprint — fine ruled drafting grid. This is the one type where
    ruled lines are correct: they ARE the surface, not competition for the copy. */
-[data-theme="cobalt"].slide::before,
-[data-theme="cobalt"].page::before {
+[data-theme="cobalt"].slide::before, [data-theme="cobalt"].page::before,
+[data-theme="green"].slide::before,  [data-theme="green"].page::before,
+[data-theme="cherry"].slide::before, [data-theme="cherry"].page::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(242, 246, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(242, 246, 255, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 90px 90px;
   background-position: 45px 45px;
   pointer-events: none;
@@ -176,7 +245,7 @@ html, body {
   content: "";
   position: absolute; inset: 0;
   background:
-    radial-gradient(120% 90% at 18% 8%, rgba(203, 163, 90, 0.09) 0%, transparent 58%),
+    radial-gradient(120% 90% at 18% 8%, rgba(169, 180, 255, 0.10) 0%, transparent 58%),
     radial-gradient(100% 80% at 50% 100%, rgba(0, 0, 0, 0.55) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
@@ -209,8 +278,10 @@ html, body {
   z-index: 2;
 }
 [data-theme="graphite"] .bracket { display: none; }
-/* COBALT: brackets render as white registration marks on the drafting sheet */
-[data-theme="cobalt"] .bracket {
+/* COLOURED FAMILY: brackets render as light registration marks on the sheet */
+[data-theme="cobalt"] .bracket,
+[data-theme="green"] .bracket,
+[data-theme="cherry"] .bracket {
   position: absolute;
   width: 18px; height: 18px;
   border: 1.5px solid var(--ink);
@@ -325,26 +396,26 @@ html, body {
    decks measured 34-49% fill across almost every body slide. It compensates the
    way graphite does, with a notch more size and never with more words.
    These stay above section 20, so the single-page reductions still win. */
-[data-theme="cobalt"] .h1 { font-size: 92px; }
-[data-theme="cobalt"] .h2 { font-size: 66px; }
-[data-theme="cobalt"] .lede { font-size: 34px; max-width: 32ch; }
-[data-theme="cobalt"] .body { font-size: 32px; }
-[data-theme="cobalt"] .small { font-size: 26px; }
-[data-theme="cobalt"] .pull { font-size: 48px; }
-[data-theme="cobalt"] .card > .core { padding: var(--s5); }
-[data-theme="cobalt"] .pair .side { padding: var(--s5); }
-[data-theme="cobalt"] .pair .ttl { font-size: 42px; }
-[data-theme="cobalt"] .pair li { font-size: 27px; padding: 16px 0; }
-[data-theme="cobalt"] .ledger .row { padding: var(--s4) 0; }
-[data-theme="cobalt"] .ledger .v { font-size: 32px; }
-[data-theme="cobalt"] .ledger .k { font-size: 18px; }
-[data-theme="cobalt"] .checks .check { padding: var(--s4); }
-[data-theme="cobalt"] .checks .ct { font-size: 32px; }
-[data-theme="cobalt"] .checks .cn { font-size: 22px; }
-[data-theme="cobalt"] .stack .layer { padding: var(--s4) var(--s5); }
-[data-theme="cobalt"] .stack .layer .lt { font-size: 34px; }
-[data-theme="cobalt"] .stack .layer .ld { font-size: 26px; }
-[data-theme="cobalt"] .callout { padding: var(--s4) var(--s5); }
+[data-theme="cobalt"] .h1, [data-theme="green"] .h1, [data-theme="cherry"] .h1 { font-size: 92px; }
+[data-theme="cobalt"] .h2, [data-theme="green"] .h2, [data-theme="cherry"] .h2 { font-size: 66px; }
+[data-theme="cobalt"] .lede, [data-theme="green"] .lede, [data-theme="cherry"] .lede { font-size: 34px; max-width: 32ch; }
+[data-theme="cobalt"] .body, [data-theme="green"] .body, [data-theme="cherry"] .body { font-size: 32px; }
+[data-theme="cobalt"] .small, [data-theme="green"] .small, [data-theme="cherry"] .small { font-size: 26px; }
+[data-theme="cobalt"] .pull, [data-theme="green"] .pull, [data-theme="cherry"] .pull { font-size: 48px; }
+[data-theme="cobalt"] .card > .core, [data-theme="green"] .card > .core, [data-theme="cherry"] .card > .core { padding: var(--s5); }
+[data-theme="cobalt"] .pair .side, [data-theme="green"] .pair .side, [data-theme="cherry"] .pair .side { padding: var(--s5); }
+[data-theme="cobalt"] .pair .ttl, [data-theme="green"] .pair .ttl, [data-theme="cherry"] .pair .ttl { font-size: 42px; }
+[data-theme="cobalt"] .pair li, [data-theme="green"] .pair li, [data-theme="cherry"] .pair li { font-size: 27px; padding: 16px 0; }
+[data-theme="cobalt"] .ledger .row, [data-theme="green"] .ledger .row, [data-theme="cherry"] .ledger .row { padding: var(--s4) 0; }
+[data-theme="cobalt"] .ledger .v, [data-theme="green"] .ledger .v, [data-theme="cherry"] .ledger .v { font-size: 32px; }
+[data-theme="cobalt"] .ledger .k, [data-theme="green"] .ledger .k, [data-theme="cherry"] .ledger .k { font-size: 18px; }
+[data-theme="cobalt"] .checks .check, [data-theme="green"] .checks .check, [data-theme="cherry"] .checks .check { padding: var(--s4); }
+[data-theme="cobalt"] .checks .ct, [data-theme="green"] .checks .ct, [data-theme="cherry"] .checks .ct { font-size: 32px; }
+[data-theme="cobalt"] .checks .cn, [data-theme="green"] .checks .cn, [data-theme="cherry"] .checks .cn { font-size: 22px; }
+[data-theme="cobalt"] .stack .layer, [data-theme="green"] .stack .layer, [data-theme="cherry"] .stack .layer { padding: var(--s4) var(--s5); }
+[data-theme="cobalt"] .stack .layer .lt, [data-theme="green"] .stack .layer .lt, [data-theme="cherry"] .stack .layer .lt { font-size: 34px; }
+[data-theme="cobalt"] .stack .layer .ld, [data-theme="green"] .stack .layer .ld, [data-theme="cherry"] .stack .layer .ld { font-size: 26px; }
+[data-theme="cobalt"] .callout, [data-theme="green"] .callout, [data-theme="cherry"] .callout { padding: var(--s4) var(--s5); }
 /* the nowrap pipeline is deliberately excluded: playbook §4 counter-rule.
    Enlarging its nodes threw a frame overflow once already. */
 

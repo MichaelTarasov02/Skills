@@ -2,19 +2,21 @@
 
 **Purpose:** company management, team management, processes, hiring mechanics, operating information. The reader is running something — a team, a review cycle, a hiring loop — and this post is a document they could act on.
 
-**Character in one line:** an annotated internal memo on good paper — dense, structured, quietly authoritative. Not a keynote, not a drawing: a working document.
+**Character in one line:** an annotated internal memo on a clean white sheet — dense, structured, quietly authoritative. Not a keynote, not a drawing: a working document.
 
 ## Palette and colour roles
 
 | Token | Value | Role |
 |---|---|---|
-| `--bg` | `#F5F4F1` | soft near-white paper, faint warmth |
-| `--surface` | `#FCFBF9` | card elevation, near-white |
-| `--ink` | `#17150F` | primary text |
+| `--bg` | `#FFFFFF` | pure white sheet |
+| `--surface` | `#F5F7FA` | card elevation, faint cool tint |
+| `--ink` | `#10243F` | navigator navy, primary text |
 | `--accent` | `#1E6B52` | **deep ledger green** — the approval stamp, the key row, the marked line |
 | `--warn` | `#A6371B` | oxide red — the editor's pencil, risk and cost |
 
-Green is the management register: it reads as sign-off, ledger, "this is the working rule". Blue is banned as an accent here — it belongs to cobalt now, and a blue-accented ivory post would blur the two types.
+Navy ink on white is the whole identity: a printed working document rather than a designed page. Green stays the management register — sign-off, ledger, "this is the working rule" — and it is the only accent, so navy never has to compete with a second blue.
+
+**A card cannot be white here.** On a pure white sheet a white surface is invisible, which is why `--surface` carries a faint cool tint and every card also takes a hairline. Grain drops to `0.028` for the same reason: texture that reads as considered on cream reads as dirt on white.
 
 ## Typography treatment
 
@@ -30,13 +32,13 @@ Dense: this is the type with the largest element count per slide. Word budget **
 
 ## Texture and framing
 
-Faint **dot grid** (never ruled lines — ruled competes with copy; ruled belongs to cobalt) + **corner brackets** in ink. Grain at low opacity (`0.038`). The surface reads as an instrument page.
+Faint **dot grid** (never ruled lines — ruled competes with copy; ruled belongs to the coloured family) + **corner brackets** in ink. Grain at low opacity (`0.038`). The surface reads as an instrument page.
 
 ## Component bias
 
 - **Preferred:** `ledger`, `checks`, `pair`, `stack`, `callout` — document-shaped structures with rows and labels.
 - **Allowed:** `strip`, `chips`, `card`, `scale`, `pull`.
-- **Avoid:** `fan` (schematic — cobalt's home ground) and any composition that reads as a poster rather than a page.
+- **Avoid:** `fan` (schematic — the coloured family's home ground) and any composition that reads as a poster rather than a page.
 
 ## Cover and close
 

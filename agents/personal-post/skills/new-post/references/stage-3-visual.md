@@ -2,9 +2,9 @@
 
 Build from the design system, not from scratch. The system already decided the palette, the components, the type floors, and the export contract. Your job is the slide set, the copy, and one bespoke object.
 
-**Read, in order, before you build:** the resolved type's passport `content-types/<theme>.md` (the visual identity this deck must express), then `components.md` (the markup), then `layout-playbook.md` (the defect rules). `visual-system.md` explains why the system is shaped this way; read it when extending the system rather than using it. Every rule in it was paid for by a failed run, and the same four defects recur in every deck that skips it.
+**Read, in order, before you build:** the resolved type's passport — `content-types/ivory.md`, `graphite.md`, or `colored.md` for cobalt, green and cherry — (the visual identity this deck must express), then `components.md` (the markup), then `layout-playbook.md` (the defect rules). `visual-system.md` explains why the system is shaped this way; read it when extending the system rather than using it. Every rule in it was paid for by a failed run, and the same four defects recur in every deck that skips it.
 
-The passport's component bias, density, structure, cover/close character and emoji register are constraints, not suggestions — a cobalt deck built like a graphite keynote is a routing defect that survived into production.
+The passport's component bias, density, structure, cover/close character and emoji register are constraints, not suggestions — a coloured deck built like a graphite statement is a routing defect that survived into production.
 
 ## Gate
 

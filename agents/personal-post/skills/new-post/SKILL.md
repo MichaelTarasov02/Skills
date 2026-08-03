@@ -1,7 +1,7 @@
 ---
 name: new-post
 description: Turns one raw idea into a publish-ready personal LinkedIn post — a full specification with copy-ready caption, plus a themed carousel and single-page visual exported to PDF and PNG. Use this whenever the user wants to write, draft, or build a personal LinkedIn post, a founder post, a carousel, a document post, or asks to "turn this idea into a post", pastes a raw idea or an article they want to react to, or mentions their personal brand content pipeline. Also use when they ask to redo or extend an existing post in this system.
-argument-hint: <raw idea, or an article URL/text> [--theme light|dark|blue] [--text-only]
+argument-hint: <raw idea, or an article URL/text> [--theme light|dark|blue|green|cherry] [--text-only]
 allowed-tools: Read, Write, Edit, Bash, WebFetch, Glob, Grep
 ---
 
@@ -18,6 +18,7 @@ Everything after the command is the idea. Nothing else is required.
 ```
 /personal-post:new-post Junior developers aren't disappearing. Their learning ladder is.
 /personal-post:new-post --theme dark <paste of a long dictated idea>
+/personal-post:new-post --theme cherry <idea>          ← force one colour of the coloured family
 /personal-post:new-post https://example.com/article  ← reacts to someone else's piece
 /personal-post:new-post --text-only <idea>           ← skip the visual
 ```
@@ -36,13 +37,14 @@ The profile gives you: author name and byline, voice guide path, knowledge files
 
 The type decides the entire visual identity — palette, typography, components, density, texture. Getting it wrong is a defect that survives all the way to the exported PDF, so settle it first and write it down. **Read `${CLAUDE_PLUGIN_ROOT}/skills/new-post/references/content-types/index.md` before deciding** — it holds the full routing procedure and the passports for each type.
 
-1. Scan the **user's input** for a type choice: the `--theme` flag (`light` | `dark` | `blue`), a `Theme:` line, or a phrase like "in the dark theme" / "светлая тема" / "синяя тема". Only the user's own words count — option tables in documentation are not a selection.
-2. Any concrete value is a **forced override**. Honor it exactly, never re-route. The profile's `themes:` block maps `light`/`dark`/`blue` onto the CSS type names.
+1. Scan the **user's input** for a type choice: the `--theme` flag (`light` | `dark` | `blue` | `green` | `cherry`), a `Theme:` line, or a phrase like "in the dark theme" / "светлая тема" / "зелёная тема". Only the user's own words count — option tables in documentation are not a selection.
+2. Any concrete value is a **forced override**. Honor it exactly, never re-route. The profile's `themes:` block maps `light`/`dark`/`blue`/`green`/`cherry` onto the CSS type names.
 3. Absent or `auto` → route by purpose using the profile's `theme_routing` and the orchestrator's table.
 4. When a topic straddles two routes, **route on the reader's job**, not the subject matter. Who acts on this post, and what are they doing when they act? This is the single most common routing mistake.
 5. Only when steps 3–4 leave a **genuine coin flip**: pick the least-used type by counting existing visual posts per type (text-only posts do not count). The counter never overrides an answer that meaning already produced.
+6. **If the answer is the coloured family, pick the colour by rotation** — cobalt, green and cherry share one purpose and differ only in hue. Take the least-used of the three across existing visual posts, then apply the cherry caveat in `index.md`: a red field reads as a warning before a word is read, so a calm operational post takes the next colour instead. A forced colour skips this entirely.
 
-Log it before Stage 1: `theme = <name> · source = forced | auto (<step and reason>)`. Thread that value through unchanged. Stage 3 must not re-decide it.
+Log it before Stage 1: `theme = <name> · source = forced | auto (<step and reason>)`. When the rotation chose the colour, log the tally that decided it. Thread the value through unchanged; Stage 3 must not re-decide it.
 
 ## Step 2 — Detect the route
 
@@ -70,7 +72,7 @@ Each stage has its own reference file. Read it when the stage begins, follow it 
 |---|---|---|
 | 1 | idea or article → a filled brief held in context | `references/stage-1-intake.md` |
 | 2 | brief → `Post Specification.md` with the copy-ready caption | `references/stage-2-spec.md` |
-| 3 | spec → carousel + single page, exported | `references/content-types/<type>.md` + `references/components.md` + `references/stage-3-visual.md` |
+| 3 | spec → carousel + single page, exported | `references/content-types/<ivory\|graphite\|colored>.md` + `references/components.md` + `references/stage-3-visual.md` |
 
 Stage 3 is conditional. If the spec's `Visual decision` is `none`, the post is text-first — skip production and say why. That is a complete, valid outcome, not a shortfall.
 

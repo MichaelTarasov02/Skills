@@ -85,7 +85,7 @@ Then:
 Everything after the command is your idea. Flags are rarely needed.
 
 ```
-/personal-post:new-post --theme dark <idea>        force the dark register (light | dark | blue)
+/personal-post:new-post --theme dark <idea>        force a register (light | dark | blue | green | cherry)
 /personal-post:new-post --text-only <idea>         skip the visual
 /personal-post:new-post https://example.com/post   react to someone else's piece
 ```

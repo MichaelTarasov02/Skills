@@ -30,7 +30,7 @@ paths:
 # type (palette, typography, components, density, texture, cover/close) lives in
 # the plugin: skills/new-post/references/content-types/<type>.md
 # ---------------------------------------------------------------------------
-# NOTE: `ivory`, `graphite` and `cobalt` are defined in the plugin's
+# NOTE: `ivory`, `graphite`, `cobalt`, `green` and `cherry` are defined in the plugin# NOTE: `ivory`, `graphite`, `cobalt`, `green` and `cherry` are defined in the plugin'sapos;s
 # visual-system.css. These keys map YOUR words onto those looks — they do not
 # rename the types. Putting an arbitrary value here yields artboards with no
 # theme styling at all, and the checker will still report a match because it
@@ -38,7 +38,9 @@ paths:
 themes:
   light: ivory                      # the value used in data-theme=""
   dark: graphite
-  blue: cobalt
+  blue: cobalt                      # cobalt, green and cherry are ONE type in
+  green: green                      # three colours: same purpose, same character,
+  cherry: cherry                    # same budget. The colour rotates per post.
 
 # How `auto` resolves when the user does not force a type.
 # Straddling topics route on THE READER'S JOB, not the subject matter — who acts
@@ -47,13 +49,15 @@ themes:
 theme_routing:
   ivory: company management, team management, processes, hiring mechanics, operating information
   graphite: founder lessons, selling, marketing, positioning, business judgment
-  cobalt: technical, AI, engineering, tools, new technology, product mechanics
+  colored: technical, AI, engineering, tools, new technology, product mechanics
 
 # Words per slide, per type. A denser type may exceed its ceiling on a
 # checklist or ledger slide where words are scannable rows rather than prose.
 ivory_words: 35-70
 graphite_words: 18-40
-cobalt_words: 28-55
+cobalt_words: 28-55                 # the coloured family shares one budget;
+green_words: 28-55                  # keep the three equal unless you have
+cherry_words: 28-55                 # a reason not to
 
 # ---------------------------------------------------------------------------
 # Copy rules

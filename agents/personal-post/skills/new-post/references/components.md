@@ -6,7 +6,7 @@ If a component you need is not here, build it in the post's `styles.css` as the 
 
 ## Artboard skeleton
 
-Every slide is this shape. Brackets render in the light theme only; the dark theme hides them, so including them is harmless either way. The swipe affordance goes on slides 1 and 2 only.
+Every slide is this shape. Brackets render in `ivory` and in the coloured family; `graphite` hides them, so including them is harmless either way. The swipe affordance goes on slides 1 and 2 only.
 
 ```html
 <section class="slide" data-theme="ivory">
@@ -144,4 +144,4 @@ One per slide title, five to twelve across a deck, always functional rather than
 
 ## Theme names are fixed by the CSS
 
-`data-theme` accepts `ivory`, `graphite`, and `cobalt` only. The profile's `themes:` block maps *your* words onto those three, but the values themselves come from the stylesheet. Renaming them there produces artboards with no theme styling at all — and the checker will report the theme as matching, because it compares your spec against your HTML. If you want different names, rename them in the CSS too.
+`data-theme` accepts `ivory`, `graphite`, `cobalt`, `green` and `cherry` only. The last three are one type in three colours and share `content-types/colored.md`. The profile's `themes:` block maps *your* words onto those three, but the values themselves come from the stylesheet. Renaming them there produces artboards with no theme styling at all — and the checker will report the theme as matching, because it compares your spec against your HTML. If you want different names, rename them in the CSS too.
