@@ -39,7 +39,7 @@ LATIN_ALLOWLIST = {
     # terms without a settled Russian equivalent
     "ai", "saas", "b2b", "b2c", "mvp", "api", "sdk", "ui", "ux", "cto", "ceo",
     "cpo", "hr", "qa", "it", "llm", "rag", "devops", "pm", "roi", "kpi",
-    "thought", "leadership", "trade", "off", "tradeoff", "dm", "cta", "seo",
+    "thought", "leadership", "trade", "off", "tradeoff", "trade-off", "dm", "cta", "seo",
     "none", "optional", "recommended", "required", "text", "markdown",
     "backend", "frontend", "fullstack", "prompt", "agent", "workflow", "product",
     # form scaffolding that stays English by contract
@@ -140,17 +140,23 @@ def main():
             continue
         form_text = form.group(1)
 
-        # Slice the form on its own field headers rather than with a lookahead
-        # per field. A lookahead whose leading \s* swallowed the blank line
-        # between fields read the *next* field's value and reported an empty
-        # field as filled, which is the one failure this check exists to catch.
-        # The header pattern tolerates a parenthetical suffix, e.g. "(EN)".
-        headers = [(m.start(), m.end(), m.group(1).strip())
-                   for m in re.finditer(
-                       r"^([А-ЯЁA-Z][^\n:()]*?)\s*(?:\([^)]*\))?\s*:", form_text, re.M)]
+        # Anchor on the known field names rather than on a generic header
+        # pattern. Two earlier versions got this wrong in opposite directions:
+        # a per-field lookahead swallowed the blank line and read the next
+        # field's value, and a generic "^Capitalised…:" pattern matched ordinary
+        # Russian prose — "три ответа: да, нет и…" is a sentence, not a header —
+        # which truncated the field above it to nothing. The field set is fixed,
+        # so discovery buys nothing and only invents failure modes.
+        # A parenthetical suffix is tolerated, e.g. "Черновик хука (EN):".
+        marks = []
+        for field in REQUIRED_FIELDS:
+            fm = re.search(rf"^{re.escape(field)}[^:\n]*:", form_text, re.M)
+            if fm:
+                marks.append((fm.start(), fm.end(), field))
+        marks.sort()
         found = {}
-        for i, (s, e, name) in enumerate(headers):
-            stop = headers[i + 1][0] if i + 1 < len(headers) else len(form_text)
+        for i, (s, e, name) in enumerate(marks):
+            stop = marks[i + 1][0] if i + 1 < len(marks) else len(form_text)
             found[name] = form_text[e:stop].strip()
 
         for field in REQUIRED_FIELDS:
