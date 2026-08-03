@@ -210,6 +210,15 @@ has been made worse to satisfy a number.
 The warning is still worth reading. It is how you notice a slide that genuinely
 holds nothing. Look at the render and decide which of the two you have.
 
+**Amendment, after three coloured decks.** "Scale once and stop" assumes the
+starting size is right. Three coloured posts in a row put a lone statement
+`.pull` in the low thirties at the family's 48px and each one worked around it
+in its own `styles.css`. That is not three unlucky posts; that is a system size
+that is wrong. The family's `.pull` is now 56px at a 24ch measure, and the next
+deck should need no override at all. **When you find yourself writing the same
+per-post override for the third time, the fix belongs upstream** — the per-post
+version is invisible to every future run.
+
 A defect earns a rule when it has appeared **twice**. Once is bad luck; twice is a pattern the next run will hit too.
 
 Write it in the same shape as the rules above: what broke, what it looked like, the rule, what it cost. Then delete the corresponding line from the run log — it has been promoted from anecdote to rule and does not need to live in both places.
