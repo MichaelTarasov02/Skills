@@ -442,6 +442,32 @@ html, body {
 [data-theme="graphite"] .display { font-size: 116px; letter-spacing: -0.024em; }
 [data-theme="graphite"] .h1 { font-size: 84px; }
 
+/* GRAPHITE is the sparsest type and never got a scale block, because it existed
+   before playbook §12 was written. The components are tuned for the dense theme,
+   so at an 18-40 word budget a graphite slide measured 24-51% fill across a whole
+   deck. It needs a bigger lift than the coloured family for the same reason its
+   budget is lower: there are fewer words on the artboard doing the same job.
+   These stay above section 20, so the single-page reductions still win. */
+[data-theme="graphite"] .h2 { font-size: 72px; }
+[data-theme="graphite"] .lede { font-size: 36px; max-width: 30ch; }
+[data-theme="graphite"] .body { font-size: 36px; }
+[data-theme="graphite"] .small { font-size: 28px; }
+[data-theme="graphite"] .pull { font-size: 62px; max-width: 22ch; }
+[data-theme="graphite"] .card > .core { padding: var(--s6); }
+[data-theme="graphite"] .pair .side { padding: var(--s5); }
+[data-theme="graphite"] .pair .ttl { font-size: 46px; }
+[data-theme="graphite"] .pair li { font-size: 29px; padding: 18px 0; }
+[data-theme="graphite"] .ledger .row { padding: var(--s5) 0; }
+[data-theme="graphite"] .ledger .v { font-size: 36px; }
+[data-theme="graphite"] .ledger .k { font-size: 19px; }
+[data-theme="graphite"] .checks .check { padding: var(--s5); }
+[data-theme="graphite"] .checks .ct { font-size: 36px; }
+[data-theme="graphite"] .checks .cn { font-size: 24px; }
+[data-theme="graphite"] .scale .arm { padding: var(--s4) var(--s5); }
+[data-theme="graphite"] .scale .arm .at { font-size: 34px; }
+[data-theme="graphite"] .callout { padding: var(--s4) var(--s6); }
+/* the nowrap pipeline is excluded here too: playbook §4 counter-rule. */
+
 /* COBALT sits between the two densities. The component sizes are tuned for the
    dense theme, so at a mid word budget a cobalt slide reads thin: two separate
    decks measured 34-49% fill across almost every body slide. It compensates the
