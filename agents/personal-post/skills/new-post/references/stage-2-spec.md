@@ -53,13 +53,39 @@ Carousel depth:   <depth> (B=<n>) → <n> slides
 
 Padding a thin idea to 12 slides is the failure this rule prevents. Seven honest slides beat twelve padded ones. If Stage 3 merges or drops beats, come back and correct this line — a spec that disagrees with its own deck is worse than either alone.
 
-## The caption
+## The captions — two of them, in their own file
 
-When the visual decision is `recommended` or `required`, the caption is a **short overview**, not a compressed carousel. It introduces the tension, says what the carousel covers, and asks one specific question. It must not enumerate what the slides already show — a reader who sees the same list twice learns the post has nothing more to give.
+Produce `Post Copy.md` alongside the specification. It holds both versions, because the author chooses the publishing format after seeing the output:
 
-When the decision is `none`, the caption carries the whole argument.
+```markdown
+# <Post Name> — copy for LinkedIn
 
-Length comes from the profile (`caption_min`/`caption_max`). Formatting: no markdown headings, no labels like "Hook:", blank lines between paragraphs, most paragraphs one sentence, pasteable straight into the platform.
+## Carousel version
+<one line on when to use this>
+
+```text
+<full caption>
+```
+
+## Single-page version
+<one line on when to use this>
+
+```text
+<short caption>
+```
+```
+
+**Carousel version.** A short overview, not a compressed carousel. It introduces the tension, says what the deck covers, and asks one specific question. It must not enumerate what the slides already show — a reader who sees the same list twice learns the post has nothing more to give. Length from `caption_min`/`caption_max`.
+
+**Single-page version.** Roughly half the length, from `caption_short_min`/`caption_short_max`. The single artboard already carries the hook, the structural object, the proof beats and the closing question. So this caption does one job: give the reader a reason to look at the image, and ask the question. It does not restate what is legible on the artboard. Cut the setup, keep the sharpest sentence and the question.
+
+Both are written to the same standard. The short one is not a truncation of the long one — a truncated caption ends mid-argument. Write it as its own piece.
+
+When the visual decision is `none`, produce only the carousel version and say in the file that there is no single-page variant because there is no artboard.
+
+**The specification does not repeat either caption.** Its `## Copy-Ready LinkedIn Post` section carries a pointer to `Post Copy.md` and a one-line summary of the two lengths. `verify_spec.py` reads the captions from the file when it exists.
+
+Formatting, both versions: no markdown headings, no labels like "Hook:", blank lines between paragraphs, most paragraphs one sentence, pasteable straight into the platform.
 
 ## Discussion strategy
 

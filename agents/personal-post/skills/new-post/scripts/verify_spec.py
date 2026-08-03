@@ -97,6 +97,8 @@ def main():
     cfg = load_config(md.parent)
     cap_min = int(cfg.get("caption_min", 600))
     cap_max = int(cfg.get("caption_max", 1100))
+    short_min = int(cfg.get("caption_short_min", 250))
+    short_max = int(cfg.get("caption_short_max", 600))
     watchlist = cfg.get("watchlist", DEFAULT_WATCHLIST)
 
     text = md.read_text()
@@ -108,32 +110,55 @@ def main():
         problems.append(f"missing sections ({len(missing)}): {', '.join(missing)}")
     notes.append(f"sections: {len(REQUIRED_SECTIONS)-len(missing)}/{len(REQUIRED_SECTIONS)}")
 
-    # --- the caption -------------------------------------------------------
-    m = re.search(r"## Copy-Ready LinkedIn Post\s*\n+```text\n(.*?)\n```", text, re.S)
-    if not m:
-        problems.append("no fenced copy-ready caption found")
-        caption = ""
-    else:
-        caption = m.group(1).strip()
-        chars, words = len(caption), len(caption.split())
-        notes.append(f"caption: {chars} chars / {words} words")
-        if not (cap_min <= chars <= cap_max):
-            problems.append(
-                f"caption {chars} chars is outside the {cap_min}-{cap_max} band")
+    # --- the captions ------------------------------------------------------
+    # `Post Copy.md` is the source of truth when it exists: it carries the long
+    # carousel caption and the short single-page caption, and the specification
+    # points at it instead of holding a second copy. Posts written before that
+    # file existed keep their caption fenced inside the spec, so the in-spec
+    # form stays valid — a check that fails on a shipped post is a broken check,
+    # not a finding.
+    copy_file = md.parent / "Post Copy.md"
 
-        hits = [w for w in watchlist if w.lower() in caption.lower()]
+    def audit(label, cap, lo, hi):
+        chars, words = len(cap), len(cap.split())
+        notes.append(f"{label}: {chars} chars / {words} words")
+        if not (lo <= chars <= hi):
+            problems.append(f"{label} {chars} chars is outside the {lo}-{hi} band")
+        hits = [w for w in watchlist if w.lower() in cap.lower()]
         if hits:
-            problems.append(f"watchlist words in caption: {', '.join(hits)}")
-
+            problems.append(f"watchlist words in {label}: {', '.join(hits)}")
         for pat, why in BANNED_PATTERNS:
-            if re.search(pat, caption, re.I | re.M):
-                problems.append(f"banned construction in caption: {why}")
-
-        # A caption should ask at most one question, at the end.
-        qs = [l for l in caption.split("\n") if l.strip().endswith("?")]
+            if re.search(pat, cap, re.I | re.M):
+                problems.append(f"banned construction in {label}: {why}")
+        qs = [l for l in cap.split("\n") if l.strip().endswith("?")]
         if len(qs) > 1:
             problems.append(
-                f"{len(qs)} questions in caption — rhetorical setups read as AI-written")
+                f"{len(qs)} questions in {label} — rhetorical setups read as AI-written")
+
+    caption = ""
+    if copy_file.exists():
+        ctext = copy_file.read_text()
+        notes.append("captions read from Post Copy.md")
+        pairs = [("carousel caption", r"##\s*Carousel version.*?\n+```text\n(.*?)\n```",
+                  cap_min, cap_max),
+                 ("single-page caption", r"##\s*Single-page version.*?\n+```text\n(.*?)\n```",
+                  short_min, short_max)]
+        for label, pat, lo, hi in pairs:
+            cm = re.search(pat, ctext, re.S | re.I)
+            if not cm:
+                problems.append(f"Post Copy.md: no fenced {label} found")
+                continue
+            cap = cm.group(1).strip()
+            if label.startswith("carousel"):
+                caption = cap
+            audit(label, cap, lo, hi)
+    else:
+        m = re.search(r"## Copy-Ready LinkedIn Post\s*\n+```text\n(.*?)\n```", text, re.S)
+        if not m:
+            problems.append("no fenced copy-ready caption found, and no Post Copy.md")
+        else:
+            caption = m.group(1).strip()
+            audit("caption", caption, cap_min, cap_max)
 
     # --- invented engagement metrics ---------------------------------------
     for i, line in enumerate(text.split("\n"), 1):

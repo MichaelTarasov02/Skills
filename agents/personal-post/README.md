@@ -12,7 +12,8 @@ You give it an idea. It gives you a folder you can publish from.
 
 ```
 Posts/The Junior Learning Ladder/
-├── Post Specification.md      ← strategy + the caption, ready to paste
+├── Post Specification.md      ← strategy, structure, risk notes
+├── Post Copy.md               ← both captions, ready to paste
 └── Visual/
     └── exports/
         ├── carousel.pdf       ← upload this as a document post
@@ -77,7 +78,7 @@ Then:
 | `new-post` | The pipeline. Idea → spec → carousel → export. |
 | `setup-author` | Creates your profile and voice guide. Run once. |
 | `review-post` | QA an existing post. Run before publishing. |
-| `post-ideas` | Builds a topic bank with verified sources and an angle per topic. |
+| `new-ideas` | Interviews you, then produces a few post ideas, each a complete form ready to hand to `new-post`. |
 
 ## Options
 
@@ -127,7 +128,7 @@ personal-post/
 │   │   └── assets/                     the CSS and the example profile
 │   ├── setup-author/SKILL.md
 │   ├── review-post/SKILL.md
-│   └── post-ideas/SKILL.md
+│   └── new-ideas/SKILL.md
 └── README.md
 ```
 

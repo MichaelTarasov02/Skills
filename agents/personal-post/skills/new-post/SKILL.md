@@ -80,7 +80,8 @@ Stage 3 is conditional. If the spec's `Visual decision` is `none`, the post is t
 
 ```
 <output_dir>/<Post Name>/
-├── Post Specification.md        ← the caption lives inside this, in its own section
+├── Post Specification.md        ← strategy, structure, risk notes
+├── Post Copy.md                 ← what gets pasted into LinkedIn, both versions
 └── Visual/                      ← only when the spec calls for a visual
     ├── system.css                ← copy of the plugin's visual-system.css
     ├── styles.css               ← this post's one bespoke object
@@ -93,7 +94,14 @@ Stage 3 is conditional. If the spec's `Visual decision` is `none`, the post is t
         └── slide-NN.png
 ```
 
-No separate text file, no brief snapshot, no registry entry. The spec already contains the caption; a second copy is a second thing to keep in sync, and it always drifts.
+`Post Copy.md` carries **two** captions, because the author decides at publishing time which format to post:
+
+- **Carousel version** — the full caption. The deck spreads the argument across slides, so the caption has room to set up the tension and point at the deck.
+- **Single-page version** — short. The one artboard already carries the hook, the object, the beats and the question, so a long caption repeats what the reader can see. Roughly half the length.
+
+**That file is the source of truth for both.** The specification's `## Copy-Ready LinkedIn Post` section points at it and does not restate either caption. This is deliberate: two copies of the same text drift, and the drift is invisible until the wrong one gets published.
+
+No brief snapshot, no registry entry, no third copy anywhere.
 
 ## Verification — run the scripts, do not eyeball
 

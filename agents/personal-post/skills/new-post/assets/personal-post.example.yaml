@@ -58,8 +58,13 @@ cobalt_words: 28-55
 # ---------------------------------------------------------------------------
 # Copy rules
 # ---------------------------------------------------------------------------
-caption_min: 600                    # characters, carousel-first overview caption
+# Two captions per post, in Post Copy.md. The long one runs under a carousel,
+# where the deck carries the argument. The short one runs under a single page,
+# where the artboard already says most of it.
+caption_min: 600                    # characters, carousel caption
 caption_max: 1100
+caption_short_min: 250              # characters, single-page caption
+caption_short_max: 600
 
 language:
   post: American English            # what ships

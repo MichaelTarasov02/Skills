@@ -10,7 +10,7 @@
       "name": "conductor",
       "source": "./agents/conductor",
       "description": "Picks the right skills for your request before doing the work, then executes while showing which skill it applied at each phase. Includes a deeper mode that writes a phased prompt first.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Michael Tarasov"
       },
@@ -43,7 +43,7 @@
       "name": "personal-post",
       "source": "./agents/personal-post",
       "description": "Turns one raw idea into a publish-ready personal LinkedIn post: a specification with copy-ready caption, plus a themed carousel and single-page visual exported to PDF and PNG.",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "author": {
         "name": "Michael Tarasov"
       },
