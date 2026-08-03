@@ -32,9 +32,10 @@ Dense: this is the type with the largest element count per slide. Word budget **
 
 ## Texture and framing
 
-**Texture** — a fine woven hatch at 10px pitch, the grain of a sheet of paper — plus **corner brackets** in navy. Grain drops to `0.028`: on pure white, texture that reads as considered on cream reads as dirt.
+**Texture** — a woven hatch drawn at 18 units and shown at 14px, the grain of a sheet of paper — plus **corner brackets** in navy. Film grain drops to `0.028`: on pure white, texture that reads as considered on cream reads as dirt.
 
-Every type carries a pattern and no two carry the same one. Ivory's is the quietest of the five, because a memo is the one field where the surface must never compete with the copy.
+**The pattern rule, shared by every type.** A background is something the reader *can* notice and like, never something they have to read past. Opacity stays in the 0.045–0.055 band for all five types, and density does the other half of the work: a sparse motif at low opacity reads as unfinished, while a dense one at the same opacity reads as a worked surface. **When a pattern looks badly drawn, add detail and shrink the tile before touching opacity.** Several patterns are drawn in a larger coordinate space than they are displayed in, because the reduction is what makes detail fine rather than merely small.
+
 
 ## Component bias
 

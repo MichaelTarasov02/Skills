@@ -30,7 +30,10 @@ Sparse: the smallest element count of any type. Word budget **18–40 per slide*
 
 ## Texture and framing
 
-**Bubbles** — scattered discs of uneven radius — over a cold glow from the upper left, plus grain at `0.05`. On a near-black field the discs read as stars, which is the register the whole theme is named for. No brackets.
+**Bubbles** — twenty-six discs of uneven radius on a 74px tile, over a cold glow from the upper left, plus film grain at `0.05`. On a near-black field a dense field of small discs reads as stars, which is the register the whole theme is named for. An earlier version used fourteen larger discs and read as blobs. No brackets.
+
+**The pattern rule, shared by every type.** A background is something the reader *can* notice and like, never something they have to read past. Opacity stays in the 0.045–0.055 band for all five types, and density does the other half of the work: a sparse motif at low opacity reads as unfinished, while a dense one at the same opacity reads as a worked surface. **When a pattern looks badly drawn, add detail and shrink the tile before touching opacity.** Several patterns are drawn in a larger coordinate space than they are displayed in, because the reduction is what makes detail fine rather than merely small.
+
 
 The cast is deliberate and it is close to the coloured family's territory. It was checked on a rendered artboard: cobalt is far lighter and far more saturated, so the two do not blur at feed size. If a future palette change moves either one, re-check that pair before shipping.
 

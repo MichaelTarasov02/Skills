@@ -42,15 +42,19 @@ Medium density between ivory and graphite: word budget **28–55 per slide** (`c
 
 **Each colour carries its own pattern.** The family used to share one ruled grid, which made three saturated fields look like one theme in three tints and read as graph paper rather than as surface.
 
-| Type | Pattern | Reads as |
-|---|---|---|
-| `cobalt` | topography — nested irregular contours | a survey drawing |
-| `green` | hideout — small crosses on a regular beat | quiet marking |
-| `cherry` | jupiter — an ornamental lattice | the loudest field |
+| Type | Pattern | Drawn at | Shown at | Reads as |
+|---|---|---|---|---|
+| `cobalt` | topography — four hills of nested contours plus three ridges | 300 | 200px | a survey drawing |
+| `green` | hideout — crosses and points | 64 | 38px | quiet marking |
+| `cherry` | jupiter — cross, ring, diamond and corner marks | 96 | 44px | the loudest field |
 
-Corner brackets render in the ink colour like registration marks. Grain at `0.05`.
+Corner brackets render in the ink colour like registration marks. Film grain at `0.05`.
 
-Cobalt's contours were rebuilt once: the first version used regular sine chains, which rendered as smooth waves and gave the tile repeat away. A contour map is mostly closed loops of uneven radius, and that is what it is now.
+**The pattern rule, shared by every type.** A background is something the reader *can* notice and like, never something they have to read past. Opacity stays in the 0.045–0.055 band for all five types, and density does the other half of the work: a sparse motif at low opacity reads as unfinished, while a dense one at the same opacity reads as a worked surface. **When a pattern looks badly drawn, add detail and shrink the tile before touching opacity.** Several patterns are drawn in a larger coordinate space than they are displayed in, because the reduction is what makes detail fine rather than merely small.
+
+Cobalt's contours have been rebuilt twice, and both failures are worth keeping. The first used regular sine chains, which rendered as smooth waves and gave the tile repeat away. The second was correct in shape but too sparse: three hills of four rings at 300px read as a few stray ovals rather than as terrain, which is what "badly drawn" looks like on a faint pattern. Four hills of five and six rings at a tighter nesting ratio fixed it without raising opacity at all.
+
+Cherry started at 64px and `.10` and pulled attention straight off the copy. Its lattice is now drawn at 96 units with fourteen elements and shown at 44px.
 
 ## Component bias
 
