@@ -483,6 +483,14 @@ html, body {
    styles.css. A fix applied three times in three posts is a system size
    that is wrong, not three posts that were unlucky. */
 [data-theme="cobalt"] .pull, [data-theme="green"] .pull, [data-theme="cherry"] .pull { font-size: 56px; max-width: 24ch; }
+
+/* Ivory never received a .pull size and inherited the 42px base, which is
+   smaller than ivory's own .h2. The memo type asserts with structure rather
+   than volume, so it does not want graphite's 62px, but a lone statement slide
+   at 42px measured 32% fill and read as a caption floating on a white sheet.
+   Same shape of defect as graphite's missing scale block: a type that predates
+   a rule quietly keeps the generic default. */
+[data-theme="ivory"] .pull { font-size: 58px; max-width: 24ch; }
 [data-theme="cobalt"] .card > .core, [data-theme="green"] .card > .core, [data-theme="cherry"] .card > .core { padding: var(--s5); }
 [data-theme="cobalt"] .pair .side, [data-theme="green"] .pair .side, [data-theme="cherry"] .pair .side { padding: var(--s5); }
 [data-theme="cobalt"] .pair .ttl, [data-theme="green"] .pair .ttl, [data-theme="cherry"] .pair .ttl { font-size: 42px; }

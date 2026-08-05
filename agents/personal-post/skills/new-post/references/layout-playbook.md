@@ -196,6 +196,14 @@ block at all.** Grep `visual-system.css` for the type name. A missing block is a
 system defect wearing a post's clothes, and fixing it in the post leaves every
 future deck in that type to rediscover the same thing.
 
+**Second amendment, from ivory's `.pull`.** The same shape turned up again in a
+different property. Ivory never received a `.pull` size and inherited the 42px
+base, which is smaller than ivory's own `.h2`, so a lone statement slide measured
+32% and read as a caption floating on a white sheet. Graphite has a `.pull` size,
+the coloured family has one, ivory did not. **The check is not "does this type
+have a scale block" but "does this type have a value for the property I am about
+to override in a post".** If the answer is no, the fix belongs in the system.
+
 ---
 
 ## 13. A centred single-object slide fills lower than a top-flow slide, and that is correct
