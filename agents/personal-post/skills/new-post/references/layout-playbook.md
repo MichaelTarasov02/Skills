@@ -240,6 +240,15 @@ deck should need no override at all. **When you find yourself writing the same
 per-post override for the third time, the fix belongs upstream** — the per-post
 version is invisible to every future run.
 
+**Second amendment, and it is the more useful one.** Raising the size once did
+not settle it. After the coloured family went 48px → 56px, the next three decks
+measured 28%, 32% and 29% on a lone statement slide, so the first fix had moved
+the number without moving the composition. **A system size raised in response to
+a defect has to be re-measured on the next deck, or you have shipped a smaller
+version of the same defect.** The family is now 72px at a 20ch measure, checked
+against a deck that had needed a 76px per-post override, and ivory received its
+own 58px in the same sweep after inheriting the generic 42px base.
+
 ---
 
 ## 14. Overlapping elements are invisible to every check in this system
@@ -318,6 +327,24 @@ assert right_side_links == 0, "links survive past the cutoff"
 Then look at the render and ask one question: **if I read only the drawing, what
 does it say?** If that is not the thesis, the object is wrong no matter how the
 code looks.
+
+---
+
+## 17. A per-post rule that silently does nothing
+
+**Cost: two runs, in two different ways, and neither was visible in any check.**
+
+Per-post CSS fails silently in two shapes, and both look identical from the outside: the slide simply does not change.
+
+**The selector never matched.** A margin note was styled as `.script .hand`, but the note was a *sibling* of the object rather than a descendant, so the rule was dead and the text rendered in body ink.
+
+**The selector matched and lost.** A thin callout slide was fixed by setting `font-size` on `.callout`. The rule applied to the box, and the `<p class="body">` inside carried its own size from the theme's scale block, so a more specific rule on the child beat the inherited one on the parent. Nothing moved.
+
+Neither is an error. The stylesheet is valid, the export succeeds, every gate passes, and the slide is exactly as wrong as it was before.
+
+**Rule: after writing a per-post override, confirm the number moved.** Re-export and re-measure before you decide the fix worked. A fill percentage that is unchanged to the point after an override is the override telling you it did not apply. Then check the two shapes in order: is the element actually a descendant of what you scoped to, and does a more specific rule set the same property further down?
+
+This is the third member of the family that includes §14 and §15: **the things this system cannot see are the things inside a post's own drawing and a post's own stylesheet.** Everything else has a gate.
 
 ---
 

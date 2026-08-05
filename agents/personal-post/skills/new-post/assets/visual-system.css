@@ -478,11 +478,15 @@ html, body {
 [data-theme="cobalt"] .lede, [data-theme="green"] .lede, [data-theme="cherry"] .lede { font-size: 34px; max-width: 32ch; }
 [data-theme="cobalt"] .body, [data-theme="green"] .body, [data-theme="cherry"] .body { font-size: 32px; }
 [data-theme="cobalt"] .small, [data-theme="green"] .small, [data-theme="cherry"] .small { font-size: 26px; }
-/* 56px, not 48px. Three coloured decks in a row put a lone statement .pull
-   in the low thirties at 48px and each one worked around it in its own
-   styles.css. A fix applied three times in three posts is a system size
-   that is wrong, not three posts that were unlucky. */
-[data-theme="cobalt"] .pull, [data-theme="green"] .pull, [data-theme="cherry"] .pull { font-size: 56px; max-width: 24ch; }
+/* 72px. This size has now been raised twice, and the second time is the one
+   worth reading. 48px put three coloured decks in the low thirties, so it went
+   to 56px with a 24ch measure. The next three decks measured 28%, 32% and 29%
+   on a lone statement slide, which means 56px did not fix it either: it moved
+   the number without moving the composition. A ten-to-fourteen word statement
+   needs display weight to hold an artboard, not body-plus weight. At 76px a
+   cobalt deck read 40%, which is where §13 says a centred single-object slide
+   belongs. 72px at a 20ch measure is that, minus the per-post override. */
+[data-theme="cobalt"] .pull, [data-theme="green"] .pull, [data-theme="cherry"] .pull { font-size: 72px; max-width: 20ch; }
 
 /* Ivory never received a .pull size and inherited the 42px base, which is
    smaller than ivory's own .h2. The memo type asserts with structure rather

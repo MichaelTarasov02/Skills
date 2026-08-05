@@ -43,8 +43,13 @@ BANNED_PATTERNS = [
     (r"^\s*(thoughts|agree)\?\s*$", "generic engagement-bait CTA"),
 ]
 
+# The trailing \b matters more than it looks. Without it "view" matched inside
+# "viewBox", so any spec describing an SVG object was reported as carrying an
+# invented engagement figure. This system draws an SVG in almost every post.
 ENGAGEMENT_RE = re.compile(
-    r"\b[\d][\d\s,.]*\s*(impression|like|reach|view|follower|просмотр|лайк|охват)",
+    r"\b[\d][\d\s,.]*\s*"
+    r"(impressions?|likes?|reach|views?|followers?"
+    r"|просмотр\w*|лайк\w*|охват\w*|подписчик\w*)\b",
     re.I)
 
 
