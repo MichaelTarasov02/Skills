@@ -183,6 +183,19 @@ enlarging its nodes threw a frame overflow once already (§4's counter-rule).
 
 The cobalt block lifted a real deck from 37–52% to 49–66% with no added words.
 
+**Amendment, after the first graphite deck since the theme was rebuilt.** This rule
+says to give a *new* type a scale block, which quietly assumes the existing types
+already have one. Graphite predates the rule and never received it, so a ten-slide
+deck came in at 24–51% and the cause looked like the post rather than the system.
+It needed a larger lift than the coloured family, for the same reason its word
+budget is lower: fewer words are doing the same job on the artboard. With the block
+it reads 30–75%.
+
+**Before you adjust a post that reads thin, check whether its type has a scale
+block at all.** Grep `visual-system.css` for the type name. A missing block is a
+system defect wearing a post's clothes, and fixing it in the post leaves every
+future deck in that type to rediscover the same thing.
+
 ---
 
 ## 13. A centred single-object slide fills lower than a top-flow slide, and that is correct
@@ -219,6 +232,96 @@ deck should need no override at all. **When you find yourself writing the same
 per-post override for the third time, the fix belongs upstream** — the per-post
 version is invisible to every future run.
 
+---
+
+## 14. Overlapping elements are invisible to every check in this system
+
+**Cost: one run, and the deck exported with two words printed on top of each other.**
+
+Three tick labels on a measure were laid out as flex children, the last of them at
+`flex: 0 0 0` with a translated label. A zero-basis flex item reserves no width, so
+its neighbour ran straight through it and the exported slide read `SomebodyFixed.`
+as one word.
+
+Every gate passed. That is the part worth remembering: **every check in this system
+measures elements against the frame, and none measures elements against each other.**
+Overflow, cropping, fill ratio, word count, dangling separators — all of them are
+element-versus-artboard. Two elements occupying the same pixels is a defect class
+the scripts cannot see at all.
+
+**Rule: never position a label with a zero-basis flex item or a bare `transform`
+against a neighbour. Use absolute positioning inside a positioned parent**, where
+the coordinates are stated rather than negotiated. And when a bespoke object places
+text near other text, open the PNG and read the words. That is the only check there is.
+
+---
+
+## 15. Never hand-write an SVG arc flag
+
+**Cost: one run. The arrow exported with two thirds of it missing and every gate green.**
+
+A looping arrow was written as `A26 26 0 1 1` with hand-picked endpoints. An SVG arc
+does not take a centre; it solves for one from the radii and the two flags, there are
+two valid solutions, and the wrong flag order put the centre above the viewBox. What
+rendered was a third of the intended curve. Nothing overflowed, nothing was cropped,
+so nothing complained.
+
+**Rule: generate curved geometry as explicit points, and assert the extents before
+you paste it in.** A few lines of Python producing a polyline is faster than one
+round of guessing at flags, and the assertion is what turns a silent geometry bug
+into a failed script:
+
+```python
+pts = [(cx + r*cos(t), cy + r*sin(t)) for t in steps]
+assert all(0 <= x <= W and 0 <= y <= H for x, y in pts), "the curve leaves the viewBox"
+```
+
+This sits beside §14 for a reason. **Geometry inside a bespoke object is the one
+thing no script in this system checks**, so an invented drawing is the first place
+to look when a deck passes and still looks wrong.
+
+---
+
+## 16. An object that carries a claim through one variable holds every other variable still
+
+**Cost: one run, and the object argued the opposite of the post it illustrated.**
+
+The claim was that a team's work is connected when seen from inside and disconnected
+when seen from outside. The object faded link opacity from left to right, which was
+exactly right. It rendered arguing the reverse: sparse on the left, a dense web on
+the right, reading as *more* connected from outside.
+
+The links were correct. The **node density** was not held still. The generator
+dropped nodes at random, the left end came out sparse, the right end came out
+crowded, and crowding overwhelmed the fade. Two variables were moving and only one
+of them was the argument. A second cause sat underneath: an asymptotic fade
+(`1 - (x/W)^1.55`) never reaches zero, so faint links survived all the way to the
+right edge.
+
+**Rule: when an object encodes a claim through one visual variable, every other
+variable is held constant, and the generator asserts it.** Even spacing, uniform
+sizes, a hard cutoff rather than a fade that never quite lands. Write the assertion
+in the same breath as the geometry:
+
+```python
+assert right_side_links == 0, "links survive past the cutoff"
+```
+
+Then look at the render and ask one question: **if I read only the drawing, what
+does it say?** If that is not the thesis, the object is wrong no matter how the
+code looks.
+
+---
+
+## Adding to this file
+
 A defect earns a rule when it has appeared **twice**. Once is bad luck; twice is a pattern the next run will hit too.
 
-Write it in the same shape as the rules above: what broke, what it looked like, the rule, what it cost. Then delete the corresponding line from the run log — it has been promoted from anecdote to rule and does not need to live in both places.
+Write it in the same shape as the rules above: what broke, what it looked like, the rule, what it cost.
+
+**Then verify the rule is in this file before you report it as promoted.** Three
+rules — §14, §15 and §16 — were announced in the run log and in commit messages and
+were never written here. For three runs the playbook silently lagged the system that
+depends on it, and every one of those runs began without rules that had already been
+paid for. Open the file and read the new section. A rule that lives only in a run-log
+entry is an anecdote wearing a rule's number.
