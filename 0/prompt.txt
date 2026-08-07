@@ -1,0 +1,287 @@
+Base directory for this skill: /Users/mihail_tarasov/.claude/skills/find-skills
+
+# Find Skills
+
+This skill helps you discover and install skills from the open agent skills ecosystem.
+
+## When to Use This Skill
+
+Use this skill when the user:
+
+- Asks "how do I do X" where X might be a common task with an existing skill
+- Says "find a skill for X" or "is there a skill for X"
+- Asks "can you do X" where X is a specialized capability
+- Expresses interest in extending agent capabilities
+- Wants to search for tools, templates, or workflows
+- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+
+## What is the Skills CLI?
+
+The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+
+**Key commands:**
+
+- `npx skills find [query] [--owner <owner>]` - Search for skills interactively or by keyword, optionally scoped to a GitHub owner
+- `npx skills add <package>` - Install a skill from GitHub or other sources
+- `npx skills check` - Check for skill updates
+- `npx skills update` - Update all installed skills
+
+**Browse skills at:** https://skills.sh/
+
+## How to Help Users Find Skills
+
+### Step 1: Understand What They Need
+
+When a user asks for help with something, identify:
+
+1. The domain (e.g., React, testing, design, deployment)
+2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
+3. Whether this is a common enough task that a skill likely exists
+
+### Step 2: Check the Leaderboard First
+
+Before running a CLI search, check the [skills.sh leaderboard](https://skills.sh/) to see if a well-known skill already exists for the domain. The leaderboard ranks skills by total installs, surfacing the most popular and battle-tested options.
+
+For example, top skills for web development include:
+- `vercel-labs/agent-skills` — React, Next.js, web design (100K+ installs each)
+- `anthropics/skills` — Frontend design, document processing (100K+ installs)
+
+### Step 3: Search for Skills
+
+If the leaderboard doesn't cover the user's need, run the find command:
+
+```bash
+npx skills find [query] [--owner <owner>]
+```
+
+For example:
+
+- User asks "how do I make my React app faster?" → `npx skills find react performance`
+- User asks "can you help me with PR reviews?" → `npx skills find pr review`
+- User asks "I need to create a changelog" → `npx skills find changelog`
+
+### Step 4: Verify Quality Before Recommending
+
+**Do not recommend a skill based solely on search results.** Always verify:
+
+1. **Install count** — Prefer skills with 1K+ installs. Be cautious with anything under 100.
+2. **Source reputation** — Official sources (`vercel-labs`, `anthropics`, `microsoft`) are more trustworthy than unknown authors.
+3. **GitHub stars** — Check the source repository. A skill from a repo with <100 stars should be treated with skepticism.
+
+### Step 5: Present Options to the User
+
+When you find relevant skills, present them to the user with:
+
+1. The skill name and what it does
+2. The install count and source
+3. The install command they can run
+4. A link to learn more at skills.sh
+
+Example response:
+
+```
+I found a skill that might help! The "react-best-practices" skill provides
+React and Next.js performance optimization guidelines from Vercel Engineering.
+(185K installs)
+
+To install it:
+npx skills add vercel-labs/agent-skills@react-best-practices
+
+Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
+```
+
+### Step 6: Offer to Install
+
+If the user wants to proceed, you can install the skill for them:
+
+```bash
+npx skills add <owner/repo@skill> -g -y
+```
+
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+
+## Common Skill Categories
+
+When searching, consider these common categories:
+
+| Category        | Example Queries                          |
+| --------------- | ---------------------------------------- |
+| Web Development | react, nextjs, typescript, css, tailwind |
+| Testing         | testing, jest, playwright, e2e           |
+| DevOps          | deploy, docker, kubernetes, ci-cd        |
+| Documentation   | docs, readme, changelog, api-docs        |
+| Code Quality    | review, lint, refactor, best-practices   |
+| Design          | ui, ux, design-system, accessibility     |
+| Productivity    | workflow, automation, git                |
+
+## Tips for Effective Searches
+
+1. **Use specific keywords**: "react testing" is better than just "testing"
+2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
+3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
+
+## When No Skills Are Found
+
+If no relevant skills exist:
+
+1. Acknowledge that no existing skill was found
+2. Offer to help with the task directly using your general capabilities
+3. Suggest the user could create their own skill with `npx skills init`
+
+Example:
+
+```
+I searched for skills related to "xyz" but didn't find any matches.
+I can still help you with this task directly! Would you like me to proceed?
+
+If this is something you do often, you could create your own skill:
+npx skills init my-xyz-skill
+```
+
+
+ARGUMENTS: Ты — навигатор по моей личной библиотеке скиллов. Твоя работа — прочитать мою
+задачу и вернуть от 1 до 5 наиболее подходящих скиллов.
+
+## Источники (сверяйся с ними, НЕ выдумывай скиллы)
+Моя библиотека скиллов постоянно расширяется — НЕ полагайся на фиксированное число
+и не утверждай, сколько их установлено. Источник истины — сами папки скиллов на диске.
+
+1. Живая библиотека (главный источник, всегда актуальный): папки `*/SKILL.md` в
+   корне `/Users/mihail_tarasov/Codex/Skills`. У каждого скилла во frontmatter есть
+   `name` и `description`. Просканируй их (например: перечисли `*/SKILL.md` и прочитай
+   поля `name`/`description`), чтобы собрать актуальный набор кандидатов под задачу.
+2. `graphify-out/SKILLS_CHEATSHEET.md` — кураторские best-of-breed по сферам,
+   таблица дедупликации («когда несколько скиллов делают одно — бери этот») и готовые
+   цепочки. Удобно для выбора, НО это снимок — может отставать от новых скиллов;
+   поэтому всегда сверяй его с живой библиотекой (п.1).
+3. `graphify-out/graph.json` + `graphify-out/.skill_catalog.txt` — снимок со связями
+   (`links`), категориями и god-nodes (тоже может отставать). Опционально:
+   `graphify query "<моя задача>"` — обход графа по релевантным узлам.
+
+Прежде чем рекомендовать скилл, убедись, что папка `<id>/SKILL.md` реально существует.
+
+## Как думать (сделай это про себя, потом выдай только результат)
+1. Классифицируй мою задачу: к какой сфере/сферам она относится.
+2. Собери кандидатов: просканируй живую библиотеку (п.1) + сверься с cheat sheet.
+3. Определи, из скольких РАЗНЫХ подзадач состоит моя задача. Один скилл — на одну
+   подзадачу.
+4. Убери дубли: если два кандидата делают по сути одно и то же — оставь ОДНОГО
+   лучшего (по таблице дедупликации в cheat sheet; при отсутствии — по
+   центральности ⚡ и популярности 🔥). В итоговом списке не должно быть двух
+   скиллов с одинаковой функцией.
+5. Отранжируй по: (а) релевантность задаче → (б) ⚡ центральность в графе →
+   (в) 🔥 популярность на skills.sh.
+6. Оставь 1–5 штук. Меньше — лучше, если задача простая. Не добивай до пяти ради
+   числа.
+7. Оцени ПОКРЫТИЕ: реально ли отобранные скиллы двигают мою задачу вперёд?
+   - Хорошее покрытие → выдай результат в обычном формате.
+   - Пробел (ничего толком не нашлось; ЛИБО есть 1–2, но они закрывают задачу
+     лишь частично / по касательной) → переключись в «Режим пробела» ниже.
+
+## Формат ответа (строго так)
+Сначала одна строка: **Тип задачи:** <краткая классификация>.
+Затем нумерованный список (1–5), для каждого скилла:
+
+**N. `skill-id`** — что делает (одна фраза).
+   ↳ *Зачем в этой задаче:* почему именно он подходит и какую подзадачу закрывает.
+   ↳ *Вызов:* `/skill-id`
+
+Если задача многошаговая — после списка добавь строку **Порядок:**
+`skill-a` → `skill-b` → `skill-c`.
+
+Если ни один скилл толком не подходит — честно скажи об этом и предложи 1
+ближайший вариант или подходящую внешнюю тактику. Не притягивай нерелевантное.
+
+## Режим пробела: в библиотеке нет хорошего решения
+Включается, когда установленные скиллы НЕ закрывают мою задачу (или закрывают
+слабо). Тогда:
+
+1. Сначала честно скажи, что есть в библиотеке: «Из установленного реально поможет
+   только `X` (для …)» — или «В твоей библиотеке подходящего нет».
+2. Затем сходи в каталог **https://www.skills.sh/** (WebFetch/поиск по сайту)
+   и подбери 1–3 скилла, которых мне НЕ хватает под эту конкретную задачу.
+   Бери реальные записи из каталога (нужен `owner/repo`), приоритет — по числу
+   установок 🔥.
+3. Выдай рекомендацию в таком виде:
+
+   **Из установленного используй:** `skill-a` — …, `skill-b` — … *(если есть)*
+   **Советую доустановить с skills.sh:**
+   - **`owner/repo`** (`skill-id`) 🔥N — что делает и **зачем именно для этой
+     задачи**. Установка: `npx skills add owner/repo`
+   - … (ещё до двух)
+
+   И спроси прямо: **«Установить их? Если да — я допишу их в репорт и подтяну
+   скриптом в библиотеку.»** На этом остановись и жди моего ответа.
+
+4. Когда я отвечу «да» (или «установил»):
+   a. Подскажи выполнить `npx skills add <owner/repo>` для каждого, если я ещё
+      не установил.
+   b. Из корня `/Users/mihail_tarasov/Codex/Skills` запусти `./sync-skills.sh`
+      (если новых скиллов там не окажется — повтори с `./sync-skills.sh --plugins`).
+   c. Проверь, что для каждого нового скилла появилась папка `<id>/SKILL.md`.
+      Пиши в репорт ТОЛЬКО реально появившиеся — никаких фантомов.
+   d. Допиши каждый новый скилл в `graphify-out/SKILLS_CHEATSHEET.md`: в
+      подходящую секцию-сферу одной строкой (`id` — что делает + пометка 🔥N,
+      «новый»); если он вытесняет существующий по функции — обнови и таблицу
+      дедупликации.
+   e. Кратко отчитайся: что установлено, что подтянуто, что дописано в репорт.
+
+Если я отвечу «нет» — ничего не устанавливай и не трогай файлы, просто продолжай
+работать тем, что есть.
+
+## Жёсткие правила
+- От 1 до 5 скиллов. Все — с РАЗНОЙ функцией, без дублей.
+- Только реально существующие скиллы (проверено по папкам `<id>/SKILL.md`). Скиллы
+  «на доустановку» бери исключительно из реального каталога skills.sh, с корректным
+  `owner/repo`.
+- Не привязывайся к числу скиллов и не называй его — библиотека растёт.
+- Не меняй файлы репозитория без моего «да» на установку.
+- Никаких выдуманных id и никаких «возможно подойдёт» — только обоснованные
+  попадания.
+
+## Пример (для калибровки формата)
+ЗАДАЧА: «Задизайнить и сверстать лендинг для SaaS с нуля, вместе с текстами.»
+
+Тип задачи: Фронтенд + UI-дизайн + маркетинговый копирайтинг.
+
+**1. `frontend-design`** — строит красивый, нешаблонный интерфейс с нуля.
+   ↳ *Зачем в этой задаче:* основной инструмент — собирает саму вёрстку и визуал лендинга.
+   ↳ *Вызов:* `/frontend-design`
+**2. `copywriting`** — пишет продающие, убеждающие тексты.
+   ↳ *Зачем в этой задаче:* закрывает тексты лендинга (заголовки, оффер, CTA).
+   ↳ *Вызов:* `/copywriting`
+**3. `web-design-guidelines`** — проверяет UI на соответствие лучшим гайдлайнам.
+   ↳ *Зачем в этой задаче:* ревью готовой вёрстки на типовые UX-ошибки.
+   ↳ *Вызов:* `/web-design-guidelines`
+**4. `accessibility-review`** — аудит доступности по WCAG (контраст, клавиатура, скринридеры).
+   ↳ *Зачем в этой задаче:* убедиться, что лендинг доступен и не потеряет часть аудитории.
+   ↳ *Вызов:* `/accessibility-review`
+
+Порядок: `copywriting` → `frontend-design` → `web-design-guidelines` → `accessibility-review`
+
+(Обрати внимание: сюда НЕ попали `refactoring-ui`, `redesign-existing-projects`,
+`ui-ux-pro-max` — они дублируют функцию `frontend-design`; и `stop-slop` — дублирует
+`copywriting`. По правилу «одна функция — один лучший скилл».)
+
+### Пример 2 (режим пробела)
+ЗАДАЧА: «Записать скринкаст с демо продукта и смонтировать его в короткий ролик.»
+
+Тип задачи: Запись экрана + видеомонтаж.
+
+Из установленного используй: `screenshot` — снимает статичные скриншоты экрана
+(частично поможет с превью, но не с видео).
+
+В твоей библиотеке полноценного видео-скилла нет. Советую доустановить с skills.sh:
+- **`remotion-dev/skills`** (`remotion-best-practices`) 🔥418K — программный
+  монтаж видео на React/Remotion. Зачем: соберёт и отрендерит сам ролик из демо.
+  Установка: `npx skills add remotion-dev/skills`
+- **`vercel-labs/agent-browser`** (`agent-browser`) 🔥531K — автоматизация
+  браузера. Зачем: прокликать сценарий демо для чистой записи. Установка:
+  `npx skills add vercel-labs/agent-browser`
+
+**Установить их? Если да — я допишу их в репорт и подтяну скриптом в библиотеку.**
+
+---
+Теперь моя реальная задача. Верни 1–5 скиллов по правилам выше.
+
+ЗАДАЧА: написать личный пост на linked in и сгенерировать визуал к нему
