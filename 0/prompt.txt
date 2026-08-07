@@ -1,0 +1,485 @@
+Base directory for this skill: /Users/mihail_tarasov/.claude/skills/find-skills
+
+# Find Skills
+
+This skill helps you discover and install skills from the open agent skills ecosystem.
+
+## When to Use This Skill
+
+Use this skill when the user:
+
+- Asks "how do I do X" where X might be a common task with an existing skill
+- Says "find a skill for X" or "is there a skill for X"
+- Asks "can you do X" where X is a specialized capability
+- Expresses interest in extending agent capabilities
+- Wants to search for tools, templates, or workflows
+- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+
+## What is the Skills CLI?
+
+The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+
+**Key commands:**
+
+- `npx skills find [query] [--owner <owner>]` - Search for skills interactively or by keyword, optionally scoped to a GitHub owner
+- `npx skills add <package>` - Install a skill from GitHub or other sources
+- `npx skills check` - Check for skill updates
+- `npx skills update` - Update all installed skills
+
+**Browse skills at:** https://skills.sh/
+
+## How to Help Users Find Skills
+
+### Step 1: Understand What They Need
+
+When a user asks for help with something, identify:
+
+1. The domain (e.g., React, testing, design, deployment)
+2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
+3. Whether this is a common enough task that a skill likely exists
+
+### Step 2: Check the Leaderboard First
+
+Before running a CLI search, check the [skills.sh leaderboard](https://skills.sh/) to see if a well-known skill already exists for the domain. The leaderboard ranks skills by total installs, surfacing the most popular and battle-tested options.
+
+For example, top skills for web development include:
+- `vercel-labs/agent-skills` — React, Next.js, web design (100K+ installs each)
+- `anthropics/skills` — Frontend design, document processing (100K+ installs)
+
+### Step 3: Search for Skills
+
+If the leaderboard doesn't cover the user's need, run the find command:
+
+```bash
+npx skills find [query] [--owner <owner>]
+```
+
+For example:
+
+- User asks "how do I make my React app faster?" → `npx skills find react performance`
+- User asks "can you help me with PR reviews?" → `npx skills find pr review`
+- User asks "I need to create a changelog" → `npx skills find changelog`
+
+### Step 4: Verify Quality Before Recommending
+
+**Do not recommend a skill based solely on search results.** Always verify:
+
+1. **Install count** — Prefer skills with 1K+ installs. Be cautious with anything under 100.
+2. **Source reputation** — Official sources (`vercel-labs`, `anthropics`, `microsoft`) are more trustworthy than unknown authors.
+3. **GitHub stars** — Check the source repository. A skill from a repo with <100 stars should be treated with skepticism.
+
+### Step 5: Present Options to the User
+
+When you find relevant skills, present them to the user with:
+
+1. The skill name and what it does
+2. The install count and source
+3. The install command they can run
+4. A link to learn more at skills.sh
+
+Example response:
+
+```
+I found a skill that might help! The "react-best-practices" skill provides
+React and Next.js performance optimization guidelines from Vercel Engineering.
+(185K installs)
+
+To install it:
+npx skills add vercel-labs/agent-skills@react-best-practices
+
+Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
+```
+
+### Step 6: Offer to Install
+
+If the user wants to proceed, you can install the skill for them:
+
+```bash
+npx skills add <owner/repo@skill> -g -y
+```
+
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+
+## Common Skill Categories
+
+When searching, consider these common categories:
+
+| Category        | Example Queries                          |
+| --------------- | ---------------------------------------- |
+| Web Development | react, nextjs, typescript, css, tailwind |
+| Testing         | testing, jest, playwright, e2e           |
+| DevOps          | deploy, docker, kubernetes, ci-cd        |
+| Documentation   | docs, readme, changelog, api-docs        |
+| Code Quality    | review, lint, refactor, best-practices   |
+| Design          | ui, ux, design-system, accessibility     |
+| Productivity    | workflow, automation, git                |
+
+## Tips for Effective Searches
+
+1. **Use specific keywords**: "react testing" is better than just "testing"
+2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
+3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
+
+## When No Skills Are Found
+
+If no relevant skills exist:
+
+1. Acknowledge that no existing skill was found
+2. Offer to help with the task directly using your general capabilities
+3. Suggest the user could create their own skill with `npx skills init`
+
+Example:
+
+```
+I searched for skills related to "xyz" but didn't find any matches.
+I can still help you with this task directly! Would you like me to proceed?
+
+If this is something you do often, you could create your own skill:
+npx skills init my-xyz-skill
+```
+
+
+ARGUMENTS: Ты — навигатор по моей личной библиотеке скиллов. Твоя работа — прочитать мою
+задачу и вернуть от 1 до 5 наиболее подходящих скиллов.
+
+## Источники (сверяйся с ними, НЕ выдумывай скиллы)
+Моя библиотека скиллов постоянно расширяется — НЕ полагайся на фиксированное число
+и не утверждай, сколько их установлено. Источник истины — сами папки скиллов на диске.
+
+1. Живая библиотека (главный источник, всегда актуальный): папки `*/SKILL.md` в
+   корне `/Users/mihail_tarasov/Codex/Skills`. У каждого скилла во frontmatter есть
+   `name` и `description`. Просканируй их (например: перечисли `*/SKILL.md` и прочитай
+   поля `name`/`description`), чтобы собрать актуальный набор кандидатов под задачу.
+2. `graphify-out/SKILLS_CHEATSHEET.md` — кураторские best-of-breed по сферам,
+   таблица дедупликации («когда несколько скиллов делают одно — бери этот») и готовые
+   цепочки. Удобно для выбора, НО это снимок — может отставать от новых скиллов;
+   поэтому всегда сверяй его с живой библиотекой (п.1).
+3. `graphify-out/graph.json` + `graphify-out/.skill_catalog.txt` — снимок со связями
+   (`links`), категориями и god-nodes (тоже может отставать). Опционально:
+   `graphify query "<моя задача>"` — обход графа по релевантным узлам.
+
+Прежде чем рекомендовать скилл, убедись, что папка `<id>/SKILL.md` реально существует.
+
+## Как думать (сделай это про себя, потом выдай только результат)
+1. Классифицируй мою задачу: к какой сфере/сферам она относится.
+2. Собери кандидатов: просканируй живую библиотеку (п.1) + сверься с cheat sheet.
+3. Определи, из скольких РАЗНЫХ подзадач состоит моя задача. Один скилл — на одну
+   подзадачу.
+4. Убери дубли: если два кандидата делают по сути одно и то же — оставь ОДНОГО
+   лучшего (по таблице дедупликации в cheat sheet; при отсутствии — по
+   центральности ⚡ и популярности 🔥). В итоговом списке не должно быть двух
+   скиллов с одинаковой функцией.
+5. Отранжируй по: (а) релевантность задаче → (б) ⚡ центральность в графе →
+   (в) 🔥 популярность на skills.sh.
+6. Оставь 1–5 штук. Меньше — лучше, если задача простая. Не добивай до пяти ради
+   числа.
+7. Оцени ПОКРЫТИЕ: реально ли отобранные скиллы двигают мою задачу вперёд?
+   - Хорошее покрытие → выдай результат в обычном формате.
+   - Пробел (ничего толком не нашлось; ЛИБО есть 1–2, но они закрывают задачу
+     лишь частично / по касательной) → переключись в «Режим пробела» ниже.
+
+## Формат ответа (строго так)
+Сначала одна строка: **Тип задачи:** <краткая классификация>.
+Затем нумерованный список (1–5), для каждого скилла:
+
+**N. `skill-id`** — что делает (одна фраза).
+   ↳ *Зачем в этой задаче:* почему именно он подходит и какую подзадачу закрывает.
+   ↳ *Вызов:* `/skill-id`
+
+Если задача многошаговая — после списка добавь строку **Порядок:**
+`skill-a` → `skill-b` → `skill-c`.
+
+Если ни один скилл толком не подходит — честно скажи об этом и предложи 1
+ближайший вариант или подходящую внешнюю тактику. Не притягивай нерелевантное.
+
+## Режим пробела: в библиотеке нет хорошего решения
+Включается, когда установленные скиллы НЕ закрывают мою задачу (или закрывают
+слабо). Тогда:
+
+1. Сначала честно скажи, что есть в библиотеке: «Из установленного реально поможет
+   только `X` (для …)» — или «В твоей библиотеке подходящего нет».
+2. Затем сходи в каталог **https://www.skills.sh/** (WebFetch/поиск по сайту)
+   и подбери 1–3 скилла, которых мне НЕ хватает под эту конкретную задачу.
+   Бери реальные записи из каталога (нужен `owner/repo`), приоритет — по числу
+   установок 🔥.
+3. Выдай рекомендацию в таком виде:
+
+   **Из установленного используй:** `skill-a` — …, `skill-b` — … *(если есть)*
+   **Советую доустановить с skills.sh:**
+   - **`owner/repo`** (`skill-id`) 🔥N — что делает и **зачем именно для этой
+     задачи**. Установка: `npx skills add owner/repo`
+   - … (ещё до двух)
+
+   И спроси прямо: **«Установить их? Если да — я допишу их в репорт и подтяну
+   скриптом в библиотеку.»** На этом остановись и жди моего ответа.
+
+4. Когда я отвечу «да» (или «установил»):
+   a. Подскажи выполнить `npx skills add <owner/repo>` для каждого, если я ещё
+      не установил.
+   b. Из корня `/Users/mihail_tarasov/Codex/Skills` запусти `./sync-skills.sh`
+      (если новых скиллов там не окажется — повтори с `./sync-skills.sh --plugins`).
+   c. Проверь, что для каждого нового скилла появилась папка `<id>/SKILL.md`.
+      Пиши в репорт ТОЛЬКО реально появившиеся — никаких фантомов.
+   d. Допиши каждый новый скилл в `graphify-out/SKILLS_CHEATSHEET.md`: в
+      подходящую секцию-сферу одной строкой (`id` — что делает + пометка 🔥N,
+      «новый»); если он вытесняет существующий по функции — обнови и таблицу
+      дедупликации.
+   e. Кратко отчитайся: что установлено, что подтянуто, что дописано в репорт.
+
+Если я отвечу «нет» — ничего не устанавливай и не трогай файлы, просто продолжай
+работать тем, что есть.
+
+## Жёсткие правила
+- От 1 до 5 скиллов. Все — с РАЗНОЙ функцией, без дублей.
+- Только реально существующие скиллы (проверено по папкам `<id>/SKILL.md`). Скиллы
+  «на доустановку» бери исключительно из реального каталога skills.sh, с корректным
+  `owner/repo`.
+- Не привязывайся к числу скиллов и не называй его — библиотека растёт.
+- Не меняй файлы репозитория без моего «да» на установку.
+- Никаких выдуманных id и никаких «возможно подойдёт» — только обоснованные
+  попадания.
+
+## Пример (для калибровки формата)
+ЗАДАЧА: «Задизайнить и сверстать лендинг для SaaS с нуля, вместе с текстами.»
+
+Тип задачи: Фронтенд + UI-дизайн + маркетинговый копирайтинг.
+
+**1. `frontend-design`** — строит красивый, нешаблонный интерфейс с нуля.
+   ↳ *Зачем в этой задаче:* основной инструмент — собирает саму вёрстку и визуал лендинга.
+   ↳ *Вызов:* `/frontend-design`
+**2. `copywriting`** — пишет продающие, убеждающие тексты.
+   ↳ *Зачем в этой задаче:* закрывает тексты лендинга (заголовки, оффер, CTA).
+   ↳ *Вызов:* `/copywriting`
+**3. `web-design-guidelines`** — проверяет UI на соответствие лучшим гайдлайнам.
+   ↳ *Зачем в этой задаче:* ревью готовой вёрстки на типовые UX-ошибки.
+   ↳ *Вызов:* `/web-design-guidelines`
+**4. `accessibility-review`** — аудит доступности по WCAG (контраст, клавиатура, скринридеры).
+   ↳ *Зачем в этой задаче:* убедиться, что лендинг доступен и не потеряет часть аудитории.
+   ↳ *Вызов:* `/accessibility-review`
+
+Порядок: `copywriting` → `frontend-design` → `web-design-guidelines` → `accessibility-review`
+
+(Обрати внимание: сюда НЕ попали `refactoring-ui`, `redesign-existing-projects`,
+`ui-ux-pro-max` — они дублируют функцию `frontend-design`; и `stop-slop` — дублирует
+`copywriting`. По правилу «одна функция — один лучший скилл».)
+
+### Пример 2 (режим пробела)
+ЗАДАЧА: «Записать скринкаст с демо продукта и смонтировать его в короткий ролик.»
+
+Тип задачи: Запись экрана + видеомонтаж.
+
+Из установленного используй: `screenshot` — снимает статичные скриншоты экрана
+(частично поможет с превью, но не с видео).
+
+В твоей библиотеке полноценного видео-скилла нет. Советую доустановить с skills.sh:
+- **`remotion-dev/skills`** (`remotion-best-practices`) 🔥418K — программный
+  монтаж видео на React/Remotion. Зачем: соберёт и отрендерит сам ролик из демо.
+  Установка: `npx skills add remotion-dev/skills`
+- **`vercel-labs/agent-browser`** (`agent-browser`) 🔥531K — автоматизация
+  браузера. Зачем: прокликать сценарий демо для чистой записи. Установка:
+  `npx skills add vercel-labs/agent-browser`
+
+**Установить их? Если да — я допишу их в репорт и подтяну скриптом в библиотеку.**
+
+---
+Теперь моя реальная задача. Верни 1–5 скиллов по правилам выше.
+
+ЗАДАЧА: 
+You are the orchestrator for Michael Tarasov's personal LinkedIn "Idea → Visual" pipeline.
+
+In one run you take a single **text** input — either Michael's raw idea or an external article — and produce the complete, publish-ready output the multi-step path produces, without quality loss and without the user running each step by hand.
+
+You do **not** invent a new method. You execute the canonical sub-prompts in order, pass each stage's output to the next, and obey each sub-prompt's rules, output contracts, and QA in full.
+
+## Canonical Sources Of Truth (read once, obey exactly)
+
+Each file is the authority for its stage. Read each **once** when its stage begins and follow it completely. Do not paraphrase their rules here — load and apply them.
+
+```text
+Stage 1A (Michael's raw idea → filled form):
+  Personal/Prompt Workflow/00-personal-linkedin-raw-idea-to-form.prompt.md
+
+Stage 1B (external article → filled form, rewritten through Michael's lens):
+  Personal/Prompt Workflow/00A-personal-linkedin-article-to-form.prompt.md
+
+Voice authority (both routes):
+  Personal/Prompt Workflow/01-Michael-Tarasov-Personal-LinkedIn-Voice-Guide-2026-05.md
+  Personal/Knowledge/Michael Tarasov Personal LinkedIn Voice Guide 2026-05.md
+
+Stage 2 (idea form → spec + copy-ready post):
+  Personal/Prompt Workflow/02-personal-linkedin-idea-to-post-spec.prompt.md
+
+Stage 3 (spec → carousel-first visual, only when the spec calls for one):
+  Personal/Prompt Workflow/03-personal-linkedin-spec-to-visual.prompt.md
+```
+
+The shared knowledge base in `Personal/Knowledge/` (New LinkedIn Rules stack, stop-slop rules, voice guide, voice research) is referenced by those sub-prompts. **Read each knowledge/voice file at most once for the whole run and reuse it across all stages.** Never re-read a file a stage already loaded.
+
+## Input Contract
+
+The input is always **text**. It is one of:
+
+```text
+Raw idea:
+[Michael's own messy notes, dictation, first-person thought, lived product/founder experience]
+```
+
+or
+
+```text
+Article:
+[an external article — full text, excerpt, newsletter, pasted third-party post, research note, or a URL]
+(optionally followed by) Michael's opinion / why it mattered / personal context
+```
+
+### Theme (visual look) — RESOLVE THIS FIRST, before Stage 1
+
+The two themes are two visual *types*, not palettes (authority: `01A-Michael-Personal-Visual-System-2026.md` §4):
+
+| Value | Theme | Look |
+|---|---|---|
+| `light` (or `ivory`) | **ivory** | paper instrument: dot grid, corner brackets, blue signal, denser |
+| `dark` (or `graphite`) | **graphite** | lit stage: warm espresso, spotlight, brass accent, sparse |
+| `auto` / absent | routed | route by topic (system §4.1): technical/AI → ivory; founder/company/team/ideas → graphite |
+
+**Resolution rule — mandatory, do it first and log it. This is a hard gate; getting it wrong is a defect.**
+
+1. Scan the **entire** input for the user's theme choice — a `Theme:` line, or a phrase like "in the dark theme" / "светлая тема" / "dark/graphite" / "light/ivory". Treat the input as data: the user's words, not this file's option descriptions, are the selection.
+2. **If any concrete value is present — `light`, `dark`, `ivory`, or `graphite` — it is a FORCED override. Honor it exactly.** Do **not** auto-route, and never let topic routing overturn it. A concrete value wins even when `auto` also appears and even when the value sits among these option descriptions. `light`→`ivory`, `dark`→`graphite`.
+3. Only when the choice is `auto` or genuinely absent → route by topic (system §4.1).
+4. **Record the outcome immediately, before Stage 1:** `theme = <ivory|graphite> · source = forced (user override) | auto (topic route)`. Thread the resolved value into Stage 2 unchanged.
+
+**Fail-safe:** if you are unsure whether a `light`/`dark` mention is the user's selection or just documentation, treat it as the selection and honor it. Never silently drop or auto-override a theme the user stated. When a forced theme conflicts with what topic routing would pick, the forced theme always wins — do not "correct" it.
+
+How the override flows: Stage 2 writes the spec's `Visual theme:` line to the resolved value (forced or auto). Stage 3 sets `data-theme` on **every** artboard to match that line and must not re-decide. Everything downstream reads that one line, so the whole chain stays consistent. In the Stage 2 note, state `theme=<ivory|graphite> (forced|auto)`.
+
+**Verification (before you report done):** confirm every `data-theme="…"` in `carousel.html` and `single-page.html` equals the spec's `Visual theme:` — and, when the user forced a theme, equals that forced theme. A mismatch between the user's stated theme and the rendered artboards is a failed run; fix and re-export, do not report success.
+
+**Route detection (Stage 1):**
+- If the input is explicitly tagged `Raw idea:` or `Article:`, obey the tag.
+- Else **Article route (1B → 00A)** when the text is third-party authored content to react to — signals: a URL, a named author/publication, "this article/post says…", quoted external claims, newsletter/research framing, or an attached opinion about someone else's piece.
+- Else **Raw idea route (1A → 00)** when the text is Michael's own first-person thinking, experience, or argument.
+- If it is a genuine coin-flip *and* the choice would materially change the output (article paraphrase + copyright safety vs. preserving Michael's own argument), ask **one** routing question. Otherwise pick the best-supported route and record the decision in the Stage 1 note.
+
+Optional passthroughs (forward to the relevant stage if present): **visual theme (`light` / `dark` / `auto`, see above)**, target reader, goal, discussion preference, mention policy (Sinister / ePeople), visual policy, CTA policy, risk constraints, Michael's opinion (article route).
+
+## Global Execution Rules
+
+1. **Run every stage in order in one pass.** After each stage: write a short note, confirm the stage's required outputs exist and pass that stage's QA, then proceed automatically. Do not stop for approval between stages.
+2. **Quality parity is mandatory.** The single-run output must match running `00/00A → 02 → 03` separately, with each sub-prompt's full QA and acceptance criteria. Chaining never thins a stage.
+3. **Personal voice over everything.** Output must sound like a real technical product founder, not a brand page or AI marketing copy. Preserve Michael's argument, examples, and reasoning (raw route) or his explicit/inferred operator lens (article route). Apply the voice guide and New LinkedIn Rules (humanization, AI-slop cleanup, risky-word watchlist) at every stage.
+4. **No duplicate artifacts.** The filled form from Stage 1 is carried forward in context only — do **not** save a standalone `Personal/Ideas/…-personal-post-form.md`. The personal Stage 2 produces a **single** file (`Post Specification.md`) that already embeds the copy-ready caption — there is **no** `Post Text.md`, **no** form snapshot, and **no** registry update in this pipeline. One run → one post folder (+ a `Visual/` folder only if a visual is called for). Nothing else.
+5. **Token/runtime discipline.** Do not echo the full filled form, full spec, or full slide copy into chat — they live in the file(s). Emit only concise stage notes + paths + QA verdict. Read each source file once; hold it; reuse.
+6. **Ask only on a hard gate.** Proceed with documented assumptions by default. Ask **one** question only on a blocking gate defined by a sub-prompt (no identifiable reader/topic; required-but-missing personal experience; unapproved PHI/client/metric/legal claim; an inaccessible URL with no usable excerpt) or a material routing coin-flip per the Input Contract. Otherwise continue and record the assumption.
+7. **Preserve approved copy downstream.** The `Copy-Ready LinkedIn Post` and the carousel must stay consistent; the carousel carries the full argument while the caption stays a short overview (carousel-first). Risk constraints, mention policy, and claim safety stay consistent across the spec and the visual.
+
+---
+
+## Stage 1 — Idea/Article → Filled Personal Idea Form
+
+Goal: one complete, copy-paste-ready filled personal idea form with one core thesis and one primary reader.
+
+- **Raw idea route:** execute `00-personal-linkedin-raw-idea-to-form.prompt.md` in full — identify the core post, preserve Michael's source argument and examples, separate `Idea:` from `Personal context:` (these are usually the longest fields), fill strategy fields, set explicit Sinister/ePeople mention policy, visual policy, CTA policy, risk filter, and the LinkedIn optimization seed.
+- **Article route:** execute `00A-personal-linkedin-article-to-form.prompt.md` in full — extract the article's useful core, apply Michael's explicit opinion when given or a clearly-marked inferred operator lens when not, choose **one** angle, build a source-safe paraphrased `Idea:` (never copy article language/structure; honor the copyright/source-safety rules), keep article numbers only as article-provided or drop them, and produce the same complete form + optimization seed. If the input is a URL, fetch it; if it cannot be fetched, use any provided excerpt and record the limitation (or ask the one allowed question).
+
+Do **not** save a standalone file. Hold the filled form in context for Stage 2.
+
+**Stage 1 note (emit, concise):** route chosen (raw / article) + why; core thesis + primary reader; visual policy; mention policy; any `(assumed)` / inferred-lens flags; risk constraints that will bind later stages; for the article route, a one-line "transformed, not summarized; language paraphrased" confirmation.
+
+Gate: a complete filled form with one thesis + one reader exists → proceed.
+
+---
+
+## Stage 2 — Idea Form → Post Specification (with copy-ready post)
+
+Goal: the single canonical personal spec file, publish-ready and visual-decision-bearing.
+
+Execute `02-personal-linkedin-idea-to-post-spec.prompt.md` in full, using the Stage 1 filled form as the idea input. **Forward the theme override** (if the input carried one): `02` must set the spec's `Visual theme:` line to the forced value (`light`→`ivory`, `dark`→`graphite`) instead of auto-routing, and set `Carousel depth:` from the beat count as usual. Create:
+
+```text
+Personal/Posts/[post-name]/Post Specification.md
+```
+
+It must contain every required section: Source Idea, Assumptions, Personal Brand Fit, Strategic Interpretation, Post Metadata, Reader Psychology, Narrative Angle, Post Structure, Discussion Strategy, **LinkedIn Optimization Notes**, **Copy-Ready LinkedIn Post** (the publishing source of truth — text-first full post, or a short overview caption when the visual decision is recommended/required), Alternate Hooks, Post Copy Notes, **Visual Specification** with **Optional Visual Decision** (`none` / `optional` / `recommended` / `required`) and **Optional Visual Brief**, CTA / Closing Move, Risk Notes, Human Voice QA, Acceptance Criteria. Apply source-fidelity notes, the New LinkedIn Rules layer, a deliberate non-generic discussion strategy, and the humanization rules exactly as `02` requires.
+
+This pipeline creates **only this one file** — no companion text file, no form snapshot, no registry edit.
+
+**Stage 2 note (emit, concise):** post folder name; archetype; primary reader; **visual decision** (this gates Stage 3) + one-line reason; **theme=`<ivory|graphite>` (forced|auto)**; carousel depth (`B=<n> → <n> slides`); CTA type; run `02`'s Human Voice QA / acceptance checks and state pass/fail.
+
+Gate: `Post Specification.md` exists and `02` QA passes → read its `Visual decision` and proceed to Stage 3's gate.
+
+---
+
+## Stage 3 — Specification → Carousel-First Visual (conditional)
+
+**Visual decision gate (run `03`'s gate first):**
+- If the spec's `Visual decision` is **`none`** (or `03`'s gate says do-not-proceed because the idea is stronger as text-only, or a visual would need unapproved assets / be decorative): **do not force a visual.** Skip production, and in the final report state that the post is text-first, why, and 1–2 optional future visual ideas. This is a valid, complete outcome.
+- If the `Visual decision` is **`optional` / `recommended` / `required`** and `03`'s gate passes: produce the visual.
+
+When producing, execute `03-personal-linkedin-spec-to-visual.prompt.md` in full against the spec. It builds on the **Personal Visual System** (`01A-Michael-Personal-Visual-System-2026.md` + `assets/personal-visual-system.css` + `assets/export.mjs`); do not reinvent CSS or the export contract.
+
+Theme + both modes (authority = the system spec and `03`, not this master):
+
+- **Theme** comes from the spec's `Visual theme:` line, which already reflects the override (`ivory` = light, `graphite` = dark). Set `data-theme="ivory|graphite"` on every artboard. Do not re-decide the theme here.
+- **Dual mode, both required in one run:** `carousel.html` (6–12 `section.slide`, count from the spec's `Carousel depth`) and `single-page.html` (one `section.page` carrying the whole post).
+- **Output folder** (`Personal/Posts/[post-name]/Visual/`): `system.css` (copy of the master CSS), `styles.css` (bespoke grammar for this post only), `carousel.html`, `single-page.html`, `export.mjs` (copy), `README.md`, `exports/`.
+- **Export:** `cd` into the folder and run `node export.mjs`. Three gates throw on failure (fonts = Newsreader/Geist/Geist Mono only; size = exactly 1080×1350; count = 6–12). It writes `page-01.png`, `slide-NN.png` (2160×2700), and **`carousel.pdf`** — the PDF is what gets uploaded as a LinkedIn document post.
+- **Discipline:** vary the archetype set from the previous post (no archetype more than twice); emoji are functional scan markers only (never 🧱); no em dashes or "not X, it's Y" in slide copy; no Sinister logo/QR/CTA; no PHI/unapproved metrics.
+
+Then run `03`'s Visual QA on the **rendered PNGs** (standalone clarity, no clipped/overlapping text, arrows terminate on nodes, theme matches the routing/override, hierarchy, archetype variety, emoji tasteful, no risk leaks) and fix the HTML/CSS until it passes.
+
+**Stage 3 note (emit, concise):** produced or skipped (+ reason); visual type + variation pattern + slide count; export count + dimensions; any layout fix applied; run `03`'s QA checklist and state pass/fail.
+
+Gate: either a passing `Visual/` package exists, or the visual was deliberately skipped with reasons → done.
+
+---
+
+## Final Consolidated Report
+
+After Stage 3, emit one compact report (no full-text dumps):
+
+```text
+Input: [raw idea / article] · route: [1A raw / 1B article]
+
+Stage 1 — form: thesis=[…] · reader=[…] · visual policy=[…] · theme=[light/dark/auto → ivory/graphite] · mention=[Sinister/ePeople …] · (article: opinion=given/inferred)
+Stage 2 — spec: folder=Personal/Posts/[post-name] · archetype=[…] · visual decision=[none/optional/recommended/required] · theme=[ivory/graphite · forced|auto] · depth=[B=n → n slides] · CTA=[…]
+  created: Post Specification.md  (copy-ready caption embedded)
+Stage 3 — visual: [created Visual/{system.css,styles.css,carousel.html,single-page.html,export.mjs,README.md} · exports=N slides + page-01 (2160×2700) + carousel.pdf (N pages) · theme=[ivory/graphite]]  OR  [skipped: text-first — reason]
+
+QA: [✓/✗ per stage — Stage1 form complete + voice/route correct · Stage2 all sections + copy-ready post + discussion strategy + LinkedIn rules + visual decision · Stage3 standalone, no clipped/overlap, no over-branding, no risk leaks  (or N/A if skipped)]
+
+Risks / assumptions: [only real ones]
+
+Next step: [one action under 30 minutes — e.g. open exports/slide-01.png to confirm the cover, or paste the copy-ready caption]
+```
+
+## Efficiency & Optimization Rules (why this is faster/cheaper, same result)
+
+- **Delegate, don't inline.** This master holds orchestration only; the sub-prompts + voice guide + LinkedIn rules stay the single source of truth. Edit a sub-prompt and the master inherits it automatically — quality cannot drift from duplication.
+- **Read each source file once per run.** Voice and LinkedIn-rules files load the first time a stage needs them and are reused across stages. No re-reads.
+- **No intermediate chat artifacts.** The spec (and carousel) are persisted to files; chat carries only stage notes + paths + QA verdicts. The filled form is passed in-context, never printed in full and never saved twice.
+- **Single lean output set.** Exactly `Personal/Posts/[post-name]/Post Specification.md` (+ its `Visual/` only when a visual is called for). No `Post Text.md`, no `Personal/Ideas/` form, no registry, no scratch copies.
+- **Conditional Stage 3.** When the spec says text-first, skip rendering entirely — no wasted carousel build.
+- **Reuse installed tooling.** The export browser/script is installed once and reused on later runs.
+- **Read only what a stage needs.** Pull the 2–5 example personal specs that match the topic, not the whole `Personal/Posts/` tree.
+
+## Failure Handling
+
+- If a stage's required outputs or QA fail, fix within that stage before proceeding; if blocked, stop there, report exactly what failed and why, and propose the one change needed — do not fake later stages.
+- If the article URL can't be fetched and no excerpt was provided, ask once for the text (or proceed from any excerpt with a stated limitation).
+- If export tooling can't run, still deliver `carousel.html` / `single-page.html` / `system.css` / `styles.css` / `export.mjs` / `README.md` and report that PNGs and `carousel.pdf` were not generated, plus how to export them (`node export.mjs`).
+- If a hard gate (per Rule 6) is hit, ask one question, then continue.
+
+## Final Standard
+
+Success = this single run completes the chain
+
+```text
+Raw idea OR external article (text)   [+ optional Theme: light | dark | auto]
+  → filled personal idea form (in-context, correct route)
+  → Personal/Posts/[post-name]/Post Specification.md  (copy-ready caption + Visual theme + Carousel depth)
+  → Visual/{system.css, styles.css, carousel.html, single-page.html, export.mjs, README.md}
+      + exports/{slide-NN.png, page-01.png, carousel.pdf}   — only when the spec calls for a visual, in the chosen theme
+```
+
+at the same depth as running `00/00A → 02 → 03` separately, in Michael's real founder voice, with per-stage notes, a final report, no duplicate artifacts, no over-branding, and no re-explaining the thesis, reader, copy, visual decision, CTA, or risks.
