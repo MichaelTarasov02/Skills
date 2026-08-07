@@ -1,0 +1,266 @@
+Base directory for this skill: /Users/mihail_tarasov/.claude/skills/prompt-engineering
+
+# Prompt Engineering Patterns
+
+Advanced prompt engineering techniques to maximize LLM performance, reliability, and controllability.
+
+## Core Capabilities
+
+### 1. Few-Shot Learning
+
+Teach the model by showing examples instead of explaining rules. Include 2-5 input-output pairs that demonstrate the desired behavior. Use when you need consistent formatting, specific reasoning patterns, or handling of edge cases. More examples improve accuracy but consume tokens—balance based on task complexity.
+
+**Example:**
+
+```markdown
+Extract key information from support tickets:
+
+Input: "My login doesn't work and I keep getting error 403"
+Output: {"issue": "authentication", "error_code": "403", "priority": "high"}
+
+Input: "Feature request: add dark mode to settings"
+Output: {"issue": "feature_request", "error_code": null, "priority": "low"}
+
+Now process: "Can't upload files larger than 10MB, getting timeout"
+```
+
+### 2. Chain-of-Thought Prompting
+
+Request step-by-step reasoning before the final answer. Add "Let's think step by step" (zero-shot) or include example reasoning traces (few-shot). Use for complex problems requiring multi-step logic, mathematical reasoning, or when you need to verify the model's thought process. Improves accuracy on analytical tasks by 30-50%.
+
+**Example:**
+
+```markdown
+Analyze this bug report and determine root cause.
+
+Think step by step:
+
+1. What is the expected behavior?
+2. What is the actual behavior?
+3. What changed recently that could cause this?
+4. What components are involved?
+5. What is the most likely root cause?
+
+Bug: "Users can't save drafts after the cache update deployed yesterday"
+```
+
+### 3. Prompt Optimization
+
+Systematically improve prompts through testing and refinement. Start simple, measure performance (accuracy, consistency, token usage), then iterate. Test on diverse inputs including edge cases. Use A/B testing to compare variations. Critical for production prompts where consistency and cost matter.
+
+**Example:**
+
+```markdown
+Version 1 (Simple): "Summarize this article"
+→ Result: Inconsistent length, misses key points
+
+Version 2 (Add constraints): "Summarize in 3 bullet points"
+→ Result: Better structure, but still misses nuance
+
+Version 3 (Add reasoning): "Identify the 3 main findings, then summarize each"
+→ Result: Consistent, accurate, captures key information
+```
+
+### 4. Template Systems
+
+Build reusable prompt structures with variables, conditional sections, and modular components. Use for multi-turn conversations, role-based interactions, or when the same pattern applies to different inputs. Reduces duplication and ensures consistency across similar tasks.
+
+**Example:**
+
+```python
+# Reusable code review template
+template = """
+Review this {language} code for {focus_area}.
+
+Code:
+{code_block}
+
+Provide feedback on:
+{checklist}
+"""
+
+# Usage
+prompt = template.format(
+    language="Python",
+    focus_area="security vulnerabilities",
+    code_block=user_code,
+    checklist="1. SQL injection\n2. XSS risks\n3. Authentication"
+)
+```
+
+### 5. System Prompt Design
+
+Set global behavior and constraints that persist across the conversation. Define the model's role, expertise level, output format, and safety guidelines. Use system prompts for stable instructions that shouldn't change turn-to-turn, freeing up user message tokens for variable content.
+
+**Example:**
+
+```markdown
+System: You are a senior backend engineer specializing in API design.
+
+Rules:
+
+- Always consider scalability and performance
+- Suggest RESTful patterns by default
+- Flag security concerns immediately
+- Provide code examples in Python
+- Use early return pattern
+
+Format responses as:
+
+1. Analysis
+2. Recommendation
+3. Code example
+4. Trade-offs
+```
+
+## Key Patterns
+
+### Progressive Disclosure
+
+Start with simple prompts, add complexity only when needed:
+
+1. **Level 1**: Direct instruction
+
+   - "Summarize this article"
+
+2. **Level 2**: Add constraints
+
+   - "Summarize this article in 3 bullet points, focusing on key findings"
+
+3. **Level 3**: Add reasoning
+
+   - "Read this article, identify the main findings, then summarize in 3 bullet points"
+
+4. **Level 4**: Add examples
+   - Include 2-3 example summaries with input-output pairs
+
+### Instruction Hierarchy
+
+```
+[System Context] → [Task Instruction] → [Examples] → [Input Data] → [Output Format]
+```
+
+### Error Recovery
+
+Build prompts that gracefully handle failures:
+
+- Include fallback instructions
+- Request confidence scores
+- Ask for alternative interpretations when uncertain
+- Specify how to indicate missing information
+
+## Best Practices
+
+1. **Be Specific**: Vague prompts produce inconsistent results
+2. **Show, Don't Tell**: Examples are more effective than descriptions
+3. **Test Extensively**: Evaluate on diverse, representative inputs
+4. **Iterate Rapidly**: Small changes can have large impacts
+5. **Monitor Performance**: Track metrics in production
+6. **Version Control**: Treat prompts as code with proper versioning
+7. **Document Intent**: Explain why prompts are structured as they are
+
+## Common Pitfalls
+
+- **Over-engineering**: Starting with complex prompts before trying simple ones
+- **Example pollution**: Using examples that don't match the target task
+- **Context overflow**: Exceeding token limits with excessive examples
+- **Ambiguous instructions**: Leaving room for multiple interpretations
+- **Ignoring edge cases**: Not testing on unusual or boundary inputs
+
+
+ARGUMENTS: Ты — мой prompt architect. Я описываю задачу своими словами, часто сумбурно и голосом.
+Твоя работа — НЕ начинать выполнение задачи, а сначала превратить моё описание в
+результативный промпт для ИИ и подобрать скиллы под него.
+
+## Шаг 0. Определи режим
+- **STANDARD** — обычная, обозримая задача.
+- **DEEP** — включай, если я употребляю слова «комплексная», «сложная», «большая»,
+  «амбициозная», «исчерпывающий», «полный», «на новый уровень», «вау», «критически
+  важно», ЛИБО задача объективно многоэтапная / многодневная / затрагивает много файлов.
+  В DEEP обязательно применяются прогрессивные механики (Шаг 5).
+Явно назови выбранный режим в ответе.
+
+## Шаг 1. Разбери намерение (сделай про себя)
+Ответь себе честно:
+1. Какая РЕАЛЬНАЯ цель (какой исход я хочу получить), а не буквальная формулировка?
+2. Какими способами эта цель достигается? Есть ли способ лучше того, что я назвал?
+3. Что будет считаться «готово» — измеримый критерий приёмки?
+4. Что я НЕ сказал, но подразумеваю (стек, аудитория, формат, объём, дедлайн)?
+5. Какой контекст доступен на диске (репозиторий, файлы, прошлые артефакты) — при
+   необходимости загляни в них, прежде чем писать промпт.
+
+## Шаг 2. Уточняющие вопросы — максимум 2–3
+Задавай ТОЛЬКО те вопросы, ответ на которые реально изменит результат
+(развилка подхода, недостающий вход, взаимоисключающие трактовки).
+Не спрашивай то, что можно разумно принять по умолчанию — прими и пометь допущением.
+
+**КРИТИЧЕСКОЕ ПРАВИЛО: не блокируйся на вопросах.** Даже если ты задал вопросы, ты
+ОБЯЗАН в этом же ответе выдать готовый промпт, построенный на явно помеченных
+допущениях. Я решу сам: ответить на вопросы или сразу забрать промпт.
+
+## Шаг 3. Подбери скиллы
+Действуй по правилам из `graphify-out/SKILL-FINDER-PROMPT.md`, кратко:
+- источник истины — живая библиотека: папки `*/SKILL.md` в корне
+  `/Users/mihail_tarasov/Codex/Skills` (никогда не полагайся на фиксированное число);
+- сверяйся с `graphify-out/SKILLS_CHEATSHEET.md` (best-of-breed + таблица дедупликации),
+  помня, что это снимок и он может отставать;
+- от 1 до 5 скиллов, каждый — под СВОЮ подзадачу, без дублей функционала;
+- перед рекомендацией убедись, что папка `<id>/SKILL.md` существует;
+- если подходящего нет — честно скажи и предложи доустановку с https://www.skills.sh/
+  (`npx skills add owner/repo`), не выдумывая id.
+
+## Шаг 4. Выдай результат — строго в этом порядке
+**Режим:** STANDARD | DEEP
+
+**A. Что я понял**
+- Цель (исход): …
+- Способ: …
+- Готово, когда: … (критерий приёмки)
+
+**B. Допущения** (если есть) — маркированный список того, что ты принял за меня.
+
+**C. Вопросы** (0–3, если есть) — коротко, по существу.
+
+**D. ОПТИМИЗИРОВАННЫЙ ПРОМПТ** — в код-блоке, готовый к копированию, по анатомии:
+   1. Роль и контекст (кто исполнитель, какой проект/стек/файлы)
+   2. Цель и критерии приёмки (измеримо)
+   3. Входные данные и ограничения (что дано, чего нельзя трогать)
+   4. Пошаговый план работ (для DEEP — с фазами и чекпоинтами)
+   5. Требуемый формат результата (файлы, структура, объём)
+   6. Не-цели (что явно НЕ делать — защита от расползания скоупа)
+   7. Верификация (как исполнитель обязан доказать, что готово)
+   8. Скиллы к применению и порядок их вызова
+
+**E. Скиллы** — список 1–5 в формате `skill-id` — что делает — зачем здесь,
+   плюс строка **Порядок:** `a` → `b` → `c`.
+
+**F. (только DEEP) План работ** — фазы, что на выходе каждой, где мои чекпоинты.
+
+## Шаг 5. Прогрессивные механики (обязательны в режиме DEEP)
+Встраивай в генерируемый промпт то, что уместно задаче (не всё подряд):
+- **Декомпозиция на фазы** с явными чекпоинтами и промежуточными артефактами —
+  чтобы большая работа не схлопнулась в одну попытку.
+- **Стресс-тест допущений ДО старта**: `/grilling` — допросить план вопросами и найти
+  дыры, пока цена ошибки нулевая.
+- **Ресёрч-фаза** перед решением, если нужны внешние знания: `/deep-research`.
+- **Параллельные агенты** для независимых частей: `/dispatching-parallel-agents`
+  (только если части реально независимы; последовательные шаги — `/executing-plans`).
+- **Анти-обрыв вывода**: `/full-output-enforcement` — запрет плейсхолдеров и
+  «...остальное аналогично», когда мне нужен исчерпывающий результат.
+- **Обязательная самопроверка**: `/verification-before-completion` — доказательства
+  (команды, вывод, существование файлов) вместо заявлений «готово».
+- **Финальный отчёт**: что сделано, что проверено фактами, что осталось и почему.
+
+## Жёсткие правила
+- Никогда не начинай выполнять саму задачу в этом ответе — твой продукт здесь промпт.
+- Всегда выдавай промпт, даже при незакрытых вопросах (с допущениями).
+- Не выдумывай скиллы, файлы и факты; проверяй существование перед упоминанием.
+- Не раздувай: 2–3 вопроса максимум, скиллов не больше 5, без дублей функций.
+- Пиши промпт так, чтобы его можно было отдать «холодному» агенту без нашей переписки.
+
+---
+Моя задача. Верни результат по Шагу 4.
+
+ЗАДАЧА: 
+
+Можешь собрать для меня новые популярные LinkedIn темы, на которые я могу написать пост. Я бы хотел, чтобы они были про AI, но посмотри, что ты уже писал мне в LinkedIn Popular Topics point.md, потому что многие из тем, которые там были, уже повторяются в моих постах, или это те темы, которые уже достаточно заезженные. Я хочу, чтобы ты проресерчил сам LinkedIn, нашел, что в последнее время набирает impressions, что является прям новой темой на протяжении этой недели или предыдущей недели. Также хотелось бы разнообразить идеями что-то связанное с управлением компаний, с построением AI-компании, с работой с людьми, типа с точки зрения управления людским ресурсом, управления людьми, управления проектами. Давай ты соберешь по 10 тем на тему AI, на тему управления компанией, управления людьми и на тему каких-то свежих новых инструментов AI-ных, которые появляются, которые позволяют проще решать какие-либо задачи, причем с какой-то, знаешь, уникальной точки зрения. Проведи глубокий ресерч и возвращайся ко мне со второй версией LinkedIn популярных идей для постов.
