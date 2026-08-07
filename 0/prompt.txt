@@ -1,0 +1,74 @@
+Base directory for this skill: /Users/mihail_tarasov/.claude/skills/agent-forge/skills/analyze-project
+
+# Analyze Project
+
+Read-only reconnaissance. Answer "what agent would this project become?" **without writing a single file.**
+
+Use this before committing to `agent-forge`, or when deciding whether packaging is worth it at all.
+
+## Hard rule
+
+**Create nothing. Modify nothing.** Read and report. If the user wants it built, they run `agent-forge`.
+
+## Steps
+
+### 1. Map the project
+
+- repo tree, depth 2–3
+- `README`, `CLAUDE.md`, `AGENTS.md`
+- prompts and workflows: `*.prompt.md`, `Prompt*`, `Workflow*`, `Ideas/`
+- existing packaging: `.claude/skills/`, `.claude-plugin/`, `~/.claude/skills/<project>`
+- scripts the workflow executes
+- example outputs — these define the real result contract
+
+### 2. Find the repeatable procedures
+
+A procedure is a candidate for a skill when it is:
+
+- performed more than once with the same shape
+- currently pasted as a prompt or explained from scratch each time
+- described by rules the user keeps restating
+
+Ignore one-off work. Ignore code that is already a library.
+
+### 3. Assess honestly
+
+Answer plainly:
+
+- **Is packaging worth it here?** If the project holds no repeatable procedure, say so and stop. A forced agent is worse than none.
+- **What is already packaged?** Do not propose rebuilding it.
+- **What blocks packaging?** Missing inputs, undocumented tribal rules, external auth.
+
+### 4. Report
+
+```
+## Project Map
+<what the project does, in two sentences>
+
+## Repeatable procedures found
+| Procedure | Where it lives now | Runs how often | Skill candidate |
+
+## Proposed agent
+Name (proposed): <kebab-case>
+Purpose: <one sentence>
+
+| Skill | Responsibility | Input | Output |
+
+Agents needed: <yes + justification by context isolation | no>
+Entry command: <yes/no>
+Per-user config: <yes/no — what would be configurable>
+
+## Already packaged (leave alone)
+## Blockers
+## Verdict
+<Worth packaging / Not worth it / Partially — with reasoning>
+```
+
+### 5. Hand off
+
+End with exactly one line:
+
+> To build it: run `agent-forge` in this project.
+
+
+ARGUMENTS: Смотри, я бы хотел, чтобы ты построил для меня агента, который помогал бы мне с выбором скиллов, а также с созданием промптов. Можешь придумать какое-то имя, которое в general помогает работать с AI. Сейчас есть промпт, который позволяет к запросу пользователя подобрать самые лучшие скиллы. Я хочу сделать это первым скиллом для того, чтобы, выполняя какой-то запрос, AI сначала проанализировал сам запрос, подобрал к нему скиллы и применил их к различным фазам запроса в результате работы, подсвечивая в своем output, какие скиллы и для чего он применяет из тех, что есть у пользователя. Если вдруг каких-то важных скиллов недостаточно, то он перед тем, как продолжить запрос, скажет «установить скиллы» и после вернется к выполнению запроса. Также второй скилл, который я бы хотел создать, это промпт-архитектор, который перед тем, как взять запрос, написал бы промпт, который разбивает запрос пользователя на фазы, делает его более чистым и понятным для AI, и выполнял уже написанный им промпт, также выбирая скиллы для него по аналогии с предыдущим вариантом, но более продвинуто, с фазой создания промпта перед выполнением.
