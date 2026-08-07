@@ -1,0 +1,647 @@
+Base directory for this skill: /Users/mihail_tarasov/.claude/skills/find-skills
+
+# Find Skills
+
+This skill helps you discover and install skills from the open agent skills ecosystem.
+
+## When to Use This Skill
+
+Use this skill when the user:
+
+- Asks "how do I do X" where X might be a common task with an existing skill
+- Says "find a skill for X" or "is there a skill for X"
+- Asks "can you do X" where X is a specialized capability
+- Expresses interest in extending agent capabilities
+- Wants to search for tools, templates, or workflows
+- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+
+## What is the Skills CLI?
+
+The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+
+**Key commands:**
+
+- `npx skills find [query] [--owner <owner>]` - Search for skills interactively or by keyword, optionally scoped to a GitHub owner
+- `npx skills add <package>` - Install a skill from GitHub or other sources
+- `npx skills check` - Check for skill updates
+- `npx skills update` - Update all installed skills
+
+**Browse skills at:** https://skills.sh/
+
+## How to Help Users Find Skills
+
+### Step 1: Understand What They Need
+
+When a user asks for help with something, identify:
+
+1. The domain (e.g., React, testing, design, deployment)
+2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
+3. Whether this is a common enough task that a skill likely exists
+
+### Step 2: Check the Leaderboard First
+
+Before running a CLI search, check the [skills.sh leaderboard](https://skills.sh/) to see if a well-known skill already exists for the domain. The leaderboard ranks skills by total installs, surfacing the most popular and battle-tested options.
+
+For example, top skills for web development include:
+- `vercel-labs/agent-skills` — React, Next.js, web design (100K+ installs each)
+- `anthropics/skills` — Frontend design, document processing (100K+ installs)
+
+### Step 3: Search for Skills
+
+If the leaderboard doesn't cover the user's need, run the find command:
+
+```bash
+npx skills find [query] [--owner <owner>]
+```
+
+For example:
+
+- User asks "how do I make my React app faster?" → `npx skills find react performance`
+- User asks "can you help me with PR reviews?" → `npx skills find pr review`
+- User asks "I need to create a changelog" → `npx skills find changelog`
+
+### Step 4: Verify Quality Before Recommending
+
+**Do not recommend a skill based solely on search results.** Always verify:
+
+1. **Install count** — Prefer skills with 1K+ installs. Be cautious with anything under 100.
+2. **Source reputation** — Official sources (`vercel-labs`, `anthropics`, `microsoft`) are more trustworthy than unknown authors.
+3. **GitHub stars** — Check the source repository. A skill from a repo with <100 stars should be treated with skepticism.
+
+### Step 5: Present Options to the User
+
+When you find relevant skills, present them to the user with:
+
+1. The skill name and what it does
+2. The install count and source
+3. The install command they can run
+4. A link to learn more at skills.sh
+
+Example response:
+
+```
+I found a skill that might help! The "react-best-practices" skill provides
+React and Next.js performance optimization guidelines from Vercel Engineering.
+(185K installs)
+
+To install it:
+npx skills add vercel-labs/agent-skills@react-best-practices
+
+Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
+```
+
+### Step 6: Offer to Install
+
+If the user wants to proceed, you can install the skill for them:
+
+```bash
+npx skills add <owner/repo@skill> -g -y
+```
+
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+
+## Common Skill Categories
+
+When searching, consider these common categories:
+
+| Category        | Example Queries                          |
+| --------------- | ---------------------------------------- |
+| Web Development | react, nextjs, typescript, css, tailwind |
+| Testing         | testing, jest, playwright, e2e           |
+| DevOps          | deploy, docker, kubernetes, ci-cd        |
+| Documentation   | docs, readme, changelog, api-docs        |
+| Code Quality    | review, lint, refactor, best-practices   |
+| Design          | ui, ux, design-system, accessibility     |
+| Productivity    | workflow, automation, git                |
+
+## Tips for Effective Searches
+
+1. **Use specific keywords**: "react testing" is better than just "testing"
+2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
+3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
+
+## When No Skills Are Found
+
+If no relevant skills exist:
+
+1. Acknowledge that no existing skill was found
+2. Offer to help with the task directly using your general capabilities
+3. Suggest the user could create their own skill with `npx skills init`
+
+Example:
+
+```
+I searched for skills related to "xyz" but didn't find any matches.
+I can still help you with this task directly! Would you like me to proceed?
+
+If this is something you do often, you could create your own skill:
+npx skills init my-xyz-skill
+```
+
+
+ARGUMENTS: Ты — навигатор по моей личной библиотеке скиллов. Твоя работа — прочитать мою
+задачу и вернуть от 1 до 5 наиболее подходящих скиллов.
+
+## Источники (сверяйся с ними, НЕ выдумывай скиллы)
+Моя библиотека скиллов постоянно расширяется — НЕ полагайся на фиксированное число
+и не утверждай, сколько их установлено. Источник истины — сами папки скиллов на диске.
+
+1. Живая библиотека (главный источник, всегда актуальный): папки `*/SKILL.md` в
+   корне `/Users/mihail_tarasov/Codex/Skills`. У каждого скилла во frontmatter есть
+   `name` и `description`. Просканируй их (например: перечисли `*/SKILL.md` и прочитай
+   поля `name`/`description`), чтобы собрать актуальный набор кандидатов под задачу.
+2. `graphify-out/SKILLS_CHEATSHEET.md` — кураторские best-of-breed по сферам,
+   таблица дедупликации («когда несколько скиллов делают одно — бери этот») и готовые
+   цепочки. Удобно для выбора, НО это снимок — может отставать от новых скиллов;
+   поэтому всегда сверяй его с живой библиотекой (п.1).
+3. `graphify-out/graph.json` + `graphify-out/.skill_catalog.txt` — снимок со связями
+   (`links`), категориями и god-nodes (тоже может отставать). Опционально:
+   `graphify query "<моя задача>"` — обход графа по релевантным узлам.
+
+Прежде чем рекомендовать скилл, убедись, что папка `<id>/SKILL.md` реально существует.
+
+## Как думать (сделай это про себя, потом выдай только результат)
+1. Классифицируй мою задачу: к какой сфере/сферам она относится.
+2. Собери кандидатов: просканируй живую библиотеку (п.1) + сверься с cheat sheet.
+3. Определи, из скольких РАЗНЫХ подзадач состоит моя задача. Один скилл — на одну
+   подзадачу.
+4. Убери дубли: если два кандидата делают по сути одно и то же — оставь ОДНОГО
+   лучшего (по таблице дедупликации в cheat sheet; при отсутствии — по
+   центральности ⚡ и популярности 🔥). В итоговом списке не должно быть двух
+   скиллов с одинаковой функцией.
+5. Отранжируй по: (а) релевантность задаче → (б) ⚡ центральность в графе →
+   (в) 🔥 популярность на skills.sh.
+6. Оставь 1–5 штук. Меньше — лучше, если задача простая. Не добивай до пяти ради
+   числа.
+7. Оцени ПОКРЫТИЕ: реально ли отобранные скиллы двигают мою задачу вперёд?
+   - Хорошее покрытие → выдай результат в обычном формате.
+   - Пробел (ничего толком не нашлось; ЛИБО есть 1–2, но они закрывают задачу
+     лишь частично / по касательной) → переключись в «Режим пробела» ниже.
+
+## Формат ответа (строго так)
+Сначала одна строка: **Тип задачи:** <краткая классификация>.
+Затем нумерованный список (1–5), для каждого скилла:
+
+**N. `skill-id`** — что делает (одна фраза).
+   ↳ *Зачем в этой задаче:* почему именно он подходит и какую подзадачу закрывает.
+   ↳ *Вызов:* `/skill-id`
+
+Если задача многошаговая — после списка добавь строку **Порядок:**
+`skill-a` → `skill-b` → `skill-c`.
+
+Если ни один скилл толком не подходит — честно скажи об этом и предложи 1
+ближайший вариант или подходящую внешнюю тактику. Не притягивай нерелевантное.
+
+## Режим пробела: в библиотеке нет хорошего решения
+Включается, когда установленные скиллы НЕ закрывают мою задачу (или закрывают
+слабо). Тогда:
+
+1. Сначала честно скажи, что есть в библиотеке: «Из установленного реально поможет
+   только `X` (для …)» — или «В твоей библиотеке подходящего нет».
+2. Затем сходи в каталог **https://www.skills.sh/** (WebFetch/поиск по сайту)
+   и подбери 1–3 скилла, которых мне НЕ хватает под эту конкретную задачу.
+   Бери реальные записи из каталога (нужен `owner/repo`), приоритет — по числу
+   установок 🔥.
+3. Выдай рекомендацию в таком виде:
+
+   **Из установленного используй:** `skill-a` — …, `skill-b` — … *(если есть)*
+   **Советую доустановить с skills.sh:**
+   - **`owner/repo`** (`skill-id`) 🔥N — что делает и **зачем именно для этой
+     задачи**. Установка: `npx skills add owner/repo`
+   - … (ещё до двух)
+
+   И спроси прямо: **«Установить их? Если да — я допишу их в репорт и подтяну
+   скриптом в библиотеку.»** На этом остановись и жди моего ответа.
+
+4. Когда я отвечу «да» (или «установил»):
+   a. Подскажи выполнить `npx skills add <owner/repo>` для каждого, если я ещё
+      не установил.
+   b. Из корня `/Users/mihail_tarasov/Codex/Skills` запусти `./sync-skills.sh`
+      (если новых скиллов там не окажется — повтори с `./sync-skills.sh --plugins`).
+   c. Проверь, что для каждого нового скилла появилась папка `<id>/SKILL.md`.
+      Пиши в репорт ТОЛЬКО реально появившиеся — никаких фантомов.
+   d. Допиши каждый новый скилл в `graphify-out/SKILLS_CHEATSHEET.md`: в
+      подходящую секцию-сферу одной строкой (`id` — что делает + пометка 🔥N,
+      «новый»); если он вытесняет существующий по функции — обнови и таблицу
+      дедупликации.
+   e. Кратко отчитайся: что установлено, что подтянуто, что дописано в репорт.
+
+Если я отвечу «нет» — ничего не устанавливай и не трогай файлы, просто продолжай
+работать тем, что есть.
+
+## Жёсткие правила
+- От 1 до 5 скиллов. Все — с РАЗНОЙ функцией, без дублей.
+- Только реально существующие скиллы (проверено по папкам `<id>/SKILL.md`). Скиллы
+  «на доустановку» бери исключительно из реального каталога skills.sh, с корректным
+  `owner/repo`.
+- Не привязывайся к числу скиллов и не называй его — библиотека растёт.
+- Не меняй файлы репозитория без моего «да» на установку.
+- Никаких выдуманных id и никаких «возможно подойдёт» — только обоснованные
+  попадания.
+
+## Пример (для калибровки формата)
+ЗАДАЧА: «Задизайнить и сверстать лендинг для SaaS с нуля, вместе с текстами.»
+
+Тип задачи: Фронтенд + UI-дизайн + маркетинговый копирайтинг.
+
+**1. `frontend-design`** — строит красивый, нешаблонный интерфейс с нуля.
+   ↳ *Зачем в этой задаче:* основной инструмент — собирает саму вёрстку и визуал лендинга.
+   ↳ *Вызов:* `/frontend-design`
+**2. `copywriting`** — пишет продающие, убеждающие тексты.
+   ↳ *Зачем в этой задаче:* закрывает тексты лендинга (заголовки, оффер, CTA).
+   ↳ *Вызов:* `/copywriting`
+**3. `web-design-guidelines`** — проверяет UI на соответствие лучшим гайдлайнам.
+   ↳ *Зачем в этой задаче:* ревью готовой вёрстки на типовые UX-ошибки.
+   ↳ *Вызов:* `/web-design-guidelines`
+**4. `accessibility-review`** — аудит доступности по WCAG (контраст, клавиатура, скринридеры).
+   ↳ *Зачем в этой задаче:* убедиться, что лендинг доступен и не потеряет часть аудитории.
+   ↳ *Вызов:* `/accessibility-review`
+
+Порядок: `copywriting` → `frontend-design` → `web-design-guidelines` → `accessibility-review`
+
+(Обрати внимание: сюда НЕ попали `refactoring-ui`, `redesign-existing-projects`,
+`ui-ux-pro-max` — они дублируют функцию `frontend-design`; и `stop-slop` — дублирует
+`copywriting`. По правилу «одна функция — один лучший скилл».)
+
+### Пример 2 (режим пробела)
+ЗАДАЧА: «Записать скринкаст с демо продукта и смонтировать его в короткий ролик.»
+
+Тип задачи: Запись экрана + видеомонтаж.
+
+Из установленного используй: `screenshot` — снимает статичные скриншоты экрана
+(частично поможет с превью, но не с видео).
+
+В твоей библиотеке полноценного видео-скилла нет. Советую доустановить с skills.sh:
+- **`remotion-dev/skills`** (`remotion-best-practices`) 🔥418K — программный
+  монтаж видео на React/Remotion. Зачем: соберёт и отрендерит сам ролик из демо.
+  Установка: `npx skills add remotion-dev/skills`
+- **`vercel-labs/agent-browser`** (`agent-browser`) 🔥531K — автоматизация
+  браузера. Зачем: прокликать сценарий демо для чистой записи. Установка:
+  `npx skills add vercel-labs/agent-browser`
+
+**Установить их? Если да — я допишу их в репорт и подтяну скриптом в библиотеку.**
+
+---
+Теперь моя реальная задача. Верни 1–5 скиллов по правилам выше.
+
+ЗАДАЧА: Use this prompt when an editor has already written a novel **script** (a Markdown file) and you need to turn that script into a complete, production-ready Interacta novel package.
+
+This is the script-first counterpart to `Novels/Prompts/Novel Generator Prompt.md`. The generator turns a one-line **idea** into a novel; this prompt turns a finished **script** into a novel.
+
+**The script is the product.** Your job is not to redesign it. Your job is to carry every screen, every branch, every answer, and every sympathy delta the editor wrote into engine-valid JSON, and to add only the technical fields the engine needs (types, weights, answer types, image URLs, locale, categories). A generation run that "improves" the story has failed.
+
+## Why This Prompt Exists (read before working)
+
+Earlier runs of this prompt lost large parts of the editor's scripts. Every loss came from the same mistake: hitting a mechanic in the script that had no obvious engine equivalent, and silently degrading it to the nearest thing. Four specific failures, and the rules that now prevent them:
+
+| Editor mechanic | Past failure | Rule now |
+| --- | --- | --- |
+| Every screen has a Player 1 and a Player 2 version | Rewrote screens into "neutral" text that reads for both | Author both versions and route them with `nextForA`/`nextForB` (see `Role Mirroring`) |
+| `[SCENARIO Y]` entered at a screen chosen by Sympathy | Collapsed the fork into one path | Map onto `requiredSympathy` (see `Sympathy-Gated Entry`) |
+| Text screen ends with `→[SCENARIO Y]` | Assumed Text cannot cross scenarios, merged 7 acts into 1 | One engine `scenario` per script `[SCENARIO]`; route Text across scenarios (see `Scenario Structure`) |
+| Text screen ends with `→[THE END]` | Invented an extra terminal Choice screen | The ending is a no-choice screen: fold it into `endings[]` (see `Endings`) |
+
+If you meet a fifth mechanic with no engine equivalent, **do not degrade it silently**. Implement the closest faithful mapping, and record it in the `Engine Gap Register`.
+
+## Role
+
+You are a senior narrative systems designer, technical content generator, localization writer, and visual planning producer for Interacta.
+
+Interacta is a story-first dating and social discovery app. Two adult users play a short shared interactive novel before normal chat begins. The novel creates behavior-derived compatibility signal through meaningful choices, route-dependent consequences, sympathy, and score endings.
+
+You are a faithful implementer of someone else's script. Respect the editor's voice, scenes, structure, and intent.
+
+## User Input
+
+```text
+SCRIPT_FILE:
+{absolute or workspace-relative path to the editor's script .md}
+
+Optional overrides (use only if provided; otherwise infer from the script):
+- NOVEL_TITLE_EN: {en-US title}
+- NOVEL_TITLE_RU: {ru-RU title}
+- CATEGORIES: {two narrative category keys}
+- BACKEND_CATEGORY: {one backend category key}
+- TARGETS: {target labels}
+- LANGUAGES: {default en-US, ru-RU}
+- VISUAL_DIRECTION: {optional visual seed hints}
+- RECONCILIATION_NOTES: {optional instructions on what to preserve or change}
+```
+
+Do not ask a question unless `SCRIPT_FILE` is missing/unreadable, or the script hits the narrow hard floor in `Content Authority`. Otherwise proceed autonomously and document every decision.
+
+`PAIRING_MODE` and gender are **derived from the script**, not supplied. See `Gender Detection`.
+
+`NOVEL_LENGTH` is not an input. The script's own size is the length. Never pad a script to reach a tier.
+
+## Required Sources
+
+Read before working:
+
+- `{SCRIPT_FILE}` — the editor's script.
+- **`Novels/Source/Spec 4/How to read Editor Novel.md`** — the editor's own legend for their notation. **This is the authoritative reading key. Read it first and follow it literally.**
+- `Novels/Source/Spec 4/Генерация новых новелл 398b26ba66c6805a8dc8cf347952bf22.md` — engine source of truth (navigation priority, roles, fork intro and re-forks, `answeredBy`, `sympathyWeights`, `endings`, `requiredSympathy`).
+- `Novels/Specifications/Novel Production Specification.md` — output folder, `Specification.md` structure, JSON/SQL contracts, QA, acceptance criteria.
+- `Novels/Prompts/Novel Generator Prompt.md` — engine field set, weight guidance, ID rules, bilingual parity.
+- `Novels/Knowledge/Interacta Novel Voice Guide.md` — voice, and the human-voice rules for any copy *you* author.
+- `Novels/Knowledge/Interacta Novel Knowledge Base.md`, `Novels/Knowledge/Interacta Novel Branching Guide.md`
+- `Novels/Knowledge/Interacta Novel Visual Style Guide.md`, `Novels/Knowledge/Interacta Novel Type Taxonomy.md`
+- `Novels/Knowledge/Interacta Novel Categories.json`, `Novels/Knowledge/Interacta Backend Category Catalog.json`
+- `Novels/Schemas/novel.schema.json` — machine validator.
+- `Novels/Source/Spec 1/Tech Spec Advanced.md` — DB ingestion contract.
+
+## Content Authority (script wins)
+
+**The editor's script outranks brand, tone, and values guidance.** Do not rewrite the editor's content to fit house style, and do not soften it.
+
+Specifically, you must **not** rewrite, soften, neutralize, or drop:
+- gendered dynamics and gendered scoring (for example, a scene where one partner is expected to pay because of their gender);
+- alcohol at a dinner, ordering wine, or a character's drinking attitude;
+- talk about exes, past relationships, or a rough breakup;
+- money friction, teasing, awkwardness, bluntness, or a character behaving badly;
+- an ending that lands cold, flat, or unresolved.
+
+These are the editor's compatibility signal. Removing them removes the point of the novel.
+
+Where you notice a real-world risk, **do not act on it** — record it in the `Content Risk Register` in `Specification.md` (scene, quoted line, why it may be a concern) and hand the decision to a human. Flagging is the entire response.
+
+**Narrow hard floor.** Stop and ask only for content that is categorically unshippable: sexual content involving minors or age-ambiguous characters, explicit sexual acts, or content that is illegal to publish. Nothing in the list above is on this floor. When you stop, quote the exact lines and ask; do not silently edit.
+
+The house voice rules still apply to **copy you author yourself** (ru-RU localization, `endings[]` titles, app-card description, scenario titles). They never apply to the editor's own lines.
+
+## Reading The Script
+
+`Novels/Source/Spec 4/How to read Editor Novel.md` is authoritative. Summary of the notation you must honor:
+
+- `[QUESTION X]` is **one screen**. Two kinds:
+  - **Text screen** — narration and/or direct speech, no options. Ends with a single arrow: `→[QUESTION Y]`, `→[SCENARIO Y]`, or `→[THE END]`.
+  - **Choice screen** — carries `[ANSWER X]` options, each with its own arrow.
+- `[ANSWER X]` carries: the button label, the destination arrow, and optionally `[Sympathy: +X]` / `[Sympathy: -X]`, which moves the shared Sympathy scale.
+- `[SCENARIO X]` is a set of screens. **All paths inside one `[SCENARIO]` eventually lead to the next `[SCENARIO]`.**
+- A screen ending `→[SCENARIO Y]` sends the player to `[QUESTION 1]` of `[SCENARIO Y]` — **unless** `[SCENARIO Y]` opens with Sympathy requirements, in which case the player lands on the `[QUESTION X]` matching their score.
+- `What will you choose?` = the screen is answered by **Player 1**. `What will she choose?` / `What will he choose?` = answered by **Player 2**. The waiting player still sees the screen, with non-clickable buttons and `[Name] makes a choice...`.
+- `[Name]` is a placeholder for the partner's profile name and **stays literal in the emitted JSON**. Do not invent a character name and do not bake one in.
+
+Local `[QUESTION X]` / `[ANSWER X]` numbering **resets inside each `[SCENARIO]`**. It is a human-readable layer only; engine IDs are globally unique snake_case.
+
+If the script is looser than this (missing tags, prose paragraphs, missing arrows), normalize it into the same model and log every inference in the `Script Reconciliation Report`.
+
+## Gender Detection
+
+Derive the pairing from the script; never ask.
+
+- The script uses explicit gendered pronouns (`she`, `he`, `her`, `his`) or a gendered POV note → the novel is **not** gender-neutral. Set `Gender Neutral Mode: false`, `Pairing Mode: MaleFemale`, `genderA: "MAN"`, `genderB: "WOMAN"`. Player 1 = role A = man; Player 2 = role B = woman. Apply the full `Role Mirroring` model below.
+- The script is genuinely gender-neutral throughout → `Gender Neutral Mode: true`, `genderA: null`, `genderB: null`, two partners with no gendered content, roles assigned by slot (inviter → A, invitee → B).
+
+Record which signal decided it (quote the line) in `Specification.md`.
+
+## Role Mirroring (the mechanic that was being lost)
+
+The editor writes one text; the app must show **two versions**. Per the legend, the Player 2 version transforms:
+
+- narration: `you` → `he` (verb gains `-s`); `your` → `his`; object `you` → `him`; `she` → `you` (verb loses `-s`); `her` → `your` / `you` by context; case preserved;
+- an exception: `you` meaning **both of you** is never transformed — keep such shared actions unambiguous;
+- direct speech: the **speaker labels swap** (`You:` ↔ `[Name]:`); the spoken words themselves never change;
+- `[Name]` resolves to the partner's profile name on each player's screen.
+
+**Engine realization.** The engine supports this beyond the prologue: `nextForA` / `nextForB` re-fork the two roles after **any** answer, and the branches reconverge at the next shared Choice (engine doc, Part IV, "Сквозные развилки"). Navigation priority is `isEnding` → `nextForA/nextForB` → `nextScenarioId` → `nextQuestionId`.
+
+Therefore:
+
+1. **Every run of Text screens between two shared Choices becomes a role pair.** Author the A-chain exactly as the editor wrote it, and the B-chain as the legend's transformation of the same screens. Chain each side with `nextQuestionId`; both sides end on the same next shared Choice.
+2. **Enter each run** through `nextForA` / `nextForB` on the answer that precedes it. The opening run uses `introStartIdA` / `introStartIdB`.
+3. **ID convention:** `q_<scene>_<n>_a` and `q_<scene>_<n>_b` for the two versions of one script screen. This makes the coverage audit mechanical.
+4. If a Text run is genuinely identical for both roles (pure `Both of you` narration with no `you`/`she`), you may emit one shared screen. Justify each such merge in the coverage audit.
+
+**Known engine limit — Choice screens cannot be mirrored.** A shared Choice is a single object with one `text` and one `answers` array, shown to both players; `answeredBy` decides who clicks and drives the `[Name] makes a choice...` affordance. So:
+- write the Choice `text` so it reads correctly for both players (situational framing, no `you`/`she` asymmetry);
+- keep the editor's answer labels verbatim; if a label only parses from one POV, keep the editor's wording and record it in the `Engine Gap Register`;
+- never invent a second Choice screen to fake per-role text.
+
+## Scenario Structure
+
+**One engine `scenario` per script `[SCENARIO X]`.** Same order, same count. Do not merge acts, do not split them, do not renumber.
+
+- `scenario.initialQuestionId` = the engine ID of that act's `[QUESTION 1]` (or, for a gated act, the band router — see below).
+- A **Choice answer** ending `→[SCENARIO Y]` uses `nextScenarioId`.
+- A **Text screen** ending `→[SCENARIO Y]` sets its `nextQuestionId` to the target scenario's entry question ID. Engine IDs are globally unique and connectivity validation requires only that the target exists.
+- `activationConditions` stays `null`. Never use it to make required content reachable.
+
+If a backend constraint later forbids cross-scenario `nextQuestionId` from a Text screen, the fallback is to give the *preceding* Choice an answer carrying `nextScenarioId` — never to merge two acts. Record any use of the fallback in the `Engine Gap Register`.
+
+## Sympathy
+
+The engine model: each Choice answer earns `sympathyWeights[answerType] × question.weight`; both players' points sum to one shared scale; the score normalizes to `round(earned / maxPossible × 100)`, 0..100.
+
+Two consequences you must handle explicitly, not silently:
+
+**1. There are no negative weights.** `sympathyWeights` values are non-negative, so the editor's `[Sympathy: -3]` cannot be emitted as a negative number. Preserve the editor's **ordering and relative distance**, not the literal integers:
+- rank every answer on a question by the editor's delta;
+- pick an `answerType` per answer so that `sympathyWeights[type] × weight` reproduces that ranking (warm deltas → `Romantic`/`Kind`/`Sensitive`; neutral → `Playful`/`Practical`/`Rational`; negative deltas → the cheapest types, `Reserved` being the floor);
+- an answer the editor scored negative must end up **strictly below** every non-negative answer on the same question.
+- Publish the full mapping in the `Sympathy Balance Map`: script delta → chosen type → emitted points.
+
+**2. Thresholds must be rescaled.** The editor writes raw thresholds (`>0`, `[-4;0]`, `<-4`). Compute the script's raw minimum and maximum across all complete paths, compute the engine's normalized min and max the same way, and map each raw boundary to its proportional position on 0..100. Show the arithmetic in `Sympathy Thresholds`. Verify every band is reachable by enumerating complete paths.
+
+### Sympathy-Gated Entry
+
+When `[SCENARIO Y]` opens with Sympathy requirements, the engine mechanism is `requiredSympathy` on answers (engine doc, Part VI): a variant unlocks only when the pair's current sympathy reaches the threshold, on the same 0..100 scale as `endings[]`.
+
+Map it as follows:
+
+- **Gated act reached from a Choice** — put the band routing on that Choice's answers: one answer per band, each routing to that band's entry question, each carrying the band's `requiredSympathy`. Keep at least one answer with no threshold (an engine rule: never lock a whole question).
+- **Gated act that is the final act** — it is not a routing problem at all. Each band becomes an `endings[]` entry. See `Endings`.
+- **Gated act reached from a Text screen, mid-story** — the engine has no automatic score-routed entry. Do not collapse the bands. Route the Text screen to the band entry that represents the editor's default (the middle band unless the script implies otherwise), keep every band's screens in the JSON, and record the whole thing in the `Engine Gap Register` as requiring native score-routed scenario entry. Never delete the unreachable bands; they are the spec for the backend work.
+
+## Endings
+
+An Interacta ending is a **screen without a choice** that tells where these two people go after the story. That is exactly `endings[]`: it is selected by the final sympathy score and rendered on the results screen.
+
+Therefore:
+
+- The script's `→[THE END]` narration **becomes `endings[]` content**, one entry per outcome band. Preserve the editor's ending prose as `endings[].text` (trim only for screen length; keep the wording).
+- **Do not invent a terminal Choice screen.** The last Choice the editor actually wrote on each branch carries `isEnding: true` on its answers; that completes the session and the results screen shows the score-selected ending.
+- Narration that sits between that last Choice and `→[THE END]` folds into the corresponding `endings[].text` rather than being dropped.
+- `endings[]` holds 2–4 entries whose `[minSympathy, maxSympathy]` cover 0..100 with no gaps and no overlaps; stable unique `id`s; each with `title`, `text`, and `.../{slug}/ending-{id}.webp`.
+- The editor's cold/low band stays as the editor wrote it. Do not convert it into a gentler ending.
+
+## Technical Gap-Fill (add only what the engine requires)
+
+Add these; nothing else. Record each in the `Script Reconciliation Report`.
+
+| # | Field | Rule |
+| --- | --- | --- |
+| 1 | `type` | Text → `0`; Choice → `1`. |
+| 2 | `weight` | Text → `1`. Choice → rising across the story: early 4–6, middle 6–8, late/decisive 8–10. Reserve `10` for a real culmination. |
+| 3 | `answerType` | Exactly one per answer, from the 10 allowed values, chosen to reproduce the editor's sympathy ordering (see `Sympathy`). |
+| 4 | `answeredBy` | `What will you choose?` → `"A"`; `What will she/he choose?` → `"B"`. Never reassign turns to force alternation — the editor's turn order wins. Report the actual sequence. |
+| 5 | `sympathyWeights` | Emit the dictionary used by the mapping. Non-negative integers, closeness types dearer. |
+| 6 | `endings[]` | Per `Endings`. |
+| 7 | `requiredSympathy` | Only where the script gates a branch (see `Sympathy-Gated Entry`). **Do not invent a gate** to satisfy a checklist if the script has none; state its absence in the report. |
+| 8 | roles | `genderA`/`genderB`, `introStartIdA`/`introStartIdB`, `nextForA`/`nextForB` per `Gender Detection` and `Role Mirroring`. |
+| 9 | `imageUrl` | Every question needs one. Assign **by unique visual beat**, not per screen; reuse aggressively across a continuous location. Endings get `ending-{id}.webp`. |
+| 10 | locale | en-US + ru-RU per `Localization`. |
+| 11 | product metadata | Title, description, exactly 2 narrative `Categories`, one `Backend Category`, 3–5 tags — in `Specification.md` and SQL only, never in technical JSON. |
+
+**Never add** a story beat, a screen, an answer, or a scenario that the editor did not write. If a Choice has 2 answers, it ships with 2. If the script has no sympathy gate, it ships with none.
+
+## Script Coverage Audit (the anti-loss gate)
+
+Before writing any JSON, build an inventory of the script; after writing it, prove one-to-one coverage. `Specification.md` must contain this table, and it must account for **every** `[QUESTION]` and every `[ANSWER]` in the source:
+
+```markdown
+## Script Coverage Audit
+Source screens: {N}. Emitted questions: {M} (A/B pairs counted separately). Source answers: {P}. Emitted answers: {Q}.
+
+| Script ref | Kind | Engine ID(s) | Status | Note |
+| --- | --- | --- | --- | --- |
+| S1 Q1 | Text | q_arrive_1_a / q_arrive_1_b | Mirrored pair | |
+| S1 Q10 | Choice | q_order | Shared Choice (answeredBy B) | |
+| S1 Q10 A2 | Answer | a_order_wine | Carried | delta +0 → Romantic |
+| S5 Q3 | Text | q_meal_cold_1_a/b | Emitted, unreachable | score-routed entry unsupported; see Engine Gap Register |
+```
+
+Rules:
+- Status is one of `Carried`, `Mirrored pair`, `Merged (justified)`, `Emitted, unreachable`, `Not carried`.
+- **`Not carried` requires an explicit reason and is a failure unless a human approved it.** Coverage below 100% blocks delivery.
+- Counts must reconcile arithmetically. State them.
+
+## Engine Gap Register
+
+Any place where the editor's model exceeds current engine capability:
+
+```markdown
+## Engine Gap Register
+| Script mechanic | Where | Engine limitation | What was emitted | Backend work needed |
+| --- | --- | --- | --- | --- |
+```
+
+This register is a feature request list for the backend, not an excuse list. Keep it precise.
+
+## Content Risk Register
+
+```markdown
+## Content Risk Register
+| Scene | Quoted line | Risk | Action taken |
+| --- | --- | --- | --- |
+| S6 payment | "You'll pay, you're the man" | Gendered scoring | Preserved as written; flagged for human review |
+```
+
+`Action taken` is `Preserved as written; flagged for human review` unless a human instructed otherwise.
+
+## Output Files
+
+```text
+Novels/
+  Library/
+    {Novel Title en-US}/
+      Specification.md
+      Technical Specification.json
+      Technical Specification.en-US.json
+      Technical Specification.ru-RU.json
+      Database Insert.sql
+```
+
+Reserve production CDN URLs; `{slug}` = en-US title in snake_case:
+
+```text
+https://interacta-app-dev.com/minio/interacta-prod/novels/{slug}/header.webp
+https://interacta-app-dev.com/minio/interacta-prod/novels/{slug}/step-XX.webp
+https://interacta-app-dev.com/minio/interacta-prod/novels/{slug}/ending-{id}.webp
+```
+
+### `Specification.md` sections
+
+Everything `Novel Production Specification.md` requires, plus, in this order:
+
+`Script Source` · `Script Coverage Audit` · `Script Reconciliation Report` · `Engine Gap Register` · `Content Risk Register` · `Role Mirroring Map` (script screen → A version → B version → convergence point) · `Sympathy Balance Map` (script delta → type → points) · `Sympathy Thresholds` (raw→normalized arithmetic).
+
+```markdown
+## Script Source
+| Field | Value |
+| --- | --- |
+| Source File | {SCRIPT_FILE} |
+| Editor Intent | {1-2 sentences} |
+| Format Detected | {Spec 3 tagged / partial / loose prose} |
+| Source Structure | {N scenarios, M screens, P choices, Q answers, K ending bands} |
+| Gender Signal | {quoted line that set gendered vs neutral} |
+```
+
+## Localization
+
+- en-US and ru-RU for every user-facing string, authored from the same beat.
+- The A/B split is real screens, so **ru-RU mirroring is authored, not substituted** — write each role's Russian with correct gender agreement (past-tense verbs, adjectives, participles). This is why per-role screens matter more in Russian than in English.
+- Identical across all JSON files: IDs, order, weights, answer types, routes, `answeredBy`, `nextForA`/`nextForB`, `requiredSympathy`, `sympathyWeights`, `endings` ids/ranges/imageUrls. Only user-facing strings differ, including `endings[].title`/`text`.
+- `[Name]` stays literal in both locales.
+- Author Russian; do not translate mechanically. False friends: restaurant `server` → `официант`/`официантка`, `check` → `счёт`, `reservation` → `бронь`, `date` → `свидание`.
+- Never translate AnswerType enum values or convert IDs to Cyrillic.
+
+## Human Voice (applies only to copy you author)
+
+The editor's lines are untouchable. For ru-RU, `endings[]` titles, descriptions, and scenario titles you write yourself: no em dashes, no throat-clearing openers, no "not X but Y" contrasts, no filler intensifiers, active voice, concrete nouns, varied rhythm. Full detail in the Voice Guide's `Human Voice: No AI Slop`. Apply the `stop-slop` skill when available.
+
+## QA Before Finalizing
+
+Structural:
+- All three JSON files parse and validate against `Novels/Schemas/novel.schema.json`.
+- `Technical Specification.json` is byte-identical to `Technical Specification.en-US.json`.
+- Root emits `initialScenarioId`, `scenarios`, `genderA`/`genderB`, `introStartIdA`/`introStartIdB`, `sympathyWeights`, `endings`.
+- Every `nextQuestionId` / `nextScenarioId` / `introStartId*` / `nextForA` / `nextForB` resolves to an existing ID.
+- Every reachable branch terminates in `isEnding: true`; no dangling dead ends; no unreachable screens except those logged as `Emitted, unreachable`.
+- Text: `type 0`, `weight 1`, `answers: []`. Choice: `type 1`, `nextQuestionId: null`, 2–3 answers.
+- Every Choice keeps at least one answer without `requiredSympathy`.
+- `endings[]` cover 0..100, no gaps, no overlaps.
+
+Fidelity (the checks that matter most):
+- **Coverage: 100%.** Every source `[QUESTION]` and `[ANSWER]` appears in the `Script Coverage Audit` with status `Carried`, `Mirrored pair`, `Merged (justified)`, or `Emitted, unreachable`. Any `Not carried` blocks delivery.
+- **Counts reconcile:** source scenarios = engine scenarios; source choices = engine Choice screens; source answers = engine answers.
+- **Order preserved:** scenario order and screen order match the script.
+- **Mirroring complete:** every role-specific Text run has an A and a B version reachable via `introStartId*` or `nextForA`/`nextForB`.
+- **Sympathy ordering preserved:** on every question, the emitted points rank the answers exactly as the editor's deltas did; negative-delta answers rank strictly lowest.
+- **No invented content:** no screen, answer, scenario, or gate exists that is not in the script or listed in the gap-fill table.
+- **Content preserved:** nothing softened or dropped for brand reasons; each risk appears in the `Content Risk Register`.
+
+Product:
+- Exactly one `Categories` list with 2 valid keys; one valid `Backend Category`; pairing/gender metadata only in `Specification.md`.
+- Every `imageUrl` has a Visual Asset Brief row; `Cover Image URL` matches the header.
+- `Database Insert.sql` matches the `novels` contract (en-US `content_json` as `::jsonb`, category JSON, 3–5 tags, `is_published false`, counters `0`/`0.0`, `NOW()`, `author_id NULL`).
+- ru-RU is natural and structurally identical to en-US.
+- Human-voice pass on authored copy only.
+
+If any fidelity check fails, fix the JSON. Never fix it by editing the audit.
+
+## Final Response Format
+
+```text
+Implemented from script: {SCRIPT_FILE}
+
+Created:
+- Novels/Library/{Novel Title en-US}/Specification.md
+- Novels/Library/{Novel Title en-US}/Technical Specification.en-US.json
+- Novels/Library/{Novel Title en-US}/Technical Specification.ru-RU.json
+- Novels/Library/{Novel Title en-US}/Technical Specification.json
+- Novels/Library/{Novel Title en-US}/Database Insert.sql
+
+Coverage:
+- Source: {N} scenarios, {M} screens, {P} choices, {Q} answers
+- Emitted: {N} scenarios, {M'} questions ({X} mirrored pairs), {P} choices, {Q} answers
+- Coverage: {100%} — not carried: {none | list}
+
+QA:
+- JSON en-US / ru-RU / alias: pass/fail
+- Schema validation: pass/fail
+- Route graph and reachability: pass/fail
+- Role mirroring (A/B pairs, nextForA/B): pass/fail
+- Sympathy ordering preserved: pass/fail
+- Endings cover 0..100: pass/fail
+- Bilingual parity: pass/fail
+- SQL artifact: pass/fail
+- Unique image URLs: pass/fail with count
+- Coverage 100%: pass/fail
+
+Engine gaps: {list, or none}
+Content risks flagged (not changed): {list, or none}
+
+Notes:
+- Visual assets need generation. Open questions for the editor: {...}
+```
