@@ -24,6 +24,25 @@ Source folder: · Final post language: · Working notes language:
 ## Visual Specification
 ### Optional Visual Decision
 ### Optional Visual Brief
+
+**Every object gets its own sub-block. A brief that names an object without
+saying what it argues produces a decoration.** For each one:
+
+```
+<name> · signature | supporting · slide <n>
+  Argues:      the one claim this drawing makes on its own
+  Variable:    the single thing that moves and carries the claim
+  Held still:  what stays identical so the claim reads cleanly (playbook §16)
+  New because: the nearest previous object, and how this differs
+```
+
+The signature object additionally states **why it is the one that goes on the
+single page** — which of the deck's objects best explains the thesis to a reader
+who never swipes.
+
+Run `list_objects.py` over the output directory before writing this section. The
+uniqueness claim in "New because" has to be checked against what exists, not
+against memory.
 ## CTA / Closing Move
 ## Risk Notes
 ## Human Voice QA           ← include source-fidelity notes
@@ -40,7 +59,13 @@ Archetype: · Recommended length: · CTA type: · Languages:
 Visual decision:  none | optional | recommended | required
 Visual theme:     <resolved in Step 1 — never re-decided here>
 Carousel depth:   <depth> (B=<n>) → <n> slides
+Visual objects:   <n> = min(4, max(2, ceil(slides/3))) — 1 signature + <n-1> supporting
 ```
+
+**`Visual objects` is derived from the depth, never chosen.** Stage 3 reads this
+line and builds to it, and `verify_spec.py` checks the Visual Brief describes as
+many objects as the line claims. A spec that promises three and briefs one is the
+same defect as a deck that ships one.
 
 **Carousel depth is derived, never chosen by habit.** Count the load-bearing beats **B** in `Post Structure` — a beat is one idea that can hold a slide alone. Then `slides = clamp(B + 2, 6, 12)`, where the +2 is cover and close.
 

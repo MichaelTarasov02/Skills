@@ -2,7 +2,7 @@
 
 The markup for every component the system provides. Read this instead of the CSS — the stylesheet is 23 KB and reading it costs the context that should go into the writing.
 
-If a component you need is not here, build it in the post's `styles.css` as the one bespoke object. Do not re-implement something on this list.
+If a component you need is not here, build it in the post's `styles.css` as one of that post's bespoke objects. Do not re-implement something on this list.
 
 ## Artboard skeleton
 
@@ -126,6 +126,13 @@ Utilities: `.mt3` `.mt4` `.mt5` `.mb3` `.mb4` (margins) · `.gap3` `.gap4` `.gap
 ```
 
 **Badge** — the qualifier on any illustrative figure. Never present an illustration as a measurement.
+
+**Beatgrid** — the single page only. Runs the deck's middle beats two-up in a compact grid, which is how a page holds six ideas that would each take a slide. A beat is a label and one tight line; anything longer belongs on a slide.
+```html
+<div class="beatgrid">
+  <div class="beat"><span class="bl">Label</span><span class="bt">One tight line.</span></div>
+</div>
+```
 
 **Endnote** — the single page's sign-off. Verify it lands inside the frame; it is silently cropped otherwise.
 ```html

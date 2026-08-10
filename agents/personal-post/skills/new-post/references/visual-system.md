@@ -52,7 +52,7 @@ Reserve a filled colour block for one deliberate emphasis, never as a default ca
 
 The shared library gives primitives. It does not give a post its idea.
 
-Every post keeps a thin `styles.css` for the one object it invents. Keep it small: if a rule would help three posts, it belongs in the system file instead.
+Every post keeps a `styles.css` for the two to four objects it invents. Keep it tight: if a rule would help three posts, it belongs in the system file instead.
 
 The bar is that **the composition carries the claim before a word is read** — a chip that physically moves position across two strips, two tracks that visibly diverge at one step, a ladder with its bottom rung struck out. And the object must be new: no previous post may already own it (see stage-3's bespoke-uniqueness rule).
 

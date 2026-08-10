@@ -188,6 +188,45 @@ def main():
     if th:
         notes.append(f"theme: {th.group(1)}")
 
+    # --- the object budget, and whether the brief actually describes it ------
+    # A spec that promises three objects and briefs one is the same defect as a
+    # deck that ships one. The count is derived from the depth, so it can be
+    # checked rather than trusted.
+    building = bool(vd) and vd.group(1).lower() != "none"
+    if building:
+        if "Visual objects:" not in text:
+            problems.append(
+                "missing 'Visual objects:' — Stage 3 builds to this line "
+                "(objects = min(4, max(2, ceil(slides / 3))))")
+        depth = re.search(r"Carousel depth:.*?(\d+)\s*slides", text, re.I)
+        want_obj = None
+        if depth:
+            slides = int(depth.group(1))
+            want_obj = min(4, max(2, -(-slides // 3)))
+            notes.append(f"objects required for {slides} slides: {want_obj}")
+            claim = re.search(r"Visual objects:\s*(\d+)", text)
+            if claim and int(claim.group(1)) != want_obj:
+                problems.append(
+                    f"'Visual objects: {claim.group(1)}' disagrees with the depth — "
+                    f"{slides} slides require {want_obj}")
+
+        # Each object needs its own sub-block in the brief. Anchor on the tier
+        # word, which is the one token every object block must carry.
+        briefed = len(re.findall(r"^\s*[`.\w-]+\s*·\s*(?:signature|supporting)\b",
+                                 text, re.M | re.I))
+        if want_obj is not None:
+            notes.append(f"objects briefed: {briefed}")
+            if briefed < want_obj:
+                problems.append(
+                    f"Visual Brief describes {briefed} object(s), depth requires {want_obj} — "
+                    "each needs a '<name> · signature|supporting · slide <n>' block "
+                    "with Argues / Variable / Held still / New because")
+            sig = len(re.findall(r"·\s*signature\b", text, re.I))
+            if sig != 1:
+                problems.append(
+                    f"the brief marks {sig} signature object(s) — exactly one carries the "
+                    "thesis and goes on the single page")
+
     if args.json:
         print(json.dumps({"ok": not problems, "problems": problems, "notes": notes}, indent=2))
     else:

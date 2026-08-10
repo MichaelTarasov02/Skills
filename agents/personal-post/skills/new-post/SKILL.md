@@ -86,7 +86,7 @@ Stage 3 is conditional. If the spec's `Visual decision` is `none`, the post is t
 ├── Post Copy.md                 ← what gets pasted into LinkedIn, both versions
 └── Visual/                      ← only when the spec calls for a visual
     ├── system.css                ← copy of the plugin's visual-system.css
-    ├── styles.css               ← this post's one bespoke object
+    ├── styles.css               ← this post's 2-4 bespoke objects
     ├── carousel.html
     ├── single-page.html
     ├── README.md                ← theme, depth, archetypes, what to upload

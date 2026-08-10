@@ -15,6 +15,8 @@
      · a theme that disagrees with the specification
      · a slide filling under ~40% of its band, or a stretched component
      · word counts past the theme's density budget
+     · a deck carrying fewer drawn objects than its depth requires
+     · a single page that is a cover with one drawing instead of a digest
 
    What it CANNOT catch: whether a stretched component is hollow inside. A
    hollow stretch reports 100% fill because it touches both edges. Open the
@@ -96,6 +98,22 @@ function budgets() {
   return {};                       // unknown theme → skip the word check
 }
 
+/* The single page is a digest of the deck, not a taste of it.
+
+   Both numbers below were measured, not picked. A 1080x1350 artboard holding a
+   hook, one object, a six-beat grid, the turn and a question came out at 136
+   words with roughly a fifth of the artboard still free, so a full page lands
+   near 170-190. Pages built before this rule ran 55 and 118 words: 17% and 20%
+   of their decks.
+
+   The gate is a ratio OR an absolute, and the OR is the important part. A ratio
+   alone punishes a dense deck for having a page that is already physically full,
+   which would push the fix into thinning the deck — the opposite of the point.
+   A page passes when it carries a third of the deck, or when it carries as much
+   as an artboard holds. */
+const PAGE_COVERAGE_MIN = 0.33;
+const PAGE_WORDS_FULL = 170;
+
 const wantTheme = specTheme();
 const BUDGET = budgets();
 const browser = await chromium.launch();
@@ -146,9 +164,19 @@ async function measure(file) {
       const en = s.querySelector('.endnote');
       const endnoteInside = en ? en.getBoundingClientRect().bottom <= fr.bottom + 1 : null;
 
+      /* Bespoke objects declare themselves. An unmarked object does not exist
+         as far as this gate is concerned, which is the point: a rule about how
+         many drawings a deck carries decays into "one, like last time" unless
+         something counts them. */
+      const objects = [...s.querySelectorAll('[data-object]')]
+        .map((e) => e.getAttribute('data-object'));
+      const beats = s.querySelectorAll('.beatgrid .beat').length;
+
       return {
         n: i + 1,
         theme: s.getAttribute('data-theme'),
+        objects,
+        beats,
         fillPct: Math.round(((bot - top) / fl.height) * 100),
         words: (body.innerText || '').trim().split(/\s+/).filter(Boolean).length,
         overflow,
@@ -197,6 +225,71 @@ for (const [file, rows] of Object.entries(report)) {
   }
 }
 
+/* ------------------------------------------------- objects and page coverage
+
+   Two rules the per-slide loop cannot see, because both are properties of the
+   deck rather than of any one artboard.                                      */
+
+/* One drawn object per three slides. Floor of two so even the shortest deck
+   carries a second; ceiling of four because a fifth stops being a drawing and
+   becomes a pattern the reader scrolls past. */
+const objectBudget = (slides) => Math.min(4, Math.max(2, Math.ceil(slides / 3)));
+
+const deck = report['carousel.html'] || [];
+const pageRows = report['single-page.html'] || [];
+
+if (deck.length) {
+  const names = deck.flatMap((r) => r.objects || []);
+  const distinct = [...new Set(names)];
+  const want = objectBudget(deck.length);
+  report._objects = { distinct, want, slides: deck.length };
+
+  if (distinct.length < want)
+    problems.push(
+      `carousel.html carries ${distinct.length} marked object(s) but ${deck.length} ` +
+      `slides require ${want} — add data-object="<name>" to each, or draw the missing one`);
+
+  /* Objects bunched at the front read as a deck that ran out of ideas. */
+  const at = deck.filter((r) => (r.objects || []).length).map((r) => r.n);
+  if (at.length >= 2 && Math.max(...at) <= Math.ceil(deck.length / 2))
+    warnings.push(
+      `every object sits in the first half of the deck (slides ${at.join(', ')}) — spread them`);
+}
+
+if (pageRows.length) {
+  const pageObjects = [...new Set(pageRows.flatMap((r) => r.objects || []))];
+  if (pageObjects.length !== 1)
+    problems.push(
+      `single-page.html carries ${pageObjects.length} marked object(s) — it takes exactly one, ` +
+      `the signature object that best explains the thesis`);
+
+  if (deck.length) {
+    const deckWords = deck.reduce((a, r) => a + (r.words || 0), 0);
+    const pageWords = pageRows.reduce((a, r) => a + (r.words || 0), 0);
+    const ratio = deckWords ? pageWords / deckWords : 0;
+    report._coverage = { deckWords, pageWords, pct: Math.round(ratio * 100) };
+
+    if (ratio < PAGE_COVERAGE_MIN && pageWords < PAGE_WORDS_FULL)
+      problems.push(
+        `single-page.html carries ${pageWords} words against the deck's ${deckWords} ` +
+        `(${Math.round(ratio * 100)}%, floor ${Math.round(PAGE_COVERAGE_MIN * 100)}% ` +
+        `or ${PAGE_WORDS_FULL} words) — it is a cover, not a digest. ` +
+        `Add a .beatgrid of the deck's middle beats`);
+    else if (ratio < PAGE_COVERAGE_MIN + 0.08 && pageWords < PAGE_WORDS_FULL)
+      warnings.push(
+        `single-page.html covers ${Math.round(ratio * 100)}% of the deck — just above the floor, ` +
+        `check a real beat was not dropped`);
+
+    /* The beat grid is how six ideas fit where slide markup fits two. A page
+       without one is usually a page that dropped the middle of the deck. */
+    const beats = pageRows.reduce((a, r) => a + (r.beats || 0), 0);
+    report._coverage.beats = beats;
+    if (beats < 4)
+      warnings.push(
+        `single-page.html has ${beats} .beatgrid beat(s) — the digest model asks for four to six`);
+  }
+}
+
 /* the PDF is the upload artifact, so confirm it exists and has a page per slide */
 const pdf = path.join(DIR, 'exports', 'carousel.pdf');
 if (existsSync(pdf)) {
@@ -223,6 +316,17 @@ if (JSON_OUT) {
         `${r.overflow.length ? '  OVERFLOW' : ''}${r.dangling ? '  DANGLING-ARROW' : ''}` +
         `${r.endnoteInside === false ? '  ENDNOTE-CROPPED' : ''}`);
     }
+  }
+  if (report._objects) {
+    const o = report._objects;
+    console.log(`\nobjects: ${o.distinct.length}/${o.want} required for ${o.slides} slides` +
+                `${o.distinct.length ? '  →  ' + o.distinct.map((n) => '.' + n).join(' · ') : ''}`);
+  }
+  if (report._coverage) {
+    const c = report._coverage;
+    console.log(`page coverage: ${c.pageWords}/${c.deckWords} words = ${c.pct}% ` +
+                `(floor ${Math.round(PAGE_COVERAGE_MIN * 100)}% or ${PAGE_WORDS_FULL} words)` +
+                `${c.beats != null ? `  ·  ${c.beats} beats` : ''}`);
   }
   if (report._pdf) console.log(`\ncarousel.pdf: ${report._pdf.pages} pages`);
 

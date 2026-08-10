@@ -54,8 +54,18 @@ Sparser than the other types — five to eight per deck: 💰 📈 🧭 💬 ⚡
 
 ## Bespoke object tone
 
-The invented object should look like **a single object in the dark**: a balance that tips, a price tag with a hidden line, one lit element among unlit ones, a ladder with a missing rung. Physical, singular, metaphor-first. If it looks like a form or a schematic, it belongs to another type. It must not repeat any object from a previous post — check every existing `Visual/README.md` first.
+Every graphite deck carries two to four objects (`min(4, max(2, ceil(slides/3)))`), and each should look like **a single object in the dark**: a balance that tips, a price tag with a hidden line, one lit element among unlit ones, a ladder with a missing rung, a row where only one mark differs. Physical, singular, metaphor-first. If an object looks like a form or a schematic, it belongs to another type.
+
+**This is the type where the budget is hardest, and the answer is not to compromise the type.** Graphite objects are singular by nature, so three of them means three separate physical metaphors, each alone on its artboard with air around it. That is more demanding than three panels of a schematic and it is the right cost: a graphite deck of ten slides with one drawing and nine statements is exactly the deck this rule was written against. Keep each object simple enough to read in a second — a graphite object with six labelled parts has become a schematic and belongs to the coloured family.
+
+The **signature** object must not repeat any previous post's signature. Supporting objects may share a family with earlier work. Run `list_objects.py` rather than trusting memory.
 
 ## Single page
 
-`.page` display drops to `78px` (still the largest of any type). Keep the air: a graphite single page with six packed blocks has failed before it exports — carry the hook, the object, two beats, the rule, the question, and nothing else.
+`.page` display drops to `78px` (still the largest of any type),.
+
+**This section used to say the opposite, and it was wrong.** It read: keep the air, carry two beats and nothing else. That produced a page holding a fifth of what the deck held, and a reader who never swiped got a cover. Air is the authority *on a slide*, where one idea has a whole artboard. The single page is a different artefact with a different job: it is the only thing some readers will see.
+
+Carry the hook, the signature object, a `.beatgrid` of four to six beats, the evidence line if the deck has one, the turn, and the question. Coverage gate: 55% of the deck's words, same as every other type.
+
+What graphite keeps from its character is **restraint per element**, not fewer elements: shorter beat lines, more space between blocks than the other types, no second object. The page is dense in coverage and calm in texture.

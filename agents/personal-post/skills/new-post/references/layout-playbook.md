@@ -348,6 +348,46 @@ This is the third member of the family that includes §14 and §15: **the things
 
 ---
 
+## 18. One drawing per deck is a document, and a page that samples the deck is a cover
+
+**Cost: thirty-seven posts before anyone counted.**
+
+The system said "every post invents one structural object" and meant it as a floor.
+It was read as a ceiling for thirty-seven consecutive posts. A ten-slide deck went
+out carrying one drawing and nine slides of type, and the single page carried the
+hook, that same drawing and the question — 55 words against the deck's 326, and
+118 against 600 on another. Seventeen and twenty percent.
+
+Neither number was visible to anybody, because nothing counted either one.
+
+**Rule, in three parts.**
+
+**Objects are derived from depth.** `objects = min(4, max(2, ceil(slides / 3)))`.
+Two on the shortest deck, four at the ceiling. One of them is the **signature**:
+it carries the thesis, it is unique across every post ever published, and it is
+the one the single page inherits. The rest are **supporting**, and they may share
+a family of shapes with earlier work — without that, the fiftieth post would be
+inventing structures to satisfy a counter rather than an argument.
+
+**Every object declares itself**: `data-object="<name>" data-object-tier="…"`.
+An unmarked object does not exist as far as the gate is concerned.
+
+**The single page is a digest, not a sample.** Hook, the signature object, a
+`.beatgrid` of four to six beats, the evidence, the turn, the question. It passes
+at a third of the deck's words *or* at 170 words, whichever it reaches first —
+the second clause matters, because a ratio alone would punish a dense deck for
+having a page that is already physically full, and the fix for that would be
+thinning the deck, which is the opposite of the point.
+
+**The part worth carrying beyond this rule:** every one of these was written down
+somewhere. "Every post invents one object" was in three files. "The whole post on
+one artboard" was in stage 3. Both were followed to the letter and produced the
+defect anyway, because prose describes an intention and only a count enforces one.
+**When a rule has a number in it, something has to run that number.** Otherwise it
+decays into whatever happened last time, and last time is not a standard.
+
+---
+
 ## Adding to this file
 
 A defect earns a rule when it has appeared **twice**. Once is bad luck; twice is a pattern the next run will hit too.

@@ -15,19 +15,80 @@ Read the spec's `Visual decision`.
 
 Do not build when the visual would need unapproved screenshots, client data, or a named person, or when it would be decoration rather than argument.
 
-## Decide three things, and write them down first
+## Decide four things, and write them down first
 
 ```
 Theme:          <from the spec's Visual theme line — do not re-decide>
 Depth:          B=<n> → <n> slides
+Objects:        <n> = min(4, max(2, ceil(slides / 3)))
+                signature: <the one that carries the thesis>
+                support:   <the others, one line each>
 Archetypes:     cover · … · close
-Bespoke object: <the one thing this post's styles.css invents>
 Caption role:   short overview; the carousel carries the argument
 ```
 
+## The object budget — one drawn object per three slides
+
+A deck of ten slides carrying one drawing and nine walls of type is a document,
+not a carousel. **Every deck carries several invented objects, and the count is
+derived, never chosen by mood:**
+
+```
+objects = min(4, max(2, ceil(slides / 3)))
+```
+
+| Slides | Objects |
+|---|---|
+| 6 | 2 |
+| 7–9 | 3 |
+| 10–12 | 4 |
+
+Two is the floor even on the shortest deck. Four is the ceiling, because a fifth
+object stops being a drawing and starts being a pattern the reader scrolls past.
+
+**Objects come in two tiers, and the difference is what may repeat.**
+
+**The signature object.** One per post. It carries the thesis, it is the one that
+would survive if the deck lost every other slide, and it is **globally unique
+across every post ever published** — not the same object re-skinned, not the same
+metaphor with new labels. This is the brand promise and it does not bend. It is
+also the object that goes on the single page.
+
+**Supporting objects.** The rest. Each is still invented in this post's
+`styles.css`, still specified in the Visual Brief, still built to the same
+standard. What they are allowed to do that the signature cannot: share a *family*
+of shapes with an earlier post — a second ledger-with-a-strike, another two-track
+comparison — as long as it is not a re-skin of some other post's **signature**.
+Without that allowance the uniqueness rule would demand three never-before-seen
+structures per post forever, and the fiftieth post would be inventing shapes to
+satisfy a counter rather than an argument.
+
+**Every object is marked in the markup**, on its root element:
+
+```html
+<div class="tether" data-object="tether">…</div>
+```
+
+`verify_visual.mjs` counts these. An unmarked object does not exist as far as the
+gate is concerned, and a deck under its budget fails rather than warns. That is
+deliberate: a rule about how many drawings a deck carries is exactly the kind of
+rule that quietly decays into "one, like last time" unless something counts.
+
+**Before choosing any of them, list what is taken.** Run:
+
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/new-post/scripts/list_objects.py" "<output_dir>"
+```
+
+It prints every object every post has used, with its tier. Reading thirty-seven
+`README.md` files by hand is how a repeat gets shipped.
+
 **Archetype variety.** No archetype more than twice in one deck, and vary the set from the previous two or three decks — check their `Visual/README.md` first. A feed where every post is the same component sequence reads as a template, which undoes the point of a personal visual.
 
-**Bespoke uniqueness — every post, no exceptions.** Before choosing the bespoke object, list the bespoke objects of **all** previous posts (each `Visual/README.md` names its own). The new object must not repeat any of them — not the same object re-skinned, not the same metaphor with new labels. Two posts may share a *source* (playbook §9) but never a *structural object*. If the natural object is taken, invent the next one; the passport's "bespoke object tone" section says what kind of object fits the type.
+**Spread them.** Objects do not cluster at the front. One near the top where the
+argument is set up, one in the middle where it turns, one near the proof. A deck
+with three drawings on slides 2, 3 and 4 and nothing after slide 5 reads as a
+deck that ran out of ideas.
 
 Cover and close are fixed. Everything between is chosen to fit the argument.
 
@@ -46,7 +107,7 @@ Visual/
 
 Both HTML files link, in order: the font stylesheet, `system.css`, then `styles.css`.
 
-**Do not reinvent what the system provides.** Tokens, artboard sizing, grid, grain, cards, strips, stacks, pairs, ledgers, checks, chips, scales and fans all exist. Per-post CSS is only for the one object this post invents. If a rule would help three posts, it belongs in the system file instead.
+**Do not reinvent what the system provides.** Tokens, artboard sizing, grid, grain, cards, strips, stacks, pairs, ledgers, checks, chips, scales and fans all exist. Per-post CSS is only for the objects this post invents. If a rule would help three posts, it belongs in the system file instead.
 
 ## Fill discipline — the part that decides whether it looks finished
 
@@ -63,12 +124,48 @@ Either route, each item carries a title **plus** a supporting sub-line. One shor
 
 When a sparse-theme slide reads thin, the fix is **fewer words at a larger size** — never smaller type to fit more, never a stretch.
 
-## Both modes are required
+## Both modes are required, and the single page is not a summary
 
 - `carousel.html` — the full argument across 6–12 slides.
-- `single-page.html` — **the whole post on one artboard**: hook, the structural object, two or three proof beats, the rule, the closing question. Not a cover. A reader who never swipes still gets the argument.
+- `single-page.html` — **a digest of that same argument on one artboard.**
 
-Single-page structure, each rule the result of a specific failure: wrap the body in `.sheet` so blocks distribute down the page · the author name appears **once**, in the top meta · close with an `.endnote`, never a footer line glued under the name.
+### The single page carries the post, not a taste of it
+
+This is the part that was wrong for a long time. A single page that runs a hook,
+one drawing and a question against a ten-slide deck is a cover with extra steps.
+A reader who never swipes should finish the page having received the argument,
+the evidence and the limit — everything except the elaboration.
+
+**Coverage rule, and it is a gate rather than an aspiration:** the single page
+carries **at least 55% of the deck's body words**. `verify_visual.mjs` computes
+the ratio and fails below it. Two lines against twenty is the defect this exists
+to stop.
+
+**What it must contain, in order:**
+
+| Block | What it carries |
+|---|---|
+| Hook | eyebrow, display, lede — same claim as the cover, no softer |
+| Signature object | the one object that best explains the thesis, at page scale |
+| Beat grid | **4–6 beats** from the middle of the deck, in `.beatgrid`: a label and one tight line each |
+| Evidence | the borrowed figure with its attribution, when the deck has one |
+| Turn | the deck's `pull` line, compressed to one sentence |
+| Endnote | the closing question |
+
+**Only one object goes on the page** — the signature one. The others do not fit,
+and choosing the most explanatory one is a real editorial decision worth making
+deliberately rather than by slide order.
+
+**The formatting is different from the carousel and that is the point.** A slide
+gives one idea room to breathe. The page gives six ideas a structure to sit in.
+The page's type scale is already a notch tighter than the slides';
+use `.beatgrid` to run beats two-up. Do not simply shrink slide markup: a slide's
+generous `.body` at page scale still eats the artboard, while a beat written as a
+label plus one line fits six times over.
+
+**Structural rules, each the result of a specific failure:** wrap the body in `.sheet` · the author name appears **once**, in the top meta · close with
+an `.endnote`, never a footer line glued under the name · the endnote must land
+inside the frame, and the crop is silent.
 
 ## Slide copy
 

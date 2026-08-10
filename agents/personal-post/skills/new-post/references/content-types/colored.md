@@ -73,7 +73,11 @@ Biased to the instrumental: 🛠️ ⚙️ 🧪 🧩 🔎 ⚡ 🧠 📈 — five
 
 ## Bespoke object tone
 
-The invented object should look like **a schematic**: a pipeline with a bypass valve, a layer diagram with one layer hatched out, a node graph where one edge is severed, a gauge with a marked red zone. Line-work, labels, arrows. If it looks like a memo form or a staged scene, it belongs to another type. It must not repeat any object from a previous post — check every existing `Visual/README.md` first.
+Every coloured deck carries two to four objects (`min(4, max(2, ceil(slides/3)))`), and each should look like **a schematic**: a pipeline with a bypass valve, a layer diagram with one layer hatched out, a node graph where one edge is severed, a gauge with a marked red zone, two probes dropped through strata. Line-work, labels, arrows. If an object looks like a memo form or a staged scene, it belongs to another type.
+
+This is the type where the budget costs least: the passport already says diagrams replace prose when a slide creeps past its words. A coloured slide over budget is an object that has not been drawn yet.
+
+The **signature** object must not repeat any previous post's signature. Supporting objects may share a family with earlier work. Run `list_objects.py` rather than trusting memory.
 
 ## Scale compensation
 
@@ -83,4 +87,6 @@ If a slide still reads thin, scale the component up or give it a second genuine 
 
 ## Single page
 
-Standard `.page` reductions apply and deliberately win over the scale block, because they sit later in the stylesheet. The pattern keeps a dense single page coherent — but the endnote must still land inside the frame; verify it, the crop is silent.
+Standard `.page` reductions apply, and they deliberately win over the family's scale block because they sit later in the stylesheet. The background pattern is what keeps a dense page coherent rather than busy, so this type can carry the digest at full strength.
+
+Carry the hook, the signature object, a `.beatgrid` of four to six beats, the evidence line if the deck has one, the turn, and the question. Coverage gate: 55% of the deck's words. The endnote must still land inside the frame; verify it, the crop is silent.

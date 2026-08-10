@@ -54,8 +54,14 @@ From the verified-safe set only, biased to the operational: 📋 ✅ 👥 🧭 �
 
 ## Bespoke object tone
 
-The invented object should look like **a working artifact**: a form with a hidden column, an org table, a review grid, a calendar strip, a policy diff. If the object would look at home in a keynote or on a schematic, it belongs to another type. It must not repeat any object from a previous post — check every existing `Visual/README.md` first.
+Every ivory deck carries two to four objects (`min(4, max(2, ceil(slides/3)))`), and each should look like **a working artifact**: a form with a hidden column, an org table, a review grid, a calendar strip, a policy diff, a dated register. If an object would look at home in a keynote or on a schematic, it belongs to another type.
+
+Ivory is the densest type, which makes it the easiest place to hit the object budget honestly: a memo is *supposed* to be full of tables and forms. If a slide here is three paragraphs of prose, it is usually one small artifact waiting to be drawn.
+
+The **signature** object must not repeat any previous post's signature. Supporting objects may share a family with earlier work. Run `list_objects.py` rather than trusting memory.
 
 ## Single page
 
-Standard `.page` reductions apply (`74px` display). The memo character helps here: the single page genuinely is one document, top to bottom, closed by an `.endnote`.
+Standard `.page` reductions apply (`74px` display). The memo character makes this the type that takes the digest model most naturally: an internal memo genuinely is one dense document, top to bottom, closed by an `.endnote`.
+
+Carry the hook, the signature object, a `.beatgrid` of four to six beats, the evidence line if the deck has one, the turn, and the question. The coverage gate is 55% of the deck's words and ivory should comfortably clear it — if an ivory page is thin, beats were dropped that a memo would have kept.

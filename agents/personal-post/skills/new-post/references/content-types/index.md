@@ -14,7 +14,8 @@ These never vary per type. If a passport contradicts this list, the list wins.
 - **Colour is ink and edge, not fill** — see `visual-system.md`.
 - **Export gates** (fonts / size / count) and both modes (carousel + single page).
 - **Risk rules on the artboard** — no logos, no CTA bands, no screenshots, no invented measurements.
-- **Bespoke uniqueness:** every post invents one structural object that has never appeared in any previous post. The type shapes *what kind* of object fits; it never excuses a repeat.
+- **Bespoke objects, one per three slides:** `objects = min(4, max(2, ceil(slides / 3)))`. One of them is the **signature** object, which carries the thesis, has never appeared in any previous post, and is the one that goes on the single page. The rest are **supporting** objects: also invented here, also specified, but allowed to share a family of shapes with an earlier post so long as they do not re-skin another post's signature. The type shapes *what kind* of object fits; it never excuses a repeat of a signature.
+- **Both modes carry the argument.** The carousel elaborates it across slides; the single page compresses it into a digest holding at least 55% of the deck's words. A single page that is a cover with one drawing is a defect, not a style.
 
 ## Three purposes, five fields
 

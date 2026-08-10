@@ -803,10 +803,50 @@ html, body {
 .endnote .q strong { color: var(--accent); font-weight: 600; }
 .endnote .q em { font-style: italic; color: var(--accent); }
 
+/* ---------- 19b. COMPONENT: BEATGRID (single page only) ----------
+   The middle of a deck is four to six beats, one per slide. On a page they run
+   two-up as a label and one tight line each, which is how six ideas fit where
+   slide markup would fit two. A beat longer than one line belongs on a slide. */
+.beatgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3) var(--s4);
+}
+.beatgrid .beat {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: var(--s2);
+  border-top: 1px solid var(--hair);
+}
+.beatgrid .beat.key { border-top-color: var(--accent); }
+.beatgrid .beat.hot { border-top-color: var(--warn); }
+.beatgrid .bl {
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.beatgrid .beat.key .bl { color: var(--accent); }
+.beatgrid .beat.hot .bl { color: var(--warn); }
+.beatgrid .bt { font-size: 21px; line-height: 1.32; color: var(--ink); }
+
 /* ---------- 20. SINGLE-PAGE ----------
-   One page carries the whole post. The body is a .sheet that spreads its blocks
-   across the full height, so nothing glues together and the page reads filled.
-   Type is one notch down from carousel, but still comfortably readable. */
+   One page carries the whole post: hook, the signature object, a grid of four to
+   six beats, the evidence, the turn, the question. The body is a .sheet that
+   spreads its blocks across the full height, so nothing glues together and the
+   page reads filled.
+
+   The scale below is deliberately tighter than it was. The page used to run at
+   roughly slide sizes and could therefore hold about a fifth of what the deck
+   held, which made every single page a cover with one drawing on it. A page has
+   a different job from a slide: a slide gives one idea room, a page gives six
+   ideas a structure. `verify_visual.mjs` now fails a page carrying under 55% of
+   the deck's words, and these sizes are what make 55% fit.
+
+   Density is the default here rather than an opt-in class, because a class that
+   has to be remembered is a class that gets forgotten. */
 .page .sheet {
   flex: 1;
   display: flex;
@@ -824,12 +864,13 @@ html, body {
    regardless of how a given post is authored. Do not tighten below this. */
 .page .sheet .eyebrow,
 .page .sheet .strip-tag { margin-bottom: var(--s4); }
-.page .display { font-size: 74px; }
-.page .h1 { font-size: 54px; }
-.page .h2 { font-size: 40px; }
-.page .lede { font-size: 26px; max-width: 48ch; }
-.page .body { font-size: 24px; }
-.page .pull { font-size: 36px; max-width: 42ch; }
+.page .display { font-size: 62px; }
+.page .h1 { font-size: 44px; }
+.page .h2 { font-size: 34px; }
+.page .lede { font-size: 24px; max-width: 56ch; }
+.page .body { font-size: 21px; }
+.page .small { font-size: 18px; }
+.page .pull { font-size: 30px; max-width: 54ch; }
 .page .ledger .v { font-size: 24px; }
 .page .ledger .row { padding: 20px 0; }
 .page .stack .layer { padding: 18px var(--s3); }
@@ -844,9 +885,14 @@ html, body {
 .page .pkg .item { padding: 16px 18px; }
 .page .pkg .item .lb { font-size: 20px; }
 .page .eyebrow { font-size: 15px; padding: 9px 15px; }
-.page .endnote .q { font-size: 28px; }
-[data-theme="graphite"].page .display { font-size: 78px; }
-[data-theme="graphite"].page .h1 { font-size: 56px; }
+.page .endnote .q { font-size: 26px; max-width: 52ch; }
+/* Graphite keeps a larger display than the others, because its whole identity is
+   the statement. It does NOT keep more air per block: the page is dense in
+   coverage and calm in texture, which is a different thing. */
+[data-theme="graphite"].page .display { font-size: 68px; }
+[data-theme="graphite"].page .h1 { font-size: 48px; }
+[data-theme="graphite"].page .sheet { gap: var(--s5); }
+[data-theme="graphite"].page .beatgrid .bt { font-size: 20px; }
 
 /* ---------- 21. PRINT → carousel.pdf
    LinkedIn document posts render reliably only from PDF (see system spec §2).
