@@ -379,6 +379,18 @@ the second clause matters, because a ratio alone would punish a dense deck for
 having a page that is already physically full, and the fix for that would be
 thinning the deck, which is the opposite of the point.
 
+**Amendment, after the first two decks built under this rule.** Both overflowed the
+single page on the first export, and both needed the same fix: the signature object,
+sized for a slide, is roughly twice as wide as the page can afford. An ivory deck went
+640px → 430px and a green one 560px → 400px, and neither lost a beat doing it.
+
+**Size the page object at 45-50% of its slide width on the first pass**, and treat the
+coverage gate and the frame gate as one problem rather than two. They pull in opposite
+directions by design: coverage pushes content on, the frame pushes it off, and both are
+hard failures. The resolution is never to drop a beat. It is to drop a *block* — fold
+the credited source under the beat grid rather than giving it its own row — and then to
+shrink the object. A beat is what the page exists to carry; a block boundary is not.
+
 **The part worth carrying beyond this rule:** every one of these was written down
 somewhere. "Every post invents one object" was in three files. "The whole post on
 one artboard" was in stage 3. Both were followed to the letter and produced the
