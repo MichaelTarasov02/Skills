@@ -22,7 +22,7 @@ skill-name/
 | 2. `SKILL.md` body | when the skill triggers | **< 5k words** |
 | 3. `references/`, `scripts/`, `assets/` | only when needed | effectively unlimited |
 
-**Rule:** information lives either in `SKILL.md` or in `references/` — never both. Duplication guarantees the two copies drift apart. Keep procedure and workflow in `SKILL.md`; move schemas, detail and examples to `references/`.
+Keep procedure and workflow in `SKILL.md`; move schemas, detail and examples to `references/`. Which material goes where is a craft decision — `writing-craft.md` holds the branching test that settles it.
 
 If a reference file exceeds ~10k words, include grep patterns in `SKILL.md` so the agent can search instead of loading it whole.
 
@@ -42,10 +42,17 @@ description: This skill should be used when ...
 
 ### Writing a description that actually triggers
 
+The description is the skill's top-level **pointer**, and the only one loaded in every session whether or not the skill fires. It earns harder pruning than the body.
+
 1. Third person: "This skill should be used when…", not "Use this skill when…".
 2. **Key use case first** — the text is truncated at **1,536 characters** in the skill listing.
 3. Include the words a person would really say, including other languages if the user works in them.
 4. Name the artifacts and formats involved — those words are what the request will match on.
+5. **One trigger per branch.** Synonyms renaming a single case are one branch written twice; keep only genuinely distinct branches.
+6. Front-load the leading word — the description is where it does its triggering work.
+7. Cut identity the body already carries.
+
+Name the sibling skill to reach for instead when the request is a near miss ("for a clear request use `suggest-skills`"). That one clause prevents the most common misfire: the wrong skill in the family winning the match.
 
 ### Claude Code extensions (not portable)
 
@@ -80,8 +87,11 @@ Therefore: write **standing instructions** that hold for the whole task, not one
 
 ## Writing style for skill bodies
 
+Two rules are format, and live here:
+
 - Imperative and procedural. The reader is an agent executing, not a human browsing.
-- Number the phases, state the gate for each.
-- State what **not** to do — non-goals prevent scope creep.
-- Require evidence for completion claims.
-- Prefer tables for rules and lookups; they survive compaction better than prose.
+- Prefer tables for rules and lookups — they survive compaction better than prose.
+
+Everything else about how the body reads is craft, and lives in **`writing-craft.md`**: the
+ladder, pointer wording, completion criteria, leading words, positive phrasing, pruning. Read
+it whenever you are writing or editing a skill body, not only when one misbehaves.

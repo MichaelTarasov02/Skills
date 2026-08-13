@@ -5,7 +5,7 @@ The failure modes that cost hours. Each is grounded in the official docs or veri
 ## Triggering
 
 **1. The skill never fires.**
-Triggering depends on `description` alone. Fix: third person, key use case first, include the literal words a person would say (in every language they use). Verify with "what skills are available?".
+Triggering depends on `description` alone — the body cannot rescue a weak one. Rewrite it by the rules in `skill-spec.md` §"Writing a description that actually triggers", then verify with "what skills are available?".
 
 **2. Descriptions get truncated.**
 The skill listing has a budget of ~1% of the context window. When it overflows, Claude Code drops descriptions starting with the least-used skills — stripping the very keywords needed to match. Each entry is capped at **1,536 characters** regardless.
@@ -68,4 +68,7 @@ Agents run in an isolated context. A pipeline whose stages share state (voice gu
 Guarantees drift and forces every change to be made twice. Merge into one, and note the winner so future edits have a single home.
 
 **19. `SKILL.md` grew past ~5k words.**
-Move detail into `references/`. Keep procedure in `SKILL.md`. Never duplicate content across the two.
+Symptoms: the agent skips steps, or applies the file differently each run. Apply the branching test and the pruning passes in `writing-craft.md` — the cure is disclosure and deletion, not compression.
+
+**20. The skill fires and the agent still improvises.**
+The body loaded fine; it just does not constrain. Usual causes, in order of frequency: fuzzy completion criteria on each step, reference material sitting behind a vague pointer, and prohibitions that named the unwanted behaviour instead of the wanted one. All three are covered in `writing-craft.md`.
