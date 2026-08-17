@@ -2,7 +2,7 @@
  "directed": false,
  "multigraph": false,
  "graph": {
-  "generated": "2026-08-17T17:01:44.464514+00:00",
+  "generated": "2026-08-17T17:06:01.269148+00:00",
   "method": "semantic edges carried over + tfidf-cosine fill + louvain",
   "params": {
    "sim_threshold": 0.11,
@@ -14,7 +14,7 @@
    "links": 2014,
    "communities": 16,
    "semantic_kept": 741,
-   "semantic_dropped_dead_endpoint": 137,
+   "semantic_dropped_dead_endpoint": 0,
    "statistical_added": 1273
   },
   "communities": [

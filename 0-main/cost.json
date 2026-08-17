@@ -15,6 +15,14 @@
       "subagent_tokens": 0,
       "files": 404,
       "note": "deterministic rebuild: tfidf-cosine + louvain, no model calls"
+    },
+    {
+      "date": "2026-08-17T17:06:01.276612+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "subagent_tokens": 0,
+      "files": 404,
+      "note": "deterministic rebuild: tfidf-cosine + louvain, no model calls"
     }
   ],
   "total_input_tokens": 0,

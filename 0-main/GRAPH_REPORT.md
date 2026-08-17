@@ -3,7 +3,7 @@
 ## Summary
 - 404 nodes · 2014 edges · 16 communities
 - Edges: 741 semantic (carried over from the July run), 1273 statistical (TF-IDF cosine)
-- 137 semantic edges dropped — one endpoint no longer exists
+- 0 semantic edges dropped — one endpoint no longer exists
 - Token cost of this run: 0 — rebuild with `python3 0-main/rebuild-graph.py`
 
 ## Communities (12 substantive, 4 thin omitted)

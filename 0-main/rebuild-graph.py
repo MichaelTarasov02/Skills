@@ -274,6 +274,90 @@ def report(skills, G, graph, comm_info, deg, btw, isolated):
     return "\n".join(L) + "\n"
 
 
+# Tableau 10 — как в прошлой версии графа; при >10 сообществ цвета повторяются.
+PALETTE = ["#4E79A7", "#F28E2B", "#E15759", "#76B7B2", "#59A14F",
+           "#EDC948", "#B07AA1", "#FF9DA7", "#9C755F", "#BAB0AC"]
+
+
+def html_escape(s):
+    return (str(s).replace("&", "&amp;").replace("<", "&lt;")
+            .replace(">", "&gt;").replace('"', "&quot;").replace("'", "&#39;"))
+
+
+def write_html(G, graph, comm_info, deg, comm_of, labels):
+    """Залить актуальные данные в graph-template.html.
+
+    Шаблон хранит всю разметку и логику (поиск, панель узла, соседи, легенда);
+    здесь подменяются только данные. Так правка визуала живёт в одном месте.
+    """
+    tpl_path = OUT / "graph-template.html"
+    if not tpl_path.is_file():
+        print("graph-template.html не найден — HTML пропущен", file=sys.stderr)
+        return False
+
+    nodes = []
+    for n in sorted(G):
+        d = deg[n]
+        size = round(min(10.0 + 1.15 * d, 40.0), 1)
+        cid = comm_of[n]
+        nodes.append({
+            "id": n, "label": n,
+            "color": {"background": PALETTE[cid % len(PALETTE)],
+                      "border": PALETTE[cid % len(PALETTE)],
+                      "highlight": {"background": "#ffffff",
+                                    "border": PALETTE[cid % len(PALETTE)]}},
+            "size": size,
+            # мелкие узлы без подписи — иначе центр графа нечитаем
+            "font": {"size": 12 if d >= 4 else 0, "color": "#ffffff"},
+            "title": f"{n} — {G.nodes[n]['summary'][:160]}",
+            "community": cid, "community_name": labels[cid],
+            "source_file": f"{n}/SKILL.md", "file_type": "concept",
+            "degree": d,
+        })
+
+    edges = []
+    for a, b, d in sorted(G.edges(data=True)):
+        stat = d.get("provenance") == "STATISTICAL"
+        conf = d.get("confidence")
+        edges.append({
+            "from": a, "to": b,
+            "label": d.get("relation", "similar_to"),
+            "title": (f"{d.get('relation')} [{d['weight']:.2f}]" if stat
+                      else f"{d.get('relation')} [{conf}] · {d.get('provenance')}"),
+            # пунктир и приглушение — статистический слой; сплошные — семантика
+            "dashes": stat,
+            "width": 1,
+            "color": {"opacity": 0.20 if stat else 0.45},
+            "confidence": conf if conf is not None else round(d["weight"], 3),
+        })
+
+    sizes = collections.Counter(comm_of.values())
+    legend = [{"cid": ci["id"], "color": PALETTE[ci["id"] % len(PALETTE)],
+               "label": html_escape(ci["label"]), "count": sizes[ci["id"]]}
+              for ci in comm_info]
+
+    c = graph["graph"]["counts"]
+    stats = (f"{c['nodes']} nodes &middot; {c['links']} edges &middot; "
+             f"{c['communities']} communities &middot; "
+             f"{c['semantic_kept']} semantic / {c['statistical_added']} statistical")
+
+    out = tpl_path.read_text(encoding="utf-8")
+    for token, value in (
+        ("__RAW_NODES__", json.dumps(nodes, ensure_ascii=False)),
+        ("__RAW_EDGES__", json.dumps(edges, ensure_ascii=False)),
+        ("__LEGEND__", json.dumps(legend, ensure_ascii=False)),
+        ("__STATS__", stats),
+        ("__TITLE__", f"skill graph — {c['nodes']} skills"),
+    ):
+        if token not in out:
+            print(f"плейсхолдер {token} отсутствует в шаблоне", file=sys.stderr)
+            return False
+        out = out.replace(token, value, 1)
+
+    (OUT / "graph.html").write_text(out, encoding="utf-8")
+    return True
+
+
 def main():
     (skills, G, graph, comm_info, deg, btw, isolated, labels, comm_of,
      semantic_kept, semantic_dropped, stat_added) = build()
@@ -299,11 +383,14 @@ def main():
     cost["total_subagent_tokens"] = sum(r.get("subagent_tokens", 0) for r in cost["runs"])
     cost_path.write_text(json.dumps(cost, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    html_ok = write_html(G, graph, comm_info, deg, comm_of, labels)
+
     c = graph["graph"]["counts"]
     print(f"{c['nodes']} nodes · {c['links']} edges · {c['communities']} communities")
     print(f"  semantic kept: {semantic_kept}  (dropped, dead endpoint: {semantic_dropped})")
     print(f"  statistical added: {stat_added}")
     print(f"  weakly connected: {len(isolated)}")
+    print(f"  graph.html: {'updated' if html_ok else 'SKIPPED'}")
 
 
 if __name__ == "__main__":
