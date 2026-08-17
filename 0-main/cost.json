@@ -7,6 +7,14 @@
       "subagent_tokens": 693172,
       "files": 284,
       "note": "skill-relationship graph; extraction via 7 general-purpose subagents"
+    },
+    {
+      "date": "2026-08-17T17:01:44.469749+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "subagent_tokens": 0,
+      "files": 404,
+      "note": "deterministic rebuild: tfidf-cosine + louvain, no model calls"
     }
   ],
   "total_input_tokens": 0,

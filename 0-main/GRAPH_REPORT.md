@@ -1,120 +1,84 @@
-# Graph Report - .  (2026-07-10)
-
-## Corpus Check
-- Large corpus: 1208 files · ~1,136,335 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder.
+# Graph Report — skill relationships (2026-08-17)
 
 ## Summary
-- 284 nodes · 878 edges · 13 communities
-- Extraction: 0% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
-- Token cost: 0 input · 0 output
+- 404 nodes · 2014 edges · 16 communities
+- Edges: 741 semantic (carried over from the July run), 1273 statistical (TF-IDF cosine)
+- 137 semantic edges dropped — one endpoint no longer exists
+- Token cost of this run: 0 — rebuild with `python3 0-main/rebuild-graph.py`
 
-## Community Hubs (Navigation)
-- Content, SEO & Brand Marketing
-- Business Strategy & Org Leadership
-- Frontend & UI Design
-- Planning & Software Architecture
-- Sales & Market Research
-- Agent Ops & Skill Authoring
-- Flutter Mobile Development
-- Docs, Media & Asset Generation
-- Data Analytics & Finance
-- Code Review, QA & Debugging
-- Legal, Compliance & Backend Security
-- Resume & Career
-- Prompt Engineering
+## Communities (12 substantive, 4 thin omitted)
 
-## God Nodes (most connected - your core abstractions)
-1. `flutter-expert` - 26 edges
-2. `content-creation` - 20 edges
-3. `senior-frontend` - 18 edges
-4. `frontend-design` - 16 edges
-5. `copywriting` - 14 edges
-6. `analyze` - 13 edges
-7. `brainstorming` - 12 edges
-8. `code-review` - 12 edges
-9. `write-spec` - 12 edges
-10. `account-research` - 11 edges
+### 0 — Flutter / Gsap / App / React
+Size 82 · cohesion 0.112
+Nodes: accessibility, accessibility-review, agent-ui, animation-vocabulary, anti-ui-slop, app-store-screenshots, apple-design, artifacts-builder (+74 more)
 
-## Surprising Connections (you probably didn't know these)
-- `flutter-improving-accessibility` --complements--> `accessibility-review`  [0.6]
-  flutter-improving-accessibility/SKILL.md → accessibility-review/SKILL.md
-- `audit-website` --complements--> `accessibility-review`  [0.6]
-  audit-website/SKILL.md → accessibility-review/SKILL.md
-- `lead-research-assistant` --synergizes_with--> `account-research`  [0.75]
-  lead-research-assistant/SKILL.md → account-research/SKILL.md
-- `founder-sales` --complements--> `account-research`  [0.55]
-  founder-sales/SKILL.md → account-research/SKILL.md
-- `agent-development` --synergizes_with--> `prompt-engineering`  [0.6]
-  agent-development/SKILL.md → prompt-engineering/SKILL.md
+### 1 — Plan / Interview / Work / Requirements
+Size 60 · cohesion 0.115
+Nodes: architecture, ask-matt, brainstorming, business-analyst, ce-brainstorm, ce-compound, ce-doc-review, ce-explain (+52 more)
 
-## Communities (13 total, 0 thin omitted)
+### 2 — Content / Marketing / Linkedin / Video
+Size 52 · cohesion 0.146
+Nodes: agent-tools, ai-automation-workflows, ai-avatar-video, ai-content-pipeline, ai-marketing-videos, ai-seo, ai-social-media-content, ai-video-generation (+44 more)
 
-### Community 0 - "Content, SEO & Brand Marketing"
-Cohesion: 0.15
-Nodes (36): ai-seo, audit-website, brand-guidelines, brand-review, brand-voice-enforcement, competitor-analysis, content-creation, content-creator (+28 more)
+### 3 — Sources / Sales / Contact / Research
+Size 38 · cohesion 0.144
+Nodes: account-research, build-contact-book, call-summary, ce-compound-refresh, ce-product-pulse, ce-sweep, close-management, contact-research (+30 more)
 
-### Community 1 - "Business Strategy & Org Leadership"
-Cohesion: 0.17
-Nodes (28): business-analyst, ceo-advisor, conducting-user-interviews, cto-advisor, founder-sales, job-post-builder, market-sizing-analysis, measuring-product-market-fit (+20 more)
+### 4 — Bugs / Git / Tests / Branch
+Size 33 · cohesion 0.191
+Nodes: agent-browser, ce-babysit-pr, ce-code-review, ce-commit, ce-commit-push-pr, ce-debug, ce-dogfood, ce-polish (+25 more)
 
-### Community 2 - "Frontend & UI Design"
-Cohesion: 0.21
-Nodes (27): accessibility-review, artifacts-builder, clarify, colorize, deploy-to-vercel, design-system-patterns, figma, frontend-design (+19 more)
+### 5 — Writes / Триггеры / Dev-agent / Novel
+Size 28 · cohesion 0.172
+Nodes: agent-forge, analyze-case, apply-edits, copy, craft, element-markup, enhance, feature-handoff (+20 more)
 
-### Community 3 - "Planning & Software Architecture"
-Cohesion: 0.20
-Nodes (27): architecture, ask-matt, brainstorming, codebase-design, create-plan, decision-mapping, design-an-interface, domain-modeling (+19 more)
+### 6 — Competitors / Research / Users / Competitor
+Size 25 · cohesion 0.22
+Nodes: ceo-advisor, competitive-analysis, competitive-brief, competitive-intelligence, competitor-analysis, competitor-profiling, conducting-user-interviews, cto-advisor (+17 more)
 
-### Community 4 - "Sales & Market Research"
-Cohesion: 0.18
-Nodes (25): account-research, call-summary, competitive-analysis, competitive-brief, competitive-intelligence, competitor-profiling, contact-research, create-an-asset (+17 more)
+### 7 — Image / Pdf / Audio / Text
+Size 25 · cohesion 0.19
+Nodes: ai-image-generation, ai-voice-cloning, background-removal, better-icons, brandkit, canvas-design, doc, documentation (+17 more)
 
-### Community 5 - "Agent Ops & Skill Authoring"
-Cohesion: 0.19
-Nodes (24): agent-development, cavecrew, caveman, caveman-compress, caveman-stats, Codex Guide, dispatching-parallel-agents, executing-plans (+16 more)
+### 8 — Prompt / Engineering / Prompts / Llm
+Size 22 · cohesion 0.199
+Nodes: ai-prompt-engineering-safety-review, api-integration-specialist, boost-prompt, cavecrew, caveman, caveman-compress, caveman-stats, ce-optimize (+14 more)
 
-### Community 6 - "Flutter Mobile Development"
-Cohesion: 0.25
-Nodes (23): flutter-adding-home-screen-widgets, flutter-animating-apps, flutter-architecting-apps, flutter-building-forms, flutter-building-layouts, flutter-building-plugins, flutter-caching-data, flutter-embedding-native-views (+15 more)
+### 9 — Data / Analysis / Charts / Analyze
+Size 14 · cohesion 0.451
+Nodes: analytics-data-analysis, analyze, build-dashboard, data-context-extractor, data-visualization, excel-analysis, explore-data, google-analytics (+6 more)
 
-### Community 7 - "Docs, Media & Asset Generation"
-Cohesion: 0.23
-Nodes (20): ai-image-generation, better-icons, canvas-design, changelog-generator, doc, documentation, documentation-writer, docx (+12 more)
+### 10 — Resume / Writer / Portfolio / Job
+Size 11 · cohesion 0.618
+Nodes: case-study-writing, cover-letter-generator, creative-portfolio-resume, executive-resume-writer, portfolio-case-study-writer, reference-list-builder, resume-bullet-writer, resume-formatter (+3 more)
 
-### Community 8 - "Data Analytics & Finance"
-Cohesion: 0.26
-Nodes (20): analytics-data-analysis, analyze, build-dashboard, close-management, data-context-extractor, data-visualization, Excel Analysis, explore-data (+12 more)
+### 11 — Compliance / Contract / Legal / Regulatory
+Size 10 · cohesion 0.644
+Nodes: brief, compliance-check, compliance-tracking, contract-review, cybersecurity-analyst, legal-advisor, legal-document-analyzer, review-contract (+2 more)
 
-### Community 9 - "Code Review, QA & Debugging"
-Cohesion: 0.30
-Nodes (19): clean-code, code-review, code-reviewer, customer-escalation, debug, diagnosing-bugs, find-bugs, migrate-to-shoehorn (+11 more)
+## God nodes (most connected)
 
-### Community 10 - "Legal, Compliance & Backend Security"
-Cohesion: 0.35
-Nodes (14): API Integration Specialist, brief, compliance-check, compliance-tracking, contract-review, cybersecurity-analyst, legal-advisor, legal-document-analyzer (+6 more)
+1. `flutter-expert` — 30 edges
+2. `frontend-design` — 30 edges
+3. `content-creation` — 29 edges
+4. `web-design-guidelines` — 26 edges
+5. `grilling` — 23 edges
+6. `copywriting` — 22 edges
+7. `to-issues` — 22 edges
+8. `senior-frontend` — 21 edges
+9. `flutter-building-layouts` — 20 edges
+10. `vercel-react-best-practices` — 20 edges
 
-### Community 11 - "Resume & Career"
-Cohesion: 0.58
-Nodes (11): Cover Letter Generator, Creative Portfolio Resume, Executive Resume Writer, linkedin-profile-optimizer, Portfolio Case Study Writer, Reference List Builder, Resume Bullet Writer, Resume Formatter (+3 more)
+## Bridges (highest betweenness — cross-community connectors)
 
-### Community 12 - "Prompt Engineering"
-Cohesion: 0.51
-Nodes (10): ai-prompt-engineering-safety-review, boost-prompt, enhance-prompt, full-output-enforcement, prompt-builder, prompt-engineering, prompt-engineering-patterns, prompt-optimizer (+2 more)
+- `frontend-design` — 0.0374
+- `web-design-guidelines` — 0.0294
+- `content-creation` — 0.0291
+- `task-management` — 0.0238
+- `copywriting` — 0.0217
 
-## Knowledge Gaps
-- **1 isolated node(s):** `persona-project-manager`
-  These have ≤1 connection - possible missing edges or undocumented components.
+## Knowledge gaps
 
-## Suggested Questions
-_Questions this graph is uniquely positioned to answer:_
+**5 weakly-connected node(s)** (≤1 edge): `agent-reach`, `ce-retune`, `llm-council`, `task-observer`, `what-leaked-about-you`
 
-- **Why does `content-creation` connect `Content, SEO & Brand Marketing` to `Docs, Media & Asset Generation`?**
-  _High betweenness centrality (0.116) - this node is a cross-community bridge._
-- **Why does `flutter-expert` connect `Flutter Mobile Development` to `Frontend & UI Design`?**
-  _High betweenness centrality (0.091) - this node is a cross-community bridge._
-- **Why does `senior-frontend` connect `Frontend & UI Design` to `Code Review, QA & Debugging`, `Legal, Compliance & Backend Security`, `Flutter Mobile Development`?**
-  _High betweenness centrality (0.085) - this node is a cross-community bridge._
-- **What connects `persona-project-manager` to the rest of the system?**
-  _1 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Content, SEO & Brand Marketing` be split into smaller, more focused modules?**
-  _Cohesion score 0.1492063492063492 - nodes in this community are weakly interconnected._
+A skill with no neighbours is either genuinely unique or described in words nothing else uses — check the description before assuming it is the former.
