@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "conductor",
-  "version": "0.2.0",
-  "description": "Picks the right skills for your request before doing the work, then executes while showing which skill it applied at each phase. Includes a deeper mode that writes a phased prompt first.",
+  "version": "0.3.0",
+  "description": "Picks the right skills for your request before doing the work, installs a missing one when it clears the trust bar, then executes while showing which skill it applied at each phase. Includes a deeper mode that writes a phased prompt first, with skills assigned to every phase.",
   "author": {
     "name": "Michael Tarasov"
   },
